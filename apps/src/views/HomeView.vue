@@ -1,11 +1,13 @@
 <template>
   <div class="home">
-    <HelloWorld/>
+    <NotificationStu/>
+    <NotificationTeacher/>
   </div>
 </template>
 
 <script setup>
-import HelloWorld from '../components/HelloWorld.vue'
+import NotificationStu from '@/components/front/NotificationStu.vue';
+import NotificationTeacher from '@/components/front/NotificationTeacher.vue';
 // @ is an alias to /src
 </script>
 <style lang="scss" scoped>

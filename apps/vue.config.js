@@ -13,7 +13,7 @@ module.exports = defineConfig({
     loaderOptions: {
       scss: {
         // scss 引入全局变量
-        additionalData: `@import "~@/stylesheet/define.scss";`
+        // additionalData: `@import "~@/stylesheet/define.scss";`
       }
     }
   },
