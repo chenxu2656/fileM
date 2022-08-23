@@ -34,7 +34,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 #header{
-  background-color: #264e86;
+  background-color: #2d67bb;
   color: white;
   #con{
     width: 1200px;
@@ -48,7 +48,7 @@
         font-size: 28px;
       }
       .el-menu{
-        background-color: #264e86;
+        background-color: #2d67bb;
         
 border-bottom: 0px;
       .flex-grow{

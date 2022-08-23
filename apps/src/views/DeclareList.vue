@@ -16,7 +16,9 @@
         申报历史
     </div>
     <div id="historylist" class="conlist">
-
+<div v-for="item in tableData" :key="item.name" class="declareList">
+        {{item.name}} 
+        </div>
     </div>
 </div>
 </div>
@@ -49,7 +51,7 @@
             border: 10px solid white;
             box-sizing: border-box;
             background-color: #a2d5f2;
-            height: 180px;
+            height: 160px;
             margin-top: 20px;
         }
     }
