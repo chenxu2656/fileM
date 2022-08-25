@@ -1,5 +1,9 @@
 const tencentcloud = require("tencentcloud-sdk-nodejs")
 const smsClient = tencentcloud.sms.v20210111.Client
+const {
+  timeStampSecond,
+  randomVerificationCode
+} = require('../../utils')
 const client = new smsClient({
     credential: {
     /* 必填：腾讯云账户密钥对secretId，secretKey。
@@ -31,10 +35,7 @@ const client = new smsClient({
       },
     },
   })
-const randomVerificationCode = ()=>{
-    const randomString =  Math.random().toString(10).slice(2,8);
-    return randomString
-}
+
   /* 帮助链接：
  * 短信控制台: https://console.cloud.tencent.com/smsv2
  * 腾讯云短信小助手: https://cloud.tencent.com/document/product/382/3773#.E6.8A.80.E6.9C.AF.E4.BA.A4.E6.B5.81 */
@@ -59,18 +60,15 @@ const params = {
     ExtendCode: "",
     /* 国际/港澳台短信 senderid（无需要可忽略）: 国内短信填空，默认未开通，如需开通请联系 [腾讯云短信小助手] */
     SenderId: "",
-  }
-  // 通过client对象调用想要访问的接口，需要传入请求对象以及响应回调函数
-//   client.SendSms(params, function (err, response) {
-//     // 请求异常返回，打印异常信息
-//     if (err) {
-//       console.log(err)
-//       return
-//     }
-//     // 请求正常返回，打印response对象
-//     console.log(response)
-//   })
-  const sendSms = (phoneNumbers)=>{
+}
+const verifyParams = {
+  BeginTime: timeStampSecond()-1800,
+  Offset: 0,
+  Limit: 1,
+  PhoneNumber: "",
+  SmsSdkAppId: "1400728707"
+}
+ export const sendSms = (phoneNumbers)=>{
     const code = randomVerificationCode()
     params.TemplateParamSet = [code,1]
     params.PhoneNumberSet = phoneNumbers
@@ -85,6 +83,9 @@ const params = {
         return response
       })
   }
-module.exports={
-    sendSms
-}
+
+  export const codeVerify = async(phoneNumber,code,serialNo)=>{
+    verifyParams.phoneNumber = phoneNumber
+    const resp = await client.PullSmsSendStatusByPhoneNumber(verifyParams)
+    console.log(resp);
+  }

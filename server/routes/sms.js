@@ -1,10 +1,11 @@
-
+import sendSms from './sms/sendSms';
 var express = require('express');
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/',require('./sms/sendSms'))
+router.post('/',sendSms)
+// router.post('/verify',require('./sms/sendSms'))
+export default router
 
-module.exports = router;

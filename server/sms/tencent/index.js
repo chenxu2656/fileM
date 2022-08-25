@@ -1,5 +1,3 @@
-const {sendSms} = require('./sms')
-
-module.exports = {
-    sendSms
-}
+import * as smsMethod from './sms.js'
+// const {sendSms,codeVerify} = require('./sms')
+export default smsMethod
