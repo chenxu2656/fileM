@@ -12,7 +12,7 @@
                     <button class="loginInButton">登录</button>
                     <div id="loginOther" class="otherinfo">
                         <div class="forgetPw">忘记密码</div>
-                        <div class="signUp">还没有账号?立即注册</div>
+                        <div class="signUp" v-on:click="switchSign()">还没有账号?立即注册</div>
                     </div>
                 </div>
             </div>
@@ -26,11 +26,15 @@
                     <!-- <div id="verificationCode" class="inputData">
                             <input type="text" class="inputData" placeholder="手机号">
                     </div> -->
+                    <div id="verificationCode">
+                        <input type="text" class="inputData verification" placeholder="验证码">
+                        <button id="getcode">获取验证码</button>
+                    </div>
                     <input type="password" class="inputData" placeholder="密码">
                     <input type="password" class="inputData" placeholder="确认密码">
                     <button class="loginInButton">注册</button>
                     <div id="registerOther" class="otherinfo">
-                        <div class="signUp">已有账号?立即登陆</div>
+                        <div class="signUp" v-on:click="switchSign()">已有账号?立即登陆</div>
                     </div>
                 </div>
             </div>
@@ -48,7 +52,13 @@
 <script setup>
 // @ is an alias to /src
 import {ref} from 'vue'
-const login = ref(false)
+const login = ref(true)
+/**
+ * switch signin or signup
+ */
+const switchSign = () =>{
+    login.value = !login.value
+}
 </script>
 <style lang="scss" scoped>
 .home {
@@ -80,7 +90,9 @@ const login = ref(false)
         border-radius: 8px;
         margin-top: 70px;
         display: flex;
-
+        button{
+            cursor: pointer;
+        }
         .sign {
             flex-basis: 50%;
             padding: 3em 3em;
@@ -111,12 +123,31 @@ const login = ref(false)
                     transition: 0.3s ease;
                     font-size: 16px;
                     color: #999;
-                    &#verificationCode{
-                        margin-left: 15px;
-                        width: 30%;
+
+                    
+
+                }
+                #verificationCode{
+                    display: flex;
+                    margin: auto;
+                    justify-content: space-between;
+                    width: 92%;
+                    margin-top: 20px;
+                    align-items: center;
+                    .verification{
+                        width: 40%;
+                        margin-top: 0px;
+                    }
+// padding: 14px 20px;
+                    #getcode{
+                        width: 40%;
+                        background-color: #2d67bb;
+                        border: none;
+                        color: white;
+                        border-radius: 27px;
+                        height: 54px;
                     }
                 }
-
                 .loginInButton {
                     width: 200px;
                     margin-top: 20px;

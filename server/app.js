@@ -6,6 +6,7 @@ var logger = require('morgan');
 require('./mongo/connect')
 // // 用户操作
 const User = require('./routes/users');
+const Sms = require('./routes/sms')
 // // 文章操作
 // const Article = require('./routes/article')
 // // 文件夹操作
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // token 校验中间件
 // app.use(require('./middleware/tokenCheck'))
 app.use('/api/user', User);
+app.use('/api/sms', Sms);
 // app.use('/api/article',Article)
 // app.use('/api/folder',Folder)
 // app.use('/api/tags',Tags)
