@@ -5,8 +5,6 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/',()=>{
-   console.log('1');
-})
+router.post('/',require('./sms/sendSms'))
 
 module.exports = router;

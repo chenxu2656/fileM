@@ -7,8 +7,8 @@ const client = new smsClient({
      * 你也可以直接在代码中写死密钥对，但是小心不要将代码复制、上传或者分享给他人，
      * 以免泄露密钥对危及你的财产安全。
      * SecretId、SecretKey 查询: https://console.cloud.tencent.com/cam/capi */
-      secretId: AKIDFKBoCLPEo81h9MJ1UhfNq43nHWWHp8E6 ,
-      secretKey: f4EEzVlmY5MOCm7D4g3B3g4C5j8IDtLY,
+      secretId: 'AKIDFKBoCLPEo81h9MJ1UhfNq43nHWWHp8E6',
+      secretKey: 'f4EEzVlmY5MOCm7D4g3B3g4C5j8IDtLY',
     },
     /* 必填：地域信息，可以直接填写字符串ap-guangzhou，支持的地域列表参考 https://cloud.tencent.com/document/api/382/52071#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8 */
     region: "ap-guangzhou",
@@ -44,7 +44,7 @@ const params = {
     SmsSdkAppId: "1400728707",
     /* 短信签名内容: 使用 UTF-8 编码，必须填写已审核通过的签名 */
     // 签名信息可前往 [国内短信](https://console.cloud.tencent.com/smsv2/csms-sign) 或 [国际/港澳台短信](https://console.cloud.tencent.com/smsv2/isms-sign) 的签名管理查看
-    SignName: "register",
+    SignName: "学习前端个人网",
     /* 模板 ID: 必须填写已审核通过的模板 ID */
     // 模板 ID 可前往 [国内短信](https://console.cloud.tencent.com/smsv2/csms-template) 或 [国际/港澳台短信](https://console.cloud.tencent.com/smsv2/isms-template) 的正文模板管理查看
     TemplateId: "1522847",
@@ -61,19 +61,20 @@ const params = {
     SenderId: "",
   }
   // 通过client对象调用想要访问的接口，需要传入请求对象以及响应回调函数
-  client.SendSms(params, function (err, response) {
-    // 请求异常返回，打印异常信息
-    if (err) {
-      console.log(err)
-      return
-    }
-    // 请求正常返回，打印response对象
-    console.log(response)
-  })
+//   client.SendSms(params, function (err, response) {
+//     // 请求异常返回，打印异常信息
+//     if (err) {
+//       console.log(err)
+//       return
+//     }
+//     // 请求正常返回，打印response对象
+//     console.log(response)
+//   })
   const sendSms = (phoneNumbers)=>{
     const code = randomVerificationCode()
     params.TemplateParamSet = [code,1]
     params.PhoneNumberSet = phoneNumbers
+    console.log(params);
     return client.SendSms(params, function (err, response) {
         // 请求异常返回，打印异常信息
         if (err) {
@@ -84,6 +85,6 @@ const params = {
         return response
       })
   }
-module.export={
+module.exports={
     sendSms
 }
