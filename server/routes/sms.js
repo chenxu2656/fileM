@@ -1,11 +1,8 @@
 import sendSms from './sms/sendSms';
+import smsVerify from './sms/verify'
 var express = require('express');
 const router = express.Router();
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 router.post('/',sendSms)
-// router.post('/verify',require('./sms/sendSms'))
+router.post('/verify',smsVerify)
 export default router
 

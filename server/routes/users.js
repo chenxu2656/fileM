@@ -1,10 +1,7 @@
 
 var express = require('express');
 var router = express.Router();
+import createUser from './user/createUser'
+router.post('/',createUser)
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-router.post('/',)
-
-module.exports = router;
+export default router

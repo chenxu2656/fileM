@@ -1,4 +1,4 @@
-const userStructure = { 
+export const userStructure = { 
     name: {
         type: String,
         require: true
@@ -14,7 +14,8 @@ const userStructure = {
     },
     studentId: {
         type: Number,
-        require: true
+        require: true,
+        unique: true
     },
     systemrole: {
         type: String,
@@ -29,3 +30,17 @@ const userStructure = {
         default: '2022' //入学年份
     }
 }
+export const smsCode = {
+    phoneNumber: {
+        type: String,
+        require: true
+    },
+    verificationCode: {
+        type: Number,
+        require: true
+    },
+    SerialNo: {
+        type: String,
+        require: true
+    }
+} 
