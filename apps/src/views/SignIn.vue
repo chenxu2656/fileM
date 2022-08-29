@@ -23,11 +23,9 @@
                     <input type="text" class="inputData" placeholder="真实姓名">
                     <input type="text" class="inputData" placeholder="学号">
                     <input type="text" class="inputData" placeholder="手机号" v-model="registerInfo.phoneNumber">
-                    <!-- <div id="verificationCode" class="inputData">
-                            <input type="text" class="inputData" placeholder="手机号">
-                    </div> -->
                     <div id="verificationCode">
-                        <input type="text" class="inputData verification" placeholder="验证码" v-model="registerInfo.verificationCode">
+                        <input type="text" class="inputData verification" placeholder="验证码"
+                            v-model="registerInfo.verificationCode">
                         <button id="getcode" v-on:click="sendSms(registerInfo.phoneNumber)">获取验证码</button>
                     </div>
                     <input type="password" class="inputData" placeholder="密码">
@@ -53,8 +51,10 @@
 // @ is an alias to /src
 import { reactive, ref } from 'vue'
 import apiRequest from '../../http/index'
-import phonNumberVerify from '../../src/js'
+import { phonNumberVerify } from '../../src/js'
+import errMsgPopup from '../utils/errorHandle/index'
 const login = ref(false)
+
 const registerInfo = reactive({
     name: "",
     phoneNumber: "",
@@ -78,14 +78,13 @@ const registerInfo = reactive({
 //         console.log(err);
 //     })
 // }
-const sendSms = async(phoneNumber)=>{
+const sendSms = async (phoneNumber) => {
     const phoneVerify = phonNumberVerify(phoneNumber)
-    if(!phoneVerify) {
-        console.log('手机号格式错误');
-        return false
+    if (!phoneVerify) {
+        errMsgPopup.phoneNumberError()
+        return
     }
     const phoneNumbers = []
-
     phoneNumbers.push(`+86${phoneNumber}`)
     await apiRequest({
         method: 'post',
@@ -99,13 +98,13 @@ const sendSms = async(phoneNumber)=>{
         console.log(err);
     })
 }
-const registerInfoVerify = (registerInfo)=>{
+const registerInfoVerify = (registerInfo) => {
     if (registerInfo) {
         return true
     }
     return false
 }
-const cmsCodeVerify = async(phoneNumber,verificationCode)=>{
+const cmsCodeVerify = async (phoneNumber, verificationCode) => {
     const phoneNumbers = `+86${phoneNumber}`
     const smsVerify = await apiRequest({
         method: 'post',
@@ -120,13 +119,13 @@ const cmsCodeVerify = async(phoneNumber,verificationCode)=>{
     }
     return false
 }
-const register = async(registerInfo)=>{
+const register = async (registerInfo) => {
     // 验证信息完整性
     const infoVerify = registerInfoVerify(registerInfo)
-    if(!infoVerify)
+    if (!infoVerify)
         return false
     // 验证验证码准确定、实效性
-    const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber,registerInfo.verificationCode)
+    const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber, registerInfo.verificationCode)
     if (smsVerify) {
         console.log('dui');
     }
@@ -149,6 +148,10 @@ const switchSign = () => {
     display: grid;
     justify-content: center;
     align-items: center;
+
+    .errmsg {
+        text-align: left;
+    }
 
     #title {
         display: block;
