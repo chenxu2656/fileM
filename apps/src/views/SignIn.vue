@@ -19,20 +19,20 @@
             <div id="register" v-if="!login" class="sign">
                 <div id="tit">注册</div>
                 <div id="forms">
-                    
+
                     <input type="text" class="inputData" placeholder="真实姓名">
                     <input type="text" class="inputData" placeholder="学号">
-                    <input type="text" class="inputData" placeholder="手机号">
+                    <input type="text" class="inputData" placeholder="手机号" v-model="registerInfo.phoneNumber">
                     <!-- <div id="verificationCode" class="inputData">
                             <input type="text" class="inputData" placeholder="手机号">
                     </div> -->
                     <div id="verificationCode">
-                        <input type="text" class="inputData verification" placeholder="验证码">
-                        <button id="getcode">获取验证码</button>
+                        <input type="text" class="inputData verification" placeholder="验证码" v-model="registerInfo.verificationCode">
+                        <button id="getcode" v-on:click="sendSms(registerInfo.phoneNumber)">获取验证码</button>
                     </div>
                     <input type="password" class="inputData" placeholder="密码">
                     <input type="password" class="inputData" placeholder="确认密码">
-                    <button class="loginInButton">注册</button>
+                    <button class="loginInButton" v-on:click="register(registerInfo)">注册</button>
                     <div id="registerOther" class="otherinfo">
                         <div class="signUp" v-on:click="switchSign()">已有账号?立即登陆</div>
                     </div>
@@ -51,12 +51,91 @@
 
 <script setup>
 // @ is an alias to /src
-import {ref} from 'vue'
-const login = ref(true)
+import { reactive, ref } from 'vue'
+import apiRequest from '../../http/index'
+import phonNumberVerify from '../../src/js'
+const login = ref(false)
+const registerInfo = reactive({
+    name: "",
+    phoneNumber: "",
+    password: "",
+    studentId: "",
+    role: "",
+    grade: "",
+    verificationCode: ""
+})
 /**
  * switch signin or signup
  */
-const switchSign = () =>{
+// const registerApi = async (requestInfo) => {
+//     await apiRequest({
+//         method: "post",
+//         url: '/api/user',
+//         params: requestInfo
+//     }).then((resp) => {
+//         console.log(resp);
+//     }).catch((err) => {
+//         console.log(err);
+//     })
+// }
+const sendSms = async(phoneNumber)=>{
+    const phoneVerify = phonNumberVerify(phoneNumber)
+    if(!phoneVerify) {
+        console.log('手机号格式错误');
+        return false
+    }
+    const phoneNumbers = []
+
+    phoneNumbers.push(`+86${phoneNumber}`)
+    await apiRequest({
+        method: 'post',
+        url: '/api/sms/',
+        params: {
+            phonenumber: phoneNumbers
+        }
+    }).then((resp) => {
+        console.log(resp);
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+const registerInfoVerify = (registerInfo)=>{
+    if (registerInfo) {
+        return true
+    }
+    return false
+}
+const cmsCodeVerify = async(phoneNumber,verificationCode)=>{
+    const phoneNumbers = `+86${phoneNumber}`
+    const smsVerify = await apiRequest({
+        method: 'post',
+        url: '/api/sms/verify',
+        params: {
+            phoneNumber: phoneNumbers,
+            verificationCode: verificationCode
+        }
+    })
+    if (smsVerify.status == 200) {
+        return true
+    }
+    return false
+}
+const register = async(registerInfo)=>{
+    // 验证信息完整性
+    const infoVerify = registerInfoVerify(registerInfo)
+    if(!infoVerify)
+        return false
+    // 验证验证码准确定、实效性
+    const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber,registerInfo.verificationCode)
+    if (smsVerify) {
+        console.log('dui');
+    }
+    // if (verify) {
+    //     return await registerApi(registerInfo)
+    // }
+    // return false
+}
+const switchSign = () => {
     login.value = !login.value
 }
 </script>
@@ -90,9 +169,11 @@ const switchSign = () =>{
         border-radius: 8px;
         margin-top: 70px;
         display: flex;
-        button{
+
+        button {
             cursor: pointer;
         }
+
         .sign {
             flex-basis: 50%;
             padding: 3em 3em;
@@ -123,23 +204,23 @@ const switchSign = () =>{
                     transition: 0.3s ease;
                     font-size: 16px;
                     color: #999;
-
-                    
-
                 }
-                #verificationCode{
+
+                #verificationCode {
                     display: flex;
                     margin: auto;
                     justify-content: space-between;
                     width: 92%;
                     margin-top: 20px;
                     align-items: center;
-                    .verification{
+
+                    .verification {
                         width: 40%;
                         margin-top: 0px;
                     }
-// padding: 14px 20px;
-                    #getcode{
+
+                    // padding: 14px 20px;
+                    #getcode {
                         width: 40%;
                         background-color: #2d67bb;
                         border: none;
@@ -148,6 +229,7 @@ const switchSign = () =>{
                         height: 54px;
                     }
                 }
+
                 .loginInButton {
                     width: 200px;
                     margin-top: 20px;
@@ -167,7 +249,8 @@ const switchSign = () =>{
                 margin-top: 50px;
                 display: flex;
                 justify-content: space-between;
-                &#registerOther{
+
+                &#registerOther {
                     justify-content: flex-end;
                 }
             }
@@ -188,7 +271,7 @@ const switchSign = () =>{
             }
         }
     }
-    
+
     #copyright {
         color: white;
         font-size: 20px;

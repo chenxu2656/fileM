@@ -64,7 +64,7 @@ const params = {
   SenderId: "",
 }
 const verifyParams = {
-  BeginTime: timeStampSecond() - 180000,
+  BeginTime: timeStampSecond() - 1800,
   Offset: 0,
   Limit: 100,
   PhoneNumber: "",
