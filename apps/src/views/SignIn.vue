@@ -20,16 +20,29 @@
                 <div id="tit">注册</div>
                 <div id="forms">
 
-                    <input type="text" class="inputData" placeholder="真实姓名">
-                    <input type="text" class="inputData" placeholder="学号">
+                    <input type="text" class="inputData" placeholder="真实姓名" v-model="registerInfo.name">
+                    <input type="text" class="inputData" placeholder="学号" v-model="registerInfo.studentId">
                     <input type="text" class="inputData" placeholder="手机号" v-model="registerInfo.phoneNumber">
-                    <div id="verificationCode">
+                    <div id="verificationCode" class="line2">
                         <input type="text" class="inputData verification" placeholder="验证码"
                             v-model="registerInfo.verificationCode">
                         <button id="getcode" v-on:click="sendSms(registerInfo.phoneNumber)">获取验证码</button>
                     </div>
-                    <input type="password" class="inputData" placeholder="密码">
-                    <input type="password" class="inputData" placeholder="确认密码">
+                    <div id="grade" class="line2">
+                        <select v-model="select" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option label="请选择身份" value="本科生"/>
+                            <option label="本科生" value="本科生"/>
+                            <option label="研究生" value="研究生"/>
+                            <option label="老师" value="老师"/>
+                        </select>
+                            <select v-model="select" id='year' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option label="Restaurant" value="1" />
+                            <option label="Order No." value="2" />
+                            <option label="Tel" value="3" />
+                        </select>
+                    </div>
+                    <input type="password" class="inputData" placeholder="密码" v-model="registerInfo.password">
+                    <input type="password" class="inputData" placeholder="确认密码" v-model="registerInfo.confirmPw">
                     <button class="loginInButton" v-on:click="register(registerInfo)">注册</button>
                     <div id="registerOther" class="otherinfo">
                         <div class="signUp" v-on:click="switchSign()">已有账号?立即登陆</div>
@@ -59,6 +72,7 @@ const registerInfo = reactive({
     name: "",
     phoneNumber: "",
     password: "",
+    confirmPw: "",
     studentId: "",
     role: "",
     grade: "",
@@ -99,10 +113,15 @@ const sendSms = async (phoneNumber) => {
     })
 }
 const registerInfoVerify = (registerInfo) => {
-    if (registerInfo) {
-        return true
+    for (const key in registerInfo) {
+        if (Object.hasOwnProperty.call(registerInfo, key)) {
+            console.log(`key: ${key},value: ${registerInfo[key]}`);
+            if (!registerInfo[key]) {
+                return false
+            }          
+        }
     }
-    return false
+    return true
 }
 const cmsCodeVerify = async (phoneNumber, verificationCode) => {
     const phoneNumbers = `+86${phoneNumber}`
@@ -122,8 +141,11 @@ const cmsCodeVerify = async (phoneNumber, verificationCode) => {
 const register = async (registerInfo) => {
     // 验证信息完整性
     const infoVerify = registerInfoVerify(registerInfo)
-    if (!infoVerify)
+    if (!infoVerify){
+        console.log('信息每填完');
         return false
+    }
+        
     // 验证验证码准确定、实效性
     const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber, registerInfo.verificationCode)
     if (smsVerify) {
@@ -209,7 +231,7 @@ const switchSign = () => {
                     color: #999;
                 }
 
-                #verificationCode {
+                .line2 {
                     display: flex;
                     margin: auto;
                     justify-content: space-between;
@@ -231,6 +253,21 @@ const switchSign = () => {
                         border-radius: 27px;
                         height: 54px;
                     }
+                    .selectGrade{
+                        // width: 40%!important;
+                        box-sizing: content-box;
+                        padding: 14px 20px;
+                        height: 20px;
+                        border-radius: 24px;
+                        &#grade{
+                            width: 40%!important;
+                        }
+                        &#year{
+                            width: 27%!important;
+                        }
+                    }
+
+                    
                 }
 
                 .loginInButton {
