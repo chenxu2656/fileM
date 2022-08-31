@@ -7,6 +7,14 @@ const errMsgPopup = {
             type: 'error',
             duration: "3000"
         })
+    },
+    notFillAllError: () => {
+        ElMessage({
+            showClose: true,
+            message: 'Oops, 您有信息没填完，填完后继续！',
+            type: 'error',
+            duration: "3000"
+        })
     }
 }
 export default errMsgPopup

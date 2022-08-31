@@ -29,16 +29,11 @@
                         <button id="getcode" v-on:click="sendSms(registerInfo.phoneNumber)">获取验证码</button>
                     </div>
                     <div id="grade" class="line2">
-                        <select v-model="select" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
-                            <option label="请选择身份" value="本科生"/>
-                            <option label="本科生" value="本科生"/>
-                            <option label="研究生" value="研究生"/>
-                            <option label="老师" value="老师"/>
+                        <select v-model="registerInfo.role" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option v-for="role in roleList" :key="role">{{role}}</option>
                         </select>
-                            <select v-model="select" id='year' placeholder="Select"  class="selectGrade" style="width: 115px">
-                            <option label="Restaurant" value="1" />
-                            <option label="Order No." value="2" />
-                            <option label="Tel" value="3" />
+                            <select v-model="registerInfo.grade" id='year' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option v-for="grade in gradeList" :key="grade">{{grade}}</option>
                         </select>
                     </div>
                     <input type="password" class="inputData" placeholder="密码" v-model="registerInfo.password">
@@ -67,15 +62,16 @@ import apiRequest from '../../http/index'
 import { phonNumberVerify } from '../../src/js'
 import errMsgPopup from '../utils/errorHandle/index'
 const login = ref(false)
-
+const roleList = ref(['本科生','研究生','老师'])
+const gradeList = ref([2016,2017,2018,2019,2020,2021,2022])
 const registerInfo = reactive({
     name: "",
     phoneNumber: "",
     password: "",
     confirmPw: "",
     studentId: "",
-    role: "",
-    grade: "",
+    role: "本科生",
+    grade: 2020,
     verificationCode: ""
 })
 /**
@@ -140,9 +136,10 @@ const cmsCodeVerify = async (phoneNumber, verificationCode) => {
 }
 const register = async (registerInfo) => {
     // 验证信息完整性
+    console.log(registerInfo);
     const infoVerify = registerInfoVerify(registerInfo)
     if (!infoVerify){
-        console.log('信息每填完');
+        errMsgPopup.notFillAllError()
         return false
     }
         
@@ -258,6 +255,9 @@ const switchSign = () => {
                         box-sizing: content-box;
                         padding: 14px 20px;
                         height: 20px;
+                        border: none;
+                        background-color: #f7fafc;
+                        border: 1px solid #e5e5e5;
                         border-radius: 24px;
                         &#grade{
                             width: 40%!important;
