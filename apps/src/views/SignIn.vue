@@ -77,17 +77,17 @@ const registerInfo = reactive({
 /**
  * switch signin or signup
  */
-// const registerApi = async (requestInfo) => {
-//     await apiRequest({
-//         method: "post",
-//         url: '/api/user',
-//         params: requestInfo
-//     }).then((resp) => {
-//         console.log(resp);
-//     }).catch((err) => {
-//         console.log(err);
-//     })
-// }
+const registerApi = async (requestInfo) => {
+    await apiRequest({
+        method: "post",
+        url: '/api/user',
+        params: requestInfo
+    }).then((resp) => {
+        console.log(resp);
+    }).catch((err) => {
+        console.log(err);
+    })
+}
 const sendSms = async (phoneNumber) => {
     const phoneVerify = phonNumberVerify(phoneNumber)
     if (!phoneVerify) {
@@ -103,9 +103,11 @@ const sendSms = async (phoneNumber) => {
             phonenumber: phoneNumbers
         }
     }).then((resp) => {
+        console.log('注册成功');
         console.log(resp);
     }).catch((err) => {
-        console.log(err);
+        errMsgPopup.registerError(err.msg)
+        return
     })
 }
 const registerInfoVerify = (registerInfo) => {
@@ -142,16 +144,13 @@ const register = async (registerInfo) => {
         errMsgPopup.notFillAllError()
         return false
     }
-        
     // 验证验证码准确定、实效性
     const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber, registerInfo.verificationCode)
     if (smsVerify) {
-        console.log('dui');
+        errMsgPopup.smsCodeError()
+        return false
     }
-    // if (verify) {
-    //     return await registerApi(registerInfo)
-    // }
-    // return false
+    await registerApi(registerInfo)
 }
 const switchSign = () => {
     login.value = !login.value
