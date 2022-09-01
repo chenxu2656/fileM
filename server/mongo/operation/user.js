@@ -26,6 +26,28 @@ const createUser = async(userInfo)=>{
         }
     }
 }
+const pwVerify = async(loginInfo)=>{
+    const {phoneNumber,pw} = loginInfo
+    const userExist = await userModel.findOne({phoneNumber: phoneNumber})
+    if (!userExist) {
+        return errorCode.userNotExist
+    } 
+    const pwCorrect =  await bcrypt.compare(pw,userExist.password)
+    if (!pwCorrect) {
+        return errorCode.pwIncorrect
+    }
+    return errorCode.Success
+}
+const createCrddential = async(loginInfo)=>{
+    const pw = await pwVerify(loginInfo)
+    if (pw.status != 200) {
+        console.log(pw);
+        return pw
+    }
+    return pw
+}
+
 export {
-    createUser
+    createUser,
+    createCrddential
 }

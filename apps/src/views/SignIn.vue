@@ -7,9 +7,9 @@
             <div id="login" v-if="login" class="sign">
                 <div id="tit">登录</div>
                 <div id="forms">
-                    <input type="text" class="inputData" placeholder="手机号">
-                    <input type="password" class="inputData" placeholder="密码">
-                    <button class="loginInButton">登录</button>
+                    <input type="text" v-model="signinInfo.phoneNumber" class="inputData" placeholder="手机号">
+                    <input type="password" v-model="signinInfo.pw" class="inputData" placeholder="密码">
+                    <button class="loginInButton" v-on:click="signIn(signinInfo)">登录</button>
                     <div id="loginOther" class="otherinfo">
                         <div class="forgetPw">忘记密码</div>
                         <div class="signUp" v-on:click="switchSign()">还没有账号?立即注册</div>
@@ -77,13 +77,17 @@ const registerInfo = reactive({
     grade: 2020,
     verificationCode: ""
 })
+const signinInfo = reactive({
+    phoneNumber: "",
+    pw: ""
+})
 /**
  * switch signin or signup
  */
 const registerApi = async (requestInfo) => {
     await apiRequest({
         method: "post",
-        url: '/api/user',
+        url: '/api/user/register',
         params: requestInfo
     }).then((resp) => {
         console.log(resp);
@@ -115,11 +119,12 @@ const sendSms = async (phoneNumber) => {
             phonenumber: phoneNumbers
         }
     }).then((resp) => {
-        console.log('注册成功');
-        countDownFunc(60)
-        waitingSmsCode.value = true
-
-        console.log(resp);
+        if (resp.status == 200) {
+            waitingSmsCode.value = true
+            countDownFunc(60)
+            return
+        }
+        errMsgPopup.registerError(resp.msg)
     }).catch((err) => {
         errMsgPopup.registerError(err.msg)
         return
@@ -153,7 +158,6 @@ const cmsCodeVerify = async (phoneNumber, verificationCode) => {
 }
 const register = async (registerInfo) => {
     // 验证信息完整性
-    console.log(registerInfo);
     const infoVerify = registerInfoVerify(registerInfo)
     if (!infoVerify){
         errMsgPopup.notFillAllError()
@@ -161,7 +165,7 @@ const register = async (registerInfo) => {
     }
     // 验证验证码准确定、实效性
     const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber, registerInfo.verificationCode)
-    if (smsVerify) {
+    if (!smsVerify) {
         errMsgPopup.smsCodeError()
         return false
     }
@@ -169,6 +173,22 @@ const register = async (registerInfo) => {
 }
 const switchSign = () => {
     login.value = !login.value
+}
+const signIn = async(signinInfo)=>{
+    const login = await apiRequest({
+        method: 'post',
+        url: '/api/user/login',
+        params: {
+            phoneNumber: signinInfo.phoneNumber,
+            pw: signinInfo.pw
+        }
+    })
+    if (login.status == 200) {
+        console.log('登录成功');
+        return true
+    }
+    errMsgPopup.errorPopup(login.msg)
+    return false
 }
 </script>
 <style lang="scss" scoped>
@@ -256,7 +276,7 @@ const switchSign = () => {
                     }
 
                     // padding: 14px 20px;
-                    .getcode {
+                    .getCode {
                         width: 40%;
                         background-color: #2d67bb;
                         border: none;

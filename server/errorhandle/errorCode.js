@@ -15,6 +15,14 @@ export default  {
         status: 411,
         msg: "未知错误，请稍后再试"
     },
+    userNotExist: {
+        status: 420,
+        msg: "用户不存在"
+    },
+    pwIncorrect: {
+        status: 421,
+        msg: "密码不正确"
+    },
     Success: {
         status: 200,
         msg: {}

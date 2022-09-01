@@ -32,5 +32,13 @@ const errMsgPopup = {
             duration: "3000"
         })
     },
+    errorPopup: (errMsg) => {
+        ElMessage({
+            showClose: true,
+            message: `Oops, ${errMsg}！`,
+            type: 'error',
+            duration: "3000"
+        })
+    },
 }
 export default errMsgPopup
