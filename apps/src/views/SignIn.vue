@@ -20,17 +20,25 @@
                 <div id="tit">注册</div>
                 <div id="forms">
 
-                    <input type="text" class="inputData" placeholder="真实姓名">
-                    <input type="text" class="inputData" placeholder="学号">
+                    <input type="text" class="inputData" placeholder="真实姓名" v-model="registerInfo.name">
+                    <input type="text" class="inputData" placeholder="学号" v-model="registerInfo.studentId">
                     <input type="text" class="inputData" placeholder="手机号" v-model="registerInfo.phoneNumber">
-                    <div id="verificationCode">
+                    <div id="verificationCode" class="line2">
                         <input type="text" class="inputData verification" placeholder="验证码"
                             v-model="registerInfo.verificationCode">
                         <button id="getCode" class="getCode" v-on:click="sendSms(registerInfo.phoneNumber)" v-if="!waitingSmsCode">获取验证码</button>
                         <button id="downCount" class="getCode" v-if="waitingSmsCode">{{countDown}}</button>
                     </div>
-                    <input type="password" class="inputData" placeholder="密码">
-                    <input type="password" class="inputData" placeholder="确认密码">
+                    <div id="grade" class="line2">
+                        <select v-model="registerInfo.role" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option v-for="role in roleList" :key="role">{{role}}</option>
+                        </select>
+                            <select v-model="registerInfo.grade" id='year' placeholder="Select"  class="selectGrade" style="width: 115px">
+                            <option v-for="grade in gradeList" :key="grade">{{grade}}</option>
+                        </select>
+                    </div>
+                    <input type="password" class="inputData" placeholder="密码" v-model="registerInfo.password">
+                    <input type="password" class="inputData" placeholder="确认密码" v-model="registerInfo.confirmPw">
                     <button class="loginInButton" v-on:click="register(registerInfo)">注册</button>
                     <div id="registerOther" class="otherinfo">
                         <div class="signUp" v-on:click="switchSign()">已有账号?立即登陆</div>
@@ -57,29 +65,32 @@ import errMsgPopup from '../utils/errorHandle/index'
 const login = ref(false)
 const waitingSmsCode = ref(false)
 const countDown = ref('60s后重新获取')
+const roleList = ref(['本科生','研究生','老师'])
+const gradeList = ref([2016,2017,2018,2019,2020,2021,2022])
 const registerInfo = reactive({
     name: "",
     phoneNumber: "",
     password: "",
+    confirmPw: "",
     studentId: "",
-    role: "",
-    grade: "",
+    role: "本科生",
+    grade: 2020,
     verificationCode: ""
 })
 /**
  * switch signin or signup
  */
-// const registerApi = async (requestInfo) => {
-//     await apiRequest({
-//         method: "post",
-//         url: '/api/user',
-//         params: requestInfo
-//     }).then((resp) => {
-//         console.log(resp);
-//     }).catch((err) => {
-//         console.log(err);
-//     })
-// }
+const registerApi = async (requestInfo) => {
+    await apiRequest({
+        method: "post",
+        url: '/api/user',
+        params: requestInfo
+    }).then((resp) => {
+        console.log(resp);
+    }).catch((err) => {
+        console.log(err);
+    })
+}
 const countDownFunc = (value)=>{
     const cdown = setInterval(() => {
         countDown.value = `${value--}s后重新获取`
@@ -104,19 +115,26 @@ const sendSms = async (phoneNumber) => {
             phonenumber: phoneNumbers
         }
     }).then((resp) => {
+        console.log('注册成功');
         countDownFunc(60)
         waitingSmsCode.value = true
 
         console.log(resp);
     }).catch((err) => {
-        console.log(err);
+        errMsgPopup.registerError(err.msg)
+        return
     })
 }
 const registerInfoVerify = (registerInfo) => {
-    if (registerInfo) {
-        return true
+    for (const key in registerInfo) {
+        if (Object.hasOwnProperty.call(registerInfo, key)) {
+            console.log(`key: ${key},value: ${registerInfo[key]}`);
+            if (!registerInfo[key]) {
+                return false
+            }          
+        }
     }
-    return false
+    return true
 }
 const cmsCodeVerify = async (phoneNumber, verificationCode) => {
     const phoneNumbers = `+86${phoneNumber}`
@@ -135,18 +153,19 @@ const cmsCodeVerify = async (phoneNumber, verificationCode) => {
 }
 const register = async (registerInfo) => {
     // 验证信息完整性
+    console.log(registerInfo);
     const infoVerify = registerInfoVerify(registerInfo)
-    if (!infoVerify)
+    if (!infoVerify){
+        errMsgPopup.notFillAllError()
         return false
+    }
     // 验证验证码准确定、实效性
     const smsVerify = await cmsCodeVerify(registerInfo.phoneNumber, registerInfo.verificationCode)
     if (smsVerify) {
-        console.log('dui');
+        errMsgPopup.smsCodeError()
+        return false
     }
-    // if (verify) {
-    //     return await registerApi(registerInfo)
-    // }
-    // return false
+    await registerApi(registerInfo)
 }
 const switchSign = () => {
     login.value = !login.value
@@ -223,7 +242,7 @@ const switchSign = () => {
                     color: #999;
                 }
 
-                #verificationCode {
+                .line2 {
                     display: flex;
                     margin: auto;
                     justify-content: space-between;
@@ -248,6 +267,24 @@ const switchSign = () => {
                             background-color: #e1e1e2;
                         }
                     }
+                    .selectGrade{
+                        // width: 40%!important;
+                        box-sizing: content-box;
+                        padding: 14px 20px;
+                        height: 20px;
+                        border: none;
+                        background-color: #f7fafc;
+                        border: 1px solid #e5e5e5;
+                        border-radius: 24px;
+                        &#grade{
+                            width: 40%!important;
+                        }
+                        &#year{
+                            width: 27%!important;
+                        }
+                    }
+
+                    
                 }
 
                 .loginInButton {
