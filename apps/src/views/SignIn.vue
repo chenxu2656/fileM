@@ -26,7 +26,8 @@
                     <div id="verificationCode">
                         <input type="text" class="inputData verification" placeholder="验证码"
                             v-model="registerInfo.verificationCode">
-                        <button id="getcode" v-on:click="sendSms(registerInfo.phoneNumber)">获取验证码</button>
+                        <button id="getCode" class="getCode" v-on:click="sendSms(registerInfo.phoneNumber)" v-if="!waitingSmsCode">获取验证码</button>
+                        <button id="downCount" class="getCode" v-if="waitingSmsCode">{{countDown}}</button>
                     </div>
                     <input type="password" class="inputData" placeholder="密码">
                     <input type="password" class="inputData" placeholder="确认密码">
@@ -54,7 +55,8 @@ import apiRequest from '../../http/index'
 import { phonNumberVerify } from '../../src/js'
 import errMsgPopup from '../utils/errorHandle/index'
 const login = ref(false)
-
+const waitingSmsCode = ref(false)
+const countDown = ref('60s后重新获取')
 const registerInfo = reactive({
     name: "",
     phoneNumber: "",
@@ -78,6 +80,15 @@ const registerInfo = reactive({
 //         console.log(err);
 //     })
 // }
+const countDownFunc = (value)=>{
+    const cdown = setInterval(() => {
+        countDown.value = `${value--}s后重新获取`
+        if (value==0) {
+            clearInterval(cdown)
+            waitingSmsCode.value = false
+        }
+    },1000);
+}
 const sendSms = async (phoneNumber) => {
     const phoneVerify = phonNumberVerify(phoneNumber)
     if (!phoneVerify) {
@@ -93,6 +104,9 @@ const sendSms = async (phoneNumber) => {
             phonenumber: phoneNumbers
         }
     }).then((resp) => {
+        countDownFunc(60)
+        waitingSmsCode.value = true
+
         console.log(resp);
     }).catch((err) => {
         console.log(err);
@@ -223,13 +237,16 @@ const switchSign = () => {
                     }
 
                     // padding: 14px 20px;
-                    #getcode {
+                    .getcode {
                         width: 40%;
                         background-color: #2d67bb;
                         border: none;
                         color: white;
                         border-radius: 27px;
                         height: 54px;
+                        &#downCount{
+                            background-color: #e1e1e2;
+                        }
                     }
                 }
 
