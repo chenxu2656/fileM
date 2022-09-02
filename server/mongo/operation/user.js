@@ -1,5 +1,6 @@
 import { userModel } from "..";
 import errorCode from '../../errorhandle/errorCode'
+import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 const createUser = async(userInfo)=>{
     const saltRounds = 10;
@@ -38,13 +39,29 @@ const pwVerify = async(loginInfo)=>{
     }
     return errorCode.Success
 }
+const storeJwt = async(loginInfo)=>{
+    const secretKey = 'user_sys'
+    const {phoneNumber} = loginInfo
+    const token = jwt.sign(
+        {phoneNumber},
+        secretKey,
+        {
+            expiresIn: "7 days"
+        }
+    )
+    return {
+        status: 200,
+        msg: token
+    }
+}
 const createCrddential = async(loginInfo)=>{
     const pw = await pwVerify(loginInfo)
     if (pw.status != 200) {
         console.log(pw);
-        return pw
+        return 
     }
-    return pw
+    const token = storeJwt(loginInfo)
+    return token
 }
 
 export {

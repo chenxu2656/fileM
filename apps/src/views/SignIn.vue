@@ -62,7 +62,7 @@ import { reactive, ref } from 'vue'
 import apiRequest from '../../http/index'
 import { phonNumberVerify } from '../../src/js'
 import errMsgPopup from '../utils/errorHandle/index'
-const login = ref(false)
+const login = ref(true)
 const waitingSmsCode = ref(false)
 const countDown = ref('60s后重新获取')
 const roleList = ref(['本科生','研究生','老师'])
@@ -184,7 +184,7 @@ const signIn = async(signinInfo)=>{
         }
     })
     if (login.status == 200) {
-        console.log('登录成功');
+        localStorage.setItem('token',login.msg)
         return true
     }
     errMsgPopup.errorPopup(login.msg)
