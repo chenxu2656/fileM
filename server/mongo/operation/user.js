@@ -33,7 +33,7 @@ const pwVerify = async(loginInfo)=>{
     if (!userExist) {
         return errorCode.userNotExist
     } 
-    const pwCorrect =  await bcrypt.compare(pw,userExist.password)
+    const pwCorrect =  bcrypt.compare(pw,userExist.password)
     if (!pwCorrect) {
         return errorCode.pwIncorrect
     }
@@ -58,7 +58,7 @@ const createCrddential = async(loginInfo)=>{
     const pw = await pwVerify(loginInfo)
     if (pw.status != 200) {
         console.log(pw);
-        return 
+        return pw
     }
     const token = storeJwt(loginInfo)
     return token
