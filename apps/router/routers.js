@@ -4,7 +4,7 @@ const DeclareList=require('../src/views/DeclareList.vue')
 
 const SignIn = require('../src/views/SignIn.vue')
 const BackPage = require('../src/views/BackPage.vue')
-const BackHomePage = require('../src/views/BackHomePage.vue')
+// const BackHomePage = require('../src/views/BackHomePage.vue')
 const routes = [
     {
         path: "/",
@@ -27,12 +27,12 @@ const routes = [
     {
         path: '/admin',
         components: BackPage,
-        children: [
-            {
-                path: '',
-                components: BackHomePage
-            }
-        ]
+        // children: [
+        //     {
+        //         path: '',
+        //         components: BackHomePage
+        //     }
+        // ]
     }
 ]
 export default routes

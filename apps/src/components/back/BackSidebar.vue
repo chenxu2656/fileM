@@ -13,6 +13,10 @@
       <el-icon><img src="../../../public/images/icons/dashboard.svg" alt=""></el-icon>
       <template #title>后台总览</template>
     </el-menu-item>
+    <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/frontDesk')">
+      <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
+      <template #title>发布项目收集</template>
+    </el-menu-item>
     <el-sub-menu index="article">
       <template #title>
         <el-icon><img src="../../../public/images/icons/blog.svg" alt=""></el-icon>
@@ -52,10 +56,7 @@
         > -->
       </el-menu-item-group>
     </el-sub-menu>
-    <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/frontDesk')">
-      <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
-      <template #title>前台配置</template>
-    </el-menu-item>
+    
     <el-menu-item index="sysSetting" @click="routerPush(router, '/admin/sys')">
       <el-icon><img src="../../../public/images/icons/setting.svg" alt=""></el-icon>
       <template #title>系统设置</template>

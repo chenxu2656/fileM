@@ -40,5 +40,14 @@ const errMsgPopup = {
             duration: "3000"
         })
     },
+    generalPopUp: (msg,duration)=>{
+        ElMessage({
+            showClose: true,
+            message: `${msg}！`,
+            type: 'success',
+            duration: duration
+        })
+    }
 }
+
 export default errMsgPopup

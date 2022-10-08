@@ -59,6 +59,7 @@
 <script setup>
 // @ is an alias to /src
 import { reactive, ref } from 'vue'
+import { useRouter } from "vue-router";
 import apiRequest from '../../http/index'
 import { phonNumberVerify } from '../../src/js'
 import errMsgPopup from '../utils/errorHandle/index'
@@ -67,6 +68,7 @@ const waitingSmsCode = ref(false)
 const countDown = ref('60s后重新获取')
 const roleList = ref(['本科生','研究生','老师'])
 const gradeList = ref([2016,2017,2018,2019,2020,2021,2022])
+const router = useRouter();
 const registerInfo = reactive({
     name: "",
     phoneNumber: "",
@@ -90,7 +92,12 @@ const registerApi = async (requestInfo) => {
         url: '/api/user/register',
         params: requestInfo
     }).then((resp) => {
-        console.log(resp);
+        if (resp.status!==200) {
+            errMsgPopup.errorPopup(resp.msg)
+            return
+        }
+        errMsgPopup.generalPopUp('注册成功，即将自动跳转登录页面',1500)
+        switchSign()
     }).catch((err) => {
         console.log(err);
     })
@@ -185,6 +192,8 @@ const signIn = async(signinInfo)=>{
     })
     if (login.status == 200) {
         localStorage.setItem('token',login.msg)
+        router.push('/admin')
+        errMsgPopup.generalPopUp('成功',1000)
         return true
     }
     errMsgPopup.errorPopup(login.msg)
