@@ -67,6 +67,7 @@ const login = ref(true)
 const waitingSmsCode = ref(false)
 const countDown = ref('60s后重新获取')
 const roleList = ref(['本科生','研究生','老师'])
+// const College = ref(['生物医学工程学院','生命科学学院','第一临床医学院'])
 const gradeList = ref([2016,2017,2018,2019,2020,2021,2022])
 const router = useRouter();
 const registerInfo = reactive({

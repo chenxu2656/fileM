@@ -13,8 +13,8 @@ const client = new smsClient({
      * 你也可以直接在代码中写死密钥对，但是小心不要将代码复制、上传或者分享给他人，
      * 以免泄露密钥对危及你的财产安全。
      * SecretId、SecretKey 查询: https://console.cloud.tencent.com/cam/capi */
-    secretId: 'AKIDFKBoCLPEo81h9MJ1UhfNq43nHWWHp8E6',
-    secretKey: 'f4EEzVlmY5MOCm7D4g3B3g4C5j8IDtLY',
+    secretId: 'AKIDqWv4wYv2ydO3cwFSWL4d8TaS6VglQt8B',
+    secretKey: '50h8LJ5e08zbz70oUDl487xZyBICrHxQ',
   },
   /* 必填：地域信息，可以直接填写字符串ap-guangzhou，支持的地域列表参考 https://cloud.tencent.com/document/api/382/52071#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8 */
   region: "ap-guangzhou",

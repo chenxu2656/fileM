@@ -13,9 +13,9 @@
       <el-icon><img src="../../../public/images/icons/dashboard.svg" alt=""></el-icon>
       <template #title>后台总览</template>
     </el-menu-item>
-    <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/frontDesk')">
+    <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/competition')">
       <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
-      <template #title>发布项目收集</template>
+      <template #title>比赛管理</template>
     </el-menu-item>
     <el-sub-menu index="article">
       <template #title>

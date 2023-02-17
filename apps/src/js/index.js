@@ -10,6 +10,9 @@
     const routerPush = ($router,url)=>{
         $router.push(url)
     }
+    const routerBack = ($router)=>{
+        $router.go(-1)
+    }
     const phonNumberVerify = (phoneNumber)=>{
         return /^1[3,4,5,6,7,8,9][0-9]{9}$/.test(phoneNumber.toString());
     }
@@ -18,5 +21,6 @@ export {
     parseTimeStamp,
     formateCtime,
     routerPush,
-    phonNumberVerify
+    phonNumberVerify,
+    routerBack
 }

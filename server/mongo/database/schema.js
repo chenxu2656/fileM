@@ -44,3 +44,30 @@ export const smsCode = {
         require: true
     }
 } 
+export const project = {
+    projectName: {
+        type: String,
+        require: true
+    },
+    sTime: {
+        type: Date,
+    },
+    eTime: {
+        type: Date
+    },
+    contact: {
+        type: String
+    },
+    contactInfo: {
+        type: String
+    },
+    relatedNews: {
+        type: String
+    },
+    relatedNewsId: {
+        type: String
+    },
+    createId: {
+      type: String  
+    }
+} 
