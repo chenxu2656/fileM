@@ -43,5 +43,6 @@
 <script setup>
 import { routerPush } from "../../js/index";
 import { useRouter } from "vue-router";
+
 const router = useRouter();
 </script>

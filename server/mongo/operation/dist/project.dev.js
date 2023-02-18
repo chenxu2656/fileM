@@ -3,175 +3,96 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createCrddential = exports.createUser = void 0;
+exports.getProjectList = exports.createProject = void 0;
 
 var _ = require("..");
 
 var _errorCode = _interopRequireDefault(require("../../errorhandle/errorCode"));
 
-var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
-
-var _bcrypt = _interopRequireDefault(require("bcrypt"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var createUser = function createUser(userInfo) {
-  var saltRounds, salt, pwBcrypt, user, successInfo;
-  return regeneratorRuntime.async(function createUser$(_context) {
+var createProject = function createProject(projectInfo) {
+  var createP, resp, _resp;
+
+  return regeneratorRuntime.async(function createProject$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          saltRounds = 10;
+          _context.prev = 0;
           _context.next = 3;
-          return regeneratorRuntime.awrap(_bcrypt["default"].genSalt(saltRounds));
-
-        case 3:
-          salt = _context.sent;
-          _context.next = 6;
-          return regeneratorRuntime.awrap(_bcrypt["default"].hash(userInfo.password, salt));
-
-        case 6:
-          pwBcrypt = _context.sent;
-          _context.prev = 7;
-          _context.next = 10;
-          return regeneratorRuntime.awrap(userModel.create({
-            name: userInfo.name,
-            phoneNumber: userInfo.phoneNumber,
-            password: pwBcrypt,
-            studentId: userInfo.studentId,
-            role: userInfo.role,
-            grade: userInfo.grade
+          return regeneratorRuntime.awrap(_.projectModel.create({
+            projectName: projectInfo.projectName,
+            sTime: projectInfo.sTime,
+            eTime: projectInfo.eTime,
+            contact: projectInfo.contact,
+            contactInfo: projectInfo.contactInfo,
+            relatedNewsId: projectInfo.relatedNewsId,
+            createId: projectInfo.createId
           }));
 
-        case 10:
-          user = _context.sent;
-          successInfo = _errorCode["default"].Success;
-          successInfo.msg = user;
-          return _context.abrupt("return", successInfo);
+        case 3:
+          createP = _context.sent;
+          resp = _errorCode["default"].Success;
+          resp.msg = createP;
+          return _context.abrupt("return", resp);
 
-        case 16:
-          _context.prev = 16;
-          _context.t0 = _context["catch"](7);
+        case 9:
+          _context.prev = 9;
+          _context.t0 = _context["catch"](0);
+          _resp = _errorCode["default"].errNodefine;
+          _resp.msg = _context.t0;
+          return _context.abrupt("return", _resp);
 
-          if (!(_context.t0.code == 11000)) {
-            _context.next = 22;
-            break;
-          }
-
-          return _context.abrupt("return", _errorCode["default"].SignInfoRepeat);
-
-        case 22:
-          return _context.abrupt("return", _errorCode["default"].SignInfoFail);
-
-        case 23:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[7, 16]]);
+  }, null, null, [[0, 9]]);
 };
 
-exports.createUser = createUser;
+exports.createProject = createProject;
 
-var pwVerify = function pwVerify(loginInfo) {
-  var phoneNumber, pw, userExist, pwCorrect;
-  return regeneratorRuntime.async(function pwVerify$(_context2) {
+var getProjectList = function getProjectList(reqInfo) {
+  var responseInfo, resp, _resp2;
+
+  return regeneratorRuntime.async(function getProjectList$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          phoneNumber = loginInfo.phoneNumber, pw = loginInfo.pw;
-          _context2.next = 3;
-          return regeneratorRuntime.awrap(userModel.findOne({
-            phoneNumber: phoneNumber
-          }));
+          _context2.prev = 0;
+          responseInfo = [];
 
-        case 3:
-          userExist = _context2.sent;
-
-          if (userExist) {
+          if (!(JSON.stringify(reqInfo) === '{}')) {
             _context2.next = 6;
             break;
           }
 
-          return _context2.abrupt("return", _errorCode["default"].userNotExist);
+          _context2.next = 5;
+          return regeneratorRuntime.awrap(_.projectModel.find());
+
+        case 5:
+          responseInfo = _context2.sent;
 
         case 6:
-          pwCorrect = _bcrypt["default"].compare(pw, userExist.password);
+          console.log(responseInfo);
+          resp = _errorCode["default"].Success;
+          resp.msg = responseInfo;
+          return _context2.abrupt("return", resp);
 
-          if (pwCorrect) {
-            _context2.next = 9;
-            break;
-          }
+        case 12:
+          _context2.prev = 12;
+          _context2.t0 = _context2["catch"](0);
+          _resp2 = _errorCode["default"].errNodefine;
+          _resp2.msg = _context2.t0;
+          return _context2.abrupt("return", _resp2);
 
-          return _context2.abrupt("return", _errorCode["default"].pwIncorrect);
-
-        case 9:
-          return _context2.abrupt("return", _errorCode["default"].Success);
-
-        case 10:
+        case 17:
         case "end":
           return _context2.stop();
       }
     }
-  });
+  }, null, null, [[0, 12]]);
 };
 
-var storeJwt = function storeJwt(loginInfo) {
-  var secretKey, phoneNumber, token;
-  return regeneratorRuntime.async(function storeJwt$(_context3) {
-    while (1) {
-      switch (_context3.prev = _context3.next) {
-        case 0:
-          secretKey = 'user_sys';
-          phoneNumber = loginInfo.phoneNumber;
-          token = _jsonwebtoken["default"].sign({
-            phoneNumber: phoneNumber
-          }, secretKey, {
-            expiresIn: "7 days"
-          });
-          return _context3.abrupt("return", {
-            status: 200,
-            msg: token
-          });
-
-        case 4:
-        case "end":
-          return _context3.stop();
-      }
-    }
-  });
-};
-
-var createCrddential = function createCrddential(loginInfo) {
-  var pw, token;
-  return regeneratorRuntime.async(function createCrddential$(_context4) {
-    while (1) {
-      switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.next = 2;
-          return regeneratorRuntime.awrap(pwVerify(loginInfo));
-
-        case 2:
-          pw = _context4.sent;
-
-          if (!(pw.status != 200)) {
-            _context4.next = 6;
-            break;
-          }
-
-          console.log(pw);
-          return _context4.abrupt("return", pw);
-
-        case 6:
-          token = storeJwt(loginInfo);
-          return _context4.abrupt("return", token);
-
-        case 8:
-        case "end":
-          return _context4.stop();
-      }
-    }
-  });
-};
-
-exports.createCrddential = createCrddential;
+exports.getProjectList = getProjectList;

@@ -61,9 +61,6 @@ export const project = {
     contactInfo: {
         type: String
     },
-    relatedNews: {
-        type: String
-    },
     relatedNewsId: {
         type: String
     },

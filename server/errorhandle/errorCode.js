@@ -23,6 +23,10 @@ export default  {
         status: 421,
         msg: "密码不正确"
     },
+    errNodefine: {
+        status: 431,
+        msg: ""
+    },
     Success: {
         status: 200,
         msg: {}

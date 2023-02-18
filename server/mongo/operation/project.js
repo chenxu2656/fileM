@@ -1,70 +1,43 @@
 import { projectModel } from "..";
 import errorCode from '../../errorhandle/errorCode'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-const createUser = async(userInfo)=>{
-    const saltRounds = 10;
-    let salt =  await bcrypt.genSalt(saltRounds)
-    let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+const createProject = async(projectInfo)=>{
     try {
-        const user = await userModel.create({
-            name: userInfo.name,
-            phoneNumber: userInfo.phoneNumber,
-            password: pwBcrypt,
-            studentId: userInfo.studentId,
-            role: userInfo.role,
-            grade: userInfo.grade
+        const createP = await projectModel.create({
+            projectName: projectInfo.projectName,
+            sTime: projectInfo.sTime,
+            eTime: projectInfo.eTime,
+            contact: projectInfo.contact,
+            contactInfo: projectInfo.contactInfo,
+            relatedNewsId: projectInfo.relatedNewsId,
+            createId: projectInfo.createId
         })
-        let successInfo = errorCode.Success
-        successInfo.msg = user
-        return successInfo
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch (err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
     }
-    catch(err){
-        if (err.code == 11000) {
-            return errorCode.SignInfoRepeat
-        }else {
-            return errorCode.SignInfoFail
-        }
-    }
-}
-const pwVerify = async(loginInfo)=>{
-    const {phoneNumber,pw} = loginInfo
-    const userExist = await userModel.findOne({phoneNumber: phoneNumber})
-    if (!userExist) {
-        return errorCode.userNotExist
-    } 
-    const pwCorrect =  bcrypt.compare(pw,userExist.password)
-    if (!pwCorrect) {
-        return errorCode.pwIncorrect
-    }
-    return errorCode.Success
-}
-const storeJwt = async(loginInfo)=>{
-    const secretKey = 'user_sys'
-    const {phoneNumber} = loginInfo
-    const token = jwt.sign(
-        {phoneNumber},
-        secretKey,
-        {
-            expiresIn: "7 days"
-        }
-    )
-    return {
-        status: 200,
-        msg: token
-    }
-}
-const createCrddential = async(loginInfo)=>{
-    const pw = await pwVerify(loginInfo)
-    if (pw.status != 200) {
-        console.log(pw);
-        return pw
-    }
-    const token = storeJwt(loginInfo)
-    return token
-}
 
+}
+const getProjectList = async(reqInfo)=>{
+    try {
+        let responseInfo = []
+        if (JSON.stringify(reqInfo) === '{}') {
+            responseInfo = await projectModel.find()
+        }
+        console.log(responseInfo);
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
 export {
-    createUser,
-    createCrddential
+    createProject,
+    getProjectList
 }
