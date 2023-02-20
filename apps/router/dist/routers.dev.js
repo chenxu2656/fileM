@@ -15,9 +15,13 @@ var SignIn = require('../src/views/SignIn.vue');
 
 var BackPage = require('../src/views/BackPage.vue');
 
+var StuBackPage = require('../src/views/StuBackPage.vue');
+
 var CompeTition = require('../src/components/back/CompeTition.vue');
 
 var CreateItem = require('../src/components/back/CreateItem');
+
+var EditProfile = require('../src/components/backStu/EditProfile.vue');
 
 var routes = [{
   path: "/",
@@ -41,6 +45,13 @@ var routes = [{
   }, {
     path: 'creatItem',
     components: CreateItem
+  }]
+}, {
+  path: '/adminStudent',
+  components: StuBackPage,
+  children: [{
+    path: "editp",
+    components: EditProfile
   }]
 }];
 var _default = routes;

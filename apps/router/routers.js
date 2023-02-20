@@ -7,6 +7,8 @@ const BackPage = require('../src/views/BackPage.vue')
 const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
 const CreateItem = require('../src/components/back/CreateItem')
+
+const EditProfile = require('../src/components/backStu/EditProfile.vue')
 const routes = [
     {
         path: "/",
@@ -43,7 +45,13 @@ const routes = [
     },
     {
         path: '/adminStudent',
-        components: StuBackPage
+        components: StuBackPage,
+        children: [
+            {
+                path: "editp",
+                components: EditProfile
+            }
+        ]
     }
 ]
 export default routes

@@ -64,6 +64,20 @@ const createCrddential = async(loginInfo)=>{
     return token
 }
 
+const updateInfo = async(userInfo)=>{
+    try {
+        const resp = await userModel.updateOne({
+            id: userInfo._id,
+        }, {
+                name: userInfo.name,
+                phoneNumber: userInfo.phoneNumber,
+                password: pwBcrypt,
+                studentId: userInfo.studentId,
+                role: userInfo.role,
+                grade: userInfo.grade
+        })
+    }
+}
 export {
     createUser,
     createCrddential
