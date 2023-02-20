@@ -21,6 +21,26 @@ const createProject = async(projectInfo)=>{
     }
 
 }
+const updateProject = async(projectInfo)=>{
+    try {
+        const createP = await projectModel.updateOne({id: projectInfo._id},{
+            projectName: projectInfo.projectName,
+            sTime: projectInfo.sTime,
+            eTime: projectInfo.eTime,
+            contact: projectInfo.contact,
+            contactInfo: projectInfo.contactInfo,
+            relatedNewsId: projectInfo.relatedNewsId,
+            createId: projectInfo.createId
+        })
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch (err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
 const getProjectList = async(reqInfo)=>{
     try {
         let responseInfo = []
@@ -39,5 +59,6 @@ const getProjectList = async(reqInfo)=>{
 }
 export {
     createProject,
-    getProjectList
+    getProjectList,
+    updateProject
 }

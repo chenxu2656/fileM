@@ -4,6 +4,7 @@ const DeclareList=require('../src/views/DeclareList.vue')
 
 const SignIn = require('../src/views/SignIn.vue')
 const BackPage = require('../src/views/BackPage.vue')
+const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
 const CreateItem = require('../src/components/back/CreateItem')
 const routes = [
@@ -37,7 +38,12 @@ const routes = [
                 path: 'creatItem',
                 components: CreateItem
             }
-        ]
+        ],
+        
+    },
+    {
+        path: '/adminStudent',
+        components: StuBackPage
     }
 ]
 export default routes

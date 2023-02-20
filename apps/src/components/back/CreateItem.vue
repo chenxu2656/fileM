@@ -50,17 +50,18 @@
 <style lang="scss" scoped>
 #contain {
     width: 60vw;
-    margin: auto
+    margin-left: 10px;
 }
 </style>
 <script  setup>
-import { reactive ,ref} from 'vue'
+import { reactive ,ref,onMounted} from 'vue'
 import { routerBack } from '../../js/index'
 import { useRouter } from 'vue-router';
 import apiRequest from '../../../http/index'
 import errMsgPopup from '../../utils/errorHandle/index'
 const formRef = ref()
 const router = useRouter();
+let popMsg = '项目创建成功'
 const projectInfo = reactive({
     projectName: '',
     sTime: '',
@@ -69,7 +70,7 @@ const projectInfo = reactive({
     contactInfo: '',
     relatedNews: "",
     createId: "", // 创建人id
-    id: ""
+    _id: ""
 })
 const projectInfoRules = reactive({
     projectName: [
@@ -99,7 +100,8 @@ const createProject = async (projectInfo) => {
         params: projectInfo
     }).then((resp) => {
         if (resp.status == 200) {
-            errMsgPopup.generalPopUp('项目创建成功', '1000')
+            localStorage.removeItem('editInfo')
+            errMsgPopup.generalPopUp(popMsg, '1000')
         }
     }).catch((err) => {
         errMsgPopup.registerError(err.msg)
@@ -123,5 +125,14 @@ const Submit = (projectInfoV,projectInfo) => {
     })
     
 }
+onMounted(() => {
+    let editInfo = localStorage.getItem('editInfo')  
+                ? JSON.parse(localStorage.getItem('editInfo'))
+                : {}
+    if (editInfo._id) {
+        Object.assign(projectInfo,editInfo)
+        popMsg = "项目更新成功"
+    }
+})
 </script>
   
