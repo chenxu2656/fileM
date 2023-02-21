@@ -47,7 +47,7 @@ var routes = [{
     components: CreateItem
   }]
 }, {
-  path: '/adminStudent',
+  path: '/stuAdmin',
   components: StuBackPage,
   children: [{
     path: "editp",

@@ -13,7 +13,8 @@ const createUser = async(userInfo)=>{
             password: pwBcrypt,
             studentId: userInfo.studentId,
             role: userInfo.role,
-            grade: userInfo.grade
+            grade: userInfo.grade,
+            college: userInfo.college
         })
         let successInfo = errorCode.Success
         successInfo.msg = user
@@ -33,7 +34,7 @@ const pwVerify = async(loginInfo)=>{
     if (!userExist) {
         return errorCode.userNotExist
     } 
-    const pwCorrect =  bcrypt.compare(pw,userExist.password)
+    const pwCorrect =  await bcrypt.compare(pw,userExist.password)
     if (!pwCorrect) {
         return errorCode.pwIncorrect
     }
@@ -41,7 +42,7 @@ const pwVerify = async(loginInfo)=>{
 }
 const storeJwt = async(loginInfo)=>{
     const secretKey = 'user_sys'
-    const {phoneNumber} = loginInfo
+    const {phoneNumber,name} = loginInfo
     const token = jwt.sign(
         {phoneNumber},
         secretKey,
@@ -51,34 +52,63 @@ const storeJwt = async(loginInfo)=>{
     )
     return {
         status: 200,
-        msg: token
+        msg: {
+            'token': token,
+            'uid': phoneNumber,
+            'username': name
+        }
     }
 }
 const createCrddential = async(loginInfo)=>{
+    console.log(loginInfo);
     const pw = await pwVerify(loginInfo)
     if (pw.status != 200) {
-        console.log(pw);
         return pw
     }
-    const token = storeJwt(loginInfo)
+    const token = await storeJwt(loginInfo)
     return token
 }
 
-const updateInfo = async(userInfo)=>{
+const updateProfile = async(userInfo)=>{
+    console.log(userInfo);
     try {
-        const resp = await userModel.updateOne({
+        const createP = await userModel.updateOne({
             id: userInfo._id,
         }, {
                 name: userInfo.name,
                 phoneNumber: userInfo.phoneNumber,
-                password: pwBcrypt,
+                password: userInfo.password,
                 studentId: userInfo.studentId,
                 role: userInfo.role,
-                grade: userInfo.grade
+                grade: userInfo.grade,
+                college: userInfo.college ? userInfo.college:"生物医学工程学院"
         })
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch(err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+const getProfile = async(uid)=>{
+    try {
+        const createP = await userModel.findOne({
+            phoneNumber: uid
+        })
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch(err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
     }
 }
 export {
     createUser,
-    createCrddential
+    createCrddential,
+    updateProfile,
+    getProfile
 }

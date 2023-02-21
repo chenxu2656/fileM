@@ -9,6 +9,8 @@ const CompeTition = require('../src/components/back/CompeTition.vue')
 const CreateItem = require('../src/components/back/CreateItem')
 
 const EditProfile = require('../src/components/backStu/EditProfile.vue')
+const ProjectList = require('../src/components/backStu/ProjectList.vue')
+const DeclarePro = require('../src/components/backStu/DeclarePro.vue') 
 const routes = [
     {
         path: "/",
@@ -44,9 +46,17 @@ const routes = [
         
     },
     {
-        path: '/adminStudent',
+        path: '/stuAdmin',
         components: StuBackPage,
         children: [
+            {
+                path: "",
+                components: ProjectList
+            },
+            {
+                path: "upload",
+                components: DeclarePro
+            },
             {
                 path: "editp",
                 components: EditProfile

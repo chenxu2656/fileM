@@ -30,6 +30,12 @@
                         <button id="downCount" class="getCode" v-if="waitingSmsCode">{{countDown}}</button>
                     </div>
                     <div id="grade" class="line2">
+                    <select v-model="registerInfo.college" id='college' placeholder="选择学院"  class="selectGrade" style="width: 290px">
+                            <option v-for="co in College" :key="co">{{co}}</option>
+                        </select>
+                    </div>
+                    
+                    <div id="grade" class="line2">
                         <select v-model="registerInfo.role" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
                             <option v-for="role in roleList" :key="role">{{role}}</option>
                         </select>
@@ -66,8 +72,8 @@ import errMsgPopup from '../utils/errorHandle/index'
 const login = ref(true)
 const waitingSmsCode = ref(false)
 const countDown = ref('60s后重新获取')
-const roleList = ref(['本科生','研究生','老师'])
-// const College = ref(['生物医学工程学院','生命科学学院','第一临床医学院'])
+const roleList = ref(['本科生','研究生'])
+const College = ref(['生物医学工程学院','生命科学学院','第一临床医学院','第二临床医学院','生命科学学院','马克思主医学院',"基础医学院","公共卫生学院","口腔医学院","卫生管理学院","药学院","护理学院","巢湖临床医学院","国际教育学院","人文医学院","精神卫生与心理科学学院","法学院","继续教育学院","临床药理研究所"])
 const gradeList = ref([2016,2017,2018,2019,2020,2021,2022])
 const router = useRouter();
 const registerInfo = reactive({
@@ -78,7 +84,8 @@ const registerInfo = reactive({
     studentId: "",
     role: "本科生",
     grade: 2020,
-    verificationCode: ""
+    verificationCode: "",
+    college: '生物医学工程学院',
 })
 const signinInfo = reactive({
     phoneNumber: "",
@@ -192,8 +199,10 @@ const signIn = async(signinInfo)=>{
         }
     })
     if (login.status == 200) {
-        localStorage.setItem('token',login.msg)
-        router.push('/admin')
+        localStorage.setItem('token',login.msg.token)
+        localStorage.setItem('uid',login.msg.uid)
+        localStorage.setItem('userName', login.msg.userName)
+        router.push('/stuAdmin')
         errMsgPopup.generalPopUp('成功',1000)
         return true
     }

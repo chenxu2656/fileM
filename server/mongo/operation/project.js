@@ -57,8 +57,21 @@ const getProjectList = async(reqInfo)=>{
         return resp
     }
 }
+const getProjectDetail = async(id)=>{
+    try {
+        let responseInfo =  await projectModel.findOne({id: id})
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
 export {
     createProject,
     getProjectList,
-    updateProject
+    updateProject,
+    getProjectDetail
 }

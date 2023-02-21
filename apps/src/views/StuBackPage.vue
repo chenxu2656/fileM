@@ -14,7 +14,7 @@
             </div>
             <div id="profile">
               <div id="name">
-                <span>许晨晨</span>
+                <span>{{ userName }}</span>
               </div>
               <div id="editProfile" @click="editP()">
                 <span>更改信息</span>
@@ -36,7 +36,7 @@
     <el-container id="con">
       <el-main class="el-main">
         <router-view>
-
+          
         </router-view>
       </el-main>
     </el-container>
@@ -47,6 +47,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { routerPush } from '@/js/dist/index.dev';
+let userName = ref('')
+userName.value = localStorage.getItem('userName')
 const router = useRouter()
 let popWin = ref(false)
 const switchPopUp = () => {
@@ -54,7 +56,7 @@ const switchPopUp = () => {
 }
 const editP = ()=>{
   switchPopUp()
-  routerPush(router,'/adminstudent/editp')
+  routerPush(router,'/stu/editp')
 }
 </script>
 <style lang="scss" scoped>
@@ -89,6 +91,7 @@ const editP = ()=>{
   }
   #popupwin {
     // #popUp{
+    z-index: 1000;
     position: absolute;
     height: 210px;
     width: 300px;
