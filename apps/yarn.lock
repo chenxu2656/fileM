@@ -2553,7 +2553,7 @@ core-util-is@~1.0.0:
 
 cos-js-sdk-v5@^1.4.15:
   version "1.4.15"
-  resolved "https://registry.yarnpkg.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.15.tgz#d49686228ffed0f593f4c70e929a774e3ae6083f"
+  resolved "https://registry.npmmirror.com/cos-js-sdk-v5/-/cos-js-sdk-v5-1.4.15.tgz#d49686228ffed0f593f4c70e929a774e3ae6083f"
   integrity sha512-WhkhjicmprBtsPNog2ENoXvP9FUAIqaF9qOI1Hlolbqv98VVJLbv4lOq66HPkw6sdW5LBT8awI4Ljx48gl8c8A==
   dependencies:
     "@xmldom/xmldom" "^0.8.6"
