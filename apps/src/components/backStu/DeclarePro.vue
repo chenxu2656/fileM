@@ -22,7 +22,7 @@
 // import { routerPush } from "../../js/index";
 import { useRoute } from "vue-router";
 import apiRequest from '../../../http'
-import COS from 'cos-js-sdk-v5';
+// import COS from 'cos-js-sdk-v5';
 import { onMounted,reactive} from "vue";
 const router = useRoute();
 
@@ -46,15 +46,15 @@ const getProjectInfo = async (id) =>{
 // oss
 
 // 存储桶名称，由 bucketname-appid 组成，appid 必须填入，可以在 COS 控制台查看存储桶名称。 https://console.cloud.tencent.com/cos5/bucket
-var Bucket = 'filem-1253997872';  /* 存储桶，必须字段 */
+// var Bucket = 'filem-1253997872';  /* 存储桶，必须字段 */
 
-// 存储桶 region 可以在 COS 控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ 
-// 关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
-var Region = 'ap-guangzhou';     /* 存储桶所在地域，必须字段 */
-var cos = new COS({
-    SecretId: 'SECRETID',
-    SecretKey: 'SECRETKEY',
-});
+// // 存储桶 region 可以在 COS 控制台指定存储桶的概览页查看 https://console.cloud.tencent.com/cos5/bucket/ 
+// // 关于地域的详情见 https://cloud.tencent.com/document/product/436/6224
+// var Region = 'ap-guangzhou';     /* 存储桶所在地域，必须字段 */
+// var cos = new COS({
+//     SecretId: 'SECRETID',
+//     SecretKey: 'SECRETKEY',
+// });
 onMounted(async () => {
     const id = router.query.id
     let resp =  await getProjectInfo(id)

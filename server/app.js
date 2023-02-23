@@ -1,9 +1,14 @@
 require('babel-register')
+
 // how to use import and export in node.js & express 
 // https://blog.csdn.net/qq_21275565/article/details/108253450?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-108253450-blog-84821679.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-108253450-blog-84821679.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1
 //nodemon --exec babel-node --presets env app.js
 var express = require('express');
 var path = require('path');
+require('dotenv').config({
+  path: path.resolve('config.env'),
+});
+// require('dotenv').config({ path: path.resolve(__dirname, '.env') ,debug: true})
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./mongo/connect')
