@@ -48,9 +48,12 @@ const policy = {
 };
 const router = express.Router();
 const getCredential = (req,res)=>{
+    console.log(stsConfig);
+    console.log(process.env.OSS_SID);
+    console.log(process.env.OSS_SKEY);
     sts.getCredential({
-        secretId: stsConfig.secretId,
-        secretKey: stsConfig.secretKey,
+        secretId: process.env.OSS_SID,
+        secretKey: process.env.OSS_SKEY,
         proxy: stsConfig.proxy,
         durationSeconds: stsConfig.durationSeconds,
         endpoint: stsConfig.endpoint,

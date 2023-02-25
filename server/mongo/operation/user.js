@@ -42,7 +42,7 @@ const pwVerify = async(loginInfo)=>{
 }
 const storeJwt = async(loginInfo)=>{
     const secretKey = 'user_sys'
-    const {phoneNumber,name} = loginInfo
+    const {phoneNumber} = loginInfo
     const token = jwt.sign(
         {phoneNumber},
         secretKey,
@@ -55,7 +55,6 @@ const storeJwt = async(loginInfo)=>{
         msg: {
             'token': token,
             'uid': phoneNumber,
-            'username': name
         }
     }
 }

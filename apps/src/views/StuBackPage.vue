@@ -14,7 +14,7 @@
             </div>
             <div id="profile">
               <div id="name">
-                <span>{{ userName }}</span>
+                <span>colin</span>
               </div>
               <div id="editProfile" @click="editP()">
                 <span>更改信息</span>
@@ -56,7 +56,7 @@ const switchPopUp = () => {
 }
 const editP = ()=>{
   switchPopUp()
-  routerPush(router,'/stu/editp')
+  routerPush(router,'/stuAdmin/editp')
 }
 </script>
 <style lang="scss" scoped>

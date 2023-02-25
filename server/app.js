@@ -5,9 +5,7 @@ require('babel-register')
 //nodemon --exec babel-node --presets env app.js
 var express = require('express');
 var path = require('path');
-require('dotenv').config({
-  path: path.resolve('config.env'),
-});
+require('dotenv').config({});
 // require('dotenv').config({ path: path.resolve(__dirname, '.env') ,debug: true})
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -29,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+console.log(process.env);
 app.use('/api/sms', Sms);
 app.use('/api/user', User);
 app.use('/api/project', Project);

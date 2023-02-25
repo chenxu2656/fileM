@@ -198,6 +198,7 @@ const signIn = async(signinInfo)=>{
             pw: signinInfo.pw
         }
     })
+    console.log(login.msg);
     if (login.status == 200) {
         localStorage.setItem('token',login.msg.token)
         localStorage.setItem('uid',login.msg.uid)

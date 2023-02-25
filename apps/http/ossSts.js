@@ -1,6 +1,4 @@
 import COS from 'cos-js-sdk-v5';
-const Bucket = 'filem-1253997872';  /* 存储桶，必须字段 */
-const Region = 'ap-guangzhou';     /* 存储桶所在地域，必须字段 */
 // 初始化实例
 const cos = new COS({
     // getAuthorization 必选参数
@@ -14,19 +12,21 @@ const cos = new COS({
         var url = '/api/sts'; // url 替换成您自己的后端服务
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
+        let data = {}
         xhr.onload = function (e) {
             try {
-                var data = JSON.parse(e.target.responseText.msg);
-                var credentials = data.credentials;
+              console.log(e);
+              data = JSON.parse(JSON.parse(e.target.responseText).msg);
             } catch (e) {
+              console.log(e);
             }
-            if (!data || !credentials) {
+            if (!data) {
               return console.error('credentials invalid:\n' + JSON.stringify(data, null, 2))
-            };
+            }
             callback({
-              TmpSecretId: credentials.tmpSecretId,
-              TmpSecretKey: credentials.tmpSecretKey,
-              SecurityToken: credentials.sessionToken,
+              TmpSecretId: data.credentials.tmpSecretId,
+              TmpSecretKey: data.credentials.tmpSecretKey,
+              SecurityToken: data.credentials.sessionToken,
               // 建议返回服务器时间作为签名的开始时间，避免用户浏览器本地时间偏差过大导致签名错误
               StartTime: data.startTime, // 时间戳，单位秒，如：1580000000
               ExpiredTime: data.expiredTime, // 时间戳，单位秒，如：1580000000

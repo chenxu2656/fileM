@@ -97,7 +97,7 @@ const router = useRouter()
 let profile = reactive({
 
 })
-const getProfile = (uid) => {
+const getProfile = async(uid) => {
     apiRequest({
         url: `/api/user/${uid}`,
         method: "get"
