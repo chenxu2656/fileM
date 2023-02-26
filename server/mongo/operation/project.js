@@ -58,6 +58,12 @@ const getProjectList = async(reqInfo)=>{
     }
 }
 const getProjectDetail = async(id)=>{
+    if (!id) {
+        let resp = errorCode.errNodefine
+        resp.msg = 'id是空的'
+        return resp
+    }
+    console.log(id);
     try {
         let responseInfo =  await projectModel.findOne({id: id})
         let resp = errorCode.Success

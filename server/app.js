@@ -27,7 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-console.log(process.env);
 app.use('/api/sms', Sms);
 app.use('/api/user', User);
 app.use('/api/project', Project);

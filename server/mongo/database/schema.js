@@ -78,7 +78,7 @@ export const declarePro = {
         type: String,
         require: true
     },
-    grouping: {
+    projectProgress: {
         type: String   //创意组 创业组 红旅组 等， 根据项目设定而定
     },
     projectSummary: {
@@ -100,6 +100,9 @@ export const declarePro = {
             type: String
         }
     },
+    projectId: {
+        type: Schema.Types.ObjectI
+    },
     createId: {
         type: Schema.Types.ObjectId   // 创建者
     },
@@ -119,6 +122,9 @@ export const declarePro = {
         paper: {
             type: [Object]
         },
+        award: {
+            type: [Object]
+        }
 
     }
 
