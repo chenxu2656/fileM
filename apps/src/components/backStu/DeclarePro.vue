@@ -27,44 +27,245 @@
         </el-form-item>
         <el-form-item label="项目计划书">
             <div class="upload">
-                <el-upload class="upload-demo" accept=".pdf,.word,.ppt,.zip,.rar" action="#"
-                    :before-upload="handleBeforeUpload" :http-request="uploadFile">
+                <el-upload 
+                    class="upload-demo" 
+                    accept=".pdf,.word,.ppt,.zip,.rar" 
+                    action="#"
+                    v-model:file-list="bpList"
+                    :before-upload="handleBeforeUpload" 
+                    limit=1
+                    :on-exceed="handleExceed"
+                    :http-request="uploadFileBp" 
+                    style="display: inline-block;"
+                >
                     <el-button type="primary">上传项目计划书</el-button>
-                    <template #tip>
-                        <div class="el-upload__tip">
-                            jpg/png files with a size less than 500kb
-                        </div>
-                    </template>
+                    <span class="tips"> (文件大小应小于20M) </span>
+                    <!-- <span>{{ progress.bp }}</span> -->
                 </el-upload>
+                <el-progress
+                        :text-inside="true"
+                        :stroke-width="24"
+                        :percentage="progress.bp"
+                        status="success"
+                        v-show="showProgress.bp"
+                    />
             </div>
         </el-form-item>
         <el-form-item label="项目展示PPT">
             <div class="upload">
-                <el-upload class="upload-demo" accept=".pdf,.word,.ppt,.zip,.rar" action="#"
-                    :before-upload="handleBeforeUpload" :http-request="uploadFile">
+                <el-upload class="upload-demo" 
+                v-model:file-list="pptList"
+                accept=".pdf,.word,.ppt,.zip,.rar" action="#"
+                    :before-upload="handleBeforeUpload"  :limit="1" :http-request="uploadFilePpt">
                     <el-button type="primary">上传项目展示PPT</el-button>
-                    <template #tip>
-                        <div class="el-upload__tip">
-                            jpg/png files with a size less than 500kb
-                        </div>
-                    </template>
+                    <span class="tips"> (文件大小应小于20M) </span>
+                    
                 </el-upload>
+                <el-progress
+                        :text-inside="true"
+                        :stroke-width="24"
+                        :percentage="progress.ppt"
+                        status="success"
+                        v-show="showProgress.ppt"
+                    />
             </div>
         </el-form-item>
         <el-form-item label="项目展示视频">
             <div class="upload">
-                <el-upload class="upload-demo" accept=".pdf,.word,.ppt,.zip,.rar" action="#"
-                    :before-upload="handleBeforeUpload" :http-request="uploadFile">
+                <el-upload class="upload-demo" 
+                v-model:file-list="videoList"
+                accept=".pdf,.word,.ppt,.zip,.rar" action="#"
+                    :before-upload="handleBeforeUpload" :limit="1" 
+                    :http-request="uploadFileVideo">
                     <el-button type="primary">上传项目展示视频</el-button>
-                    <template #tip>
-                        <div class="el-upload__tip">
-                            jpg/png files with a size less than 500kb
-                        </div>
-                    </template>
+                    <span class="tips"> (文件大小应小于20M) </span>
                 </el-upload>
+                <el-progress
+                        :text-inside="true"
+                        :stroke-width="24"
+                        :percentage="progress.video"
+                        status="success"
+                        v-show="showProgress.video"
+                    />
             </div>
         </el-form-item>
         <el-divider />
+        <el-form-item label="专利">
+            <el-col :span="5">
+                <el-input v-model="patent.name" placeholder="专利名称" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="patent.owner" placeholder="专利人" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="patent.number" placeholder="专利号" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="patent.data" placeholder="授权日期" />
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" @click="addPatent(patent,declareInfo.otherInfo.patent)">添加</el-button>
+            </el-col>
+            <div id="patentList" class="patList">
+                <el-card v-for="o in declareInfo.otherInfo.patent" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.otherInfo.patent)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">软件名称:</div>
+                        <div class="con">{{o.name}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权人:</div>
+                        <div class="con">{{o.owner}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权号:</div>
+                        <div class="con">{{o.data}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">发证日期:</div>
+                        <div class="con">{{o.number}}</div>
+                    </div>
+                </el-card>
+            </div>
+        </el-form-item>
+        <el-form-item label="软件著作权">
+            <el-col :span="5">
+                <el-input v-model="cpcc.name" placeholder="软件名称" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="cpcc.owner" placeholder="著作权人" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="cpcc.number" placeholder="著作权号" />
+            </el-col>
+            
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="cpcc.data" placeholder="发证日期" />
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" @click="addPatent(cpcc,declareInfo.otherInfo.cpcc)">添加</el-button>
+            </el-col>
+            <div id="cpccList" class="patList">
+                <el-card v-for="o in declareInfo.otherInfo.cpcc" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.otherInfo.cpcc)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">软件名称:</div>
+                        <div class="con">{{o.name}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权人:</div>
+                        <div class="con">{{o.owner}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权号:</div>
+                        <div class="con">{{o.data}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">发证日期:</div>
+                        <div class="con">{{o.number}}</div>
+                    </div>
+                </el-card>
+            </div>
+        </el-form-item>
+        <el-form-item label="论文">
+            <el-col :span="5">
+                <el-input v-model="paper.name" placeholder="论文名" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="paper.owner" placeholder="作者" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="5">
+                <el-input v-model="paper.publicationName" placeholder="期刊名称" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="paper.level" placeholder="期刊等级" />
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" @click="addPatent(paper,declareInfo.otherInfo.paper)">添加</el-button>
+            </el-col>
+            <div id="patentList" class="patList">
+                <el-card v-for="o in declareInfo.otherInfo.paper" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.otherInfo.paper)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">软件名称:</div>
+                        <div class="con">{{o.name}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权人:</div>
+                        <div class="con">{{o.owner}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">著作权号:</div>
+                        <div class="con">{{o.publicationName}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">发证日期:</div>
+                        <div class="con">{{o.level}}</div>
+                    </div>
+                </el-card>
+            </div>
+        </el-form-item>
+        <el-form-item label="项目获奖">
+            <el-col :span="8">
+                <el-input v-model="award.awardLevel" placeholder="奖项名称" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="8">
+                <el-input v-model="award.awarder" placeholder="获奖人（按顺序）" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="award.date" placeholder="获奖日期" />
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" @click="addPatent(award,declareInfo.otherInfo.award)">添加</el-button>
+            </el-col>
+            <div id="patentList" class="patList">
+                <el-card v-for="o in declareInfo.otherInfo.award" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.otherInfo.award)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">奖项名称:</div>
+                        <div class="con">{{o.awardLevel}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">获奖人（按顺序）:</div>
+                        <div class="con">{{o.awarder}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">获奖日期:</div>
+                        <div class="con">{{o.date}}</div>
+                    </div>
+                    
+                </el-card>
+            </div>
+        </el-form-item>
+        <el-divider />
+        <el-form-item label="项目成员">
+            
+        </el-form-item>
+        <el-form-item label="指导教师">
+            
+        </el-form-item>
+        <el-divider />
+        <el-button type="primary">提交</el-button>
+        <el-button type="primary">暂存</el-button>
     </el-form>
 </template>
 <style lang="scss" scoped>
@@ -87,6 +288,42 @@
     .el-form-item>.el-form-item__label {
         font-size: 400px !important;
     }
+    .tips{
+        font-size: 13px;
+        margin-left: 40px;
+    }
+    .patList{
+        display: flex;
+        width: 100%;
+        // justify-content: space-between;
+        flex-wrap: wrap;
+        .el-card {
+            width: 23%;
+            margin-top: 20px;
+            margin-right: 20px;
+            padding-top: 0px;
+            .cardLine {
+                width: 100%;
+                text-align: left;
+                div{
+                    display: inline-block;
+                    text-align: left;
+                    margin-left: 10px;
+                    &.tit {
+                        font-size: 14px;
+                    }
+                    &.con {
+                        font-size: 15px;
+                    }
+                }
+            }
+            #delete{
+                text-align: right;
+                color: red;
+                cursor: pointer;
+            }
+        }
+    }
 }
 </style>
 <script setup>
@@ -96,9 +333,21 @@ import apiRequest from '../../../http'
 import errMsgPopup from "../../utils/errorHandle";
 import cos from '../../../http/ossSts'
 // import COS from 'cos-js-sdk-v5';
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive,ref } from "vue";
 const router = useRoute();
-
+const progress = reactive({
+    bp: 0,
+    ppt: 0,
+    video: 0
+})
+const showProgress = reactive({
+    bp: false,
+    ppt: false,
+    video: false
+})
+const bpList = ref([])
+const pptList = ref([])
+const videoList = ref([])
 const projectInfo = reactive({})
 const userInfo = reactive({
     name: "",
@@ -108,6 +357,29 @@ const userInfo = reactive({
     studentId: "",
     systemrole: "",
     _id: ""
+})
+const cpcc = reactive({
+    name: "",
+    owner: "",
+    data: "",
+    number: ""
+})
+const patent = reactive({
+    name: "",
+    owner: "",
+    data: "",
+    number: ""
+})
+const paper = reactive({
+    name: "",
+    owner: "",
+    publicationName: "",
+    level: ""
+})
+const award = reactive({
+    awardLevel: "",
+    awarder: "",
+    date: ""
 })
 const declareInfo = reactive({
     projectName: "",
@@ -130,18 +402,32 @@ const declareInfo = reactive({
     createId: "",
     projectId: "",
     projectMember: [],  //id
-    teacher: [] //id
+    teacher: [], //id
+    status: 0  //0 暂存 // 提交
 })
-
+const addPatent = (value,collection)=>{
+    const newObj = { ...value}
+    collection.push(newObj)
+    Object.keys(value).forEach(key => {
+    value[key] = ''
+    })
+}
+const removeItem = (item,collection)=>{
+    const index = collection.findIndex(i => i.name === item.name);
+    collection.splice(index,1)
+}
+const handleExceed = () => {
+  errMsgPopup.errorPopup('限制一个文件，请删除原文件重新上传')
+}
 const handleBeforeUpload = (file) => {
-    if (file.size / 1024 / 1024 > 100) {
+    if (file.size / 1024 / 1024 > 20) {
         errMsgPopup.errorPopup('文件大小应小于10M')
         return false
     }
     return true
 }
-const uploadFile = (params) => {
-    console.log(params);
+const uploadFileBp = (params) => {
+    showProgress.bp = true
     cos.putObject({
         Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
         Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
@@ -149,10 +435,61 @@ const uploadFile = (params) => {
         Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
         onProgress: function (progressData) {
             // 上传进度的回掉
-            console.log(JSON.stringify(progressData));
+            progress.bp = progressData.percent * 100
+            if(progress.bp==100) {
+                errMsgPopup.generalPopUp('上传成功',1000)
+                showProgress.bp = false
+            }
         }
     }, function (err, data) {
-        console.log(err || data);
+        declareInfo.attachmentList.bp = data.Location
+        if (err) {
+            errMsgPopup.errorPopup('上传失败，请稍后再试')
+        }
+    });
+}
+const uploadFilePpt = (params) => {
+    showProgress.ppt = true
+    cos.putObject({
+        Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
+        Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+        Key: `fileM/${params.file.name}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
+        onProgress: function (progressData) {
+            // 上传进度的回掉
+            progress.ppt = progressData.percent * 100
+            if(progress.ppt==100) {
+                errMsgPopup.generalPopUp('上传成功',1000)
+                showProgress.ppt = false
+            }
+        }
+    }, function (err, data) {
+        declareInfo.attachmentList.bp = data.Location
+        if (err) {
+            errMsgPopup.errorPopup('上传失败，请稍后再试')
+        }
+        
+    });
+}
+const uploadFileVideo = (params) => {
+    showProgress.video = true
+    cos.putObject({
+        Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
+        Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+        Key: `fileM/${params.file.name}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
+        onProgress: function (progressData) {
+            progress.video = progressData.percent * 100
+            if(progress.video==100) {
+                errMsgPopup.generalPopUp('上传成功',1000)
+                showProgress.video = false
+            }
+        }
+    }, function (err, data) {
+        declareInfo.attachmentList.bp = data.Location
+        if (err) {
+            errMsgPopup.errorPopup('上传失败，请稍后再试')
+        }
     });
 }
 const getProjectInfo = async (id) => {
