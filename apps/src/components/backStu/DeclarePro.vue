@@ -177,45 +177,66 @@
                 </el-card>
             </div>
         </el-form-item>
-        <el-form-item label="论文">
-            <el-col :span="5">
-                <el-input v-model="paper.name" placeholder="论文名" />
+        <el-form-item label="论文" class="addPaper">
+            <el-col :span="11">
+                <el-input v-model="paper.name" placeholder="论文名称" />
             </el-col>
             <el-col :span="1"></el-col>
-            <el-col :span="5">
+            <!-- <el-col :span="5">
                 <el-input v-model="paper.owner" placeholder="作者" />
             </el-col>
+            <el-col :span="1"></el-col> -->
+            <el-col :span="11">
+                <el-input v-model="paper.publicationName" placeholder="期刊名称" />
+            </el-col>
+            
             <el-col :span="1"></el-col>
             <el-col :span="5">
-                <el-input v-model="paper.publicationName" placeholder="期刊名称" />
+                <el-input v-model="paper.level" placeholder="期刊等级，SCI/EI/..." />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="3">
+                <el-input v-model="paper.firstAuthor" placeholder="第一作者" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="7">
+                <el-input v-model="paper.otherAuthor" placeholder="其他作者" />
             </el-col>
             <el-col :span="1"></el-col>
             <el-col :span="4">
-                <el-input v-model="paper.level" placeholder="期刊等级" />
+                <el-input v-model="paper.date" placeholder="发表日期" />
             </el-col>
             <el-col :span="2">
                 <el-button type="warning" @click="addPatent(paper,declareInfo.otherInfo.paper)">添加</el-button>
             </el-col>
-            <div id="patentList" class="patList">
+            <div id="paperList" class="patList">
                 <el-card v-for="o in declareInfo.otherInfo.paper" class="box-card" :key="o">
                     <div id="delete" @click="removeItem(o,declareInfo.otherInfo.paper)">
                         删除
                     </div>
                     <div class="cardLine">
-                        <div class="tit">软件名称:</div>
+                        <div class="tit">论文名称:</div>
                         <div class="con">{{o.name}}</div>
                     </div>
                     <div class="cardLine">
-                        <div class="tit">著作权人:</div>
-                        <div class="con">{{o.owner}}</div>
-                    </div>
-                    <div class="cardLine">
-                        <div class="tit">著作权号:</div>
+                        <div class="tit">期刊名称:</div>
                         <div class="con">{{o.publicationName}}</div>
                     </div>
                     <div class="cardLine">
-                        <div class="tit">发证日期:</div>
-                        <div class="con">{{o.level}}</div>
+                        <div class="tit">期刊等级:</div>
+                        <div class="con">{{o.publicationName}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">第一作者:</div>
+                        <div class="con">{{o.firstAuthor}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">其他作者:</div>
+                        <div class="con">{{o.otherAuthor}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">发表日期:</div>
+                        <div class="con">{{o.date}}</div>
                     </div>
                 </el-card>
             </div>
@@ -235,7 +256,7 @@
             <el-col :span="2">
                 <el-button type="warning" @click="addPatent(award,declareInfo.otherInfo.award)">添加</el-button>
             </el-col>
-            <div id="patentList" class="patList">
+            <div id="awardList" class="patList">
                 <el-card v-for="o in declareInfo.otherInfo.award" class="box-card" :key="o">
                     <div id="delete" @click="removeItem(o,declareInfo.otherInfo.award)">
                         删除
@@ -258,13 +279,105 @@
         </el-form-item>
         <el-divider />
         <el-form-item label="项目成员">
-            
+            <el-col :span="5">
+                <el-input v-model="stuPhone" placeholder="输入手机号搜索">
+                <template #append>
+                    <el-button @click="searchStu(stuPhone)">搜索</el-button>
+                </template>
+                </el-input>
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="18" v-show="searchRShow">
+                <el-row class="row-bg">
+                <el-col :span="2">
+                    <span>姓名：</span>
+                </el-col>
+                <el-col :span="2">
+                    <span>{{ seachOutUserInfo.name }}</span>
+                </el-col>
+                <el-col :span="1"></el-col>
+                <el-col :span="2">
+                    <span>学院：</span>
+                </el-col>
+                <el-col :span="4">
+                    <span>{{ seachOutUserInfo.college }}</span>
+                </el-col>
+                <el-col :span="2">
+                <el-button type="warning" @click="addPatent(seachOutUserInfo,declareInfo.projectMember)">添加</el-button>
+                
+            </el-col>
+        </el-row>
+            </el-col>
+            <div id="memberList" class="patList">
+                <el-card v-for="o in declareInfo.projectMember" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.projectMember)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">真实姓名:</div>
+                        <div class="con">{{o.name}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">学院:</div>
+                        <div class="con">{{o.college}}</div>
+                    </div>
+                </el-card>
+            </div>
         </el-form-item>
         <el-form-item label="指导教师">
-            
+            <el-col :span="3">
+                <el-input v-model="teacher.name" placeholder="真实姓名" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="3">
+                <el-input v-model="teacher.phoneNumber" placeholder="手机号码" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="teacher.school" placeholder="工作单位" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="teacher.department" placeholder="所在部门" />
+            </el-col>
+            <el-col :span="1"></el-col>
+            <el-col :span="4">
+                <el-input v-model="teacher.pt" placeholder="导师职称" />
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" @click="addPatent(teacher,declareInfo.teacher)">添加</el-button>
+            </el-col>
+            <div id="teacherList" class="patList">
+                <el-card v-for="o in declareInfo.teacher" class="box-card" :key="o">
+                    <div id="delete" @click="removeItem(o,declareInfo.teacher)">
+                        删除
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">真实姓名:</div>
+                        <div class="con">{{o.name}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">手机号码:</div>
+                        <div class="con">{{o.phoneNumber}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">工作单位:</div>
+                        <div class="con">{{o.school}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">所在部门:</div>
+                        <div class="con">{{o.department}}</div>
+                    </div>
+                    <div class="cardLine">
+                        <div class="tit">导师职称:</div>
+                        <div class="con">{{o.pt}}</div>
+                    </div>
+
+                </el-card>
+            </div>
         </el-form-item>
         <el-divider />
-        <el-button type="primary">提交</el-button>
+        <el-button type="primary" @click="submit(declareInfo)">提交</el-button>
         <el-button type="primary">暂存</el-button>
     </el-form>
 </template>
@@ -291,6 +404,11 @@
     .tips{
         font-size: 13px;
         margin-left: 40px;
+    }
+    .addPaper{
+        .el-col{
+            margin-bottom: 20px;
+        }
     }
     .patList{
         display: flex;
@@ -328,13 +446,15 @@
 </style>
 <script setup>
 // import { routerPush } from "../../js/index";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import apiRequest from '../../../http'
 import errMsgPopup from "../../utils/errorHandle";
+import {routerBack} from '../../js/index'
 import cos from '../../../http/ossSts'
 // import COS from 'cos-js-sdk-v5';
 import { onMounted, reactive,ref } from "vue";
-const router = useRoute();
+const route = useRoute();
+const router = useRouter();
 const progress = reactive({
     bp: 0,
     ppt: 0,
@@ -349,7 +469,8 @@ const bpList = ref([])
 const pptList = ref([])
 const videoList = ref([])
 const projectInfo = reactive({})
-const userInfo = reactive({
+const searchRShow = ref(false)
+const seachOutUserInfo = reactive({
     name: "",
     grade: "",
     phoneNumber: "",
@@ -372,15 +493,25 @@ const patent = reactive({
 })
 const paper = reactive({
     name: "",
-    owner: "",
     publicationName: "",
-    level: ""
+    level: "",
+    firstAuthor: "",
+    otherAuthor: "",
+    date: ""
 })
 const award = reactive({
     awardLevel: "",
     awarder: "",
     date: ""
 })
+const teacher = reactive({
+    name: "",
+    phoneNumber: "",
+    school: "",
+    department: "",
+    pt: "" // 职称
+})
+const stuPhone = ref("")
 const declareInfo = reactive({
     projectName: "",
     projectSummary: "",
@@ -464,7 +595,7 @@ const uploadFilePpt = (params) => {
             }
         }
     }, function (err, data) {
-        declareInfo.attachmentList.bp = data.Location
+        declareInfo.attachmentList.ppt = data.Location
         if (err) {
             errMsgPopup.errorPopup('上传失败，请稍后再试')
         }
@@ -486,7 +617,7 @@ const uploadFileVideo = (params) => {
             }
         }
     }, function (err, data) {
-        declareInfo.attachmentList.bp = data.Location
+        declareInfo.attachmentList.video = data.Location
         if (err) {
             errMsgPopup.errorPopup('上传失败，请稍后再试')
         }
@@ -509,23 +640,53 @@ const getProjectInfo = async (id) => {
     }
 }
 const getUserInfo = async (uid) => {
+    if (!uid) {
+        errMsgPopup.errorPopup('请输出手机号')
+        return 
+    }
     const resp = await apiRequest({
         url: `/api/user/${uid}`,
         method: "get"
     })
     if (resp.status == '200') {
-        Object.assign(userInfo, resp.msg)
-        return
+        return resp.msg
     } else {
         errMsgPopup.generalPopUp(resp.msg)
         return
     }
 }
+const searchStu = async (uid)=>{
+    const resp = await getUserInfo(uid)
+    if(!resp){
+        errMsgPopup.errorPopup('没搜到信息，请确认用户是否注册或者检查手机号')
+        return  
+    }
+    if (resp.name) {
+        searchRShow.value=true
+        Object.assign(seachOutUserInfo,resp)
+    }else {
+        errMsgPopup.errorPopup('没搜到信息，请确认用户是否注册')
+        return 
+    }
+    
+}
+const submit = (declareInfo)=>{
+    console.log(declareInfo);
+}
 onMounted(async () => {
-    const id = router.query.id            // 项目id
+    const id = route.query.id            // 项目id
+    if (!id) {
+        errMsgPopup.errorPopup('未查询到项目编号，无法填写，请从申报列表点击进入')
+        setTimeout(() => {
+            routerBack(router)
+        }, 2000);
+        return 
+    }
     const uid = localStorage.getItem('uid')  // 当前用户信息
     await getProjectInfo(id)
-    await getUserInfo(uid)
+    console.log(projectInfo);
+    declareInfo.projectId = projectInfo._id
+    const userInfo = await getUserInfo(uid)
     declareInfo.createName = userInfo.name
     declareInfo.createStuId = userInfo.studentId
     declareInfo.createStuPhone = userInfo.phoneNumber

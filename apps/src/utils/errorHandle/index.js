@@ -27,7 +27,7 @@ const errMsgPopup = {
     registerError: (errMsg) => {
         ElMessage({
             showClose: true,
-            message: `Oops, ${errMsg}！`,
+            message: `Oops, ${errMsg}！`, 
             type: 'error',
             duration: "3000"
         })
