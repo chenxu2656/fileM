@@ -5,7 +5,7 @@
     </div>
     <el-divider />
     <el-form ref="formRef" :model="declareInfo" label-width="120px" label-position="left" require-asterisk-position="left"
-        :rules="profileRules" status-icon id="elFrom">
+         status-icon id="elFrom"> 
         <el-form-item label="申报人信息" prop="createName">
             <el-col :span="7">
                 <el-input v-model="declareInfo.createName" placeholder="姓名" />
@@ -33,10 +33,9 @@
                     action="#"
                     v-model:file-list="bpList"
                     :before-upload="handleBeforeUpload" 
-                    limit=1
+                    :limit=1
                     :on-exceed="handleExceed"
                     :http-request="uploadFileBp" 
-                    style="display: inline-block;"
                 >
                     <el-button type="primary">上传项目计划书</el-button>
                     <span class="tips"> (文件大小应小于20M) </span>
@@ -377,8 +376,8 @@
             </div>
         </el-form-item>
         <el-divider />
-        <el-button type="primary" @click="submit(declareInfo)">提交</el-button>
-        <el-button type="primary">暂存</el-button>
+        <el-button type="primary" @click="submit(declareInfo,'1')">提交</el-button>
+        <el-button type="primary" @click="submit(declareInfo,'0')">暂存</el-button>
     </el-form>
 </template>
 <style lang="scss" scoped>
@@ -449,7 +448,7 @@
 import { useRoute, useRouter } from "vue-router";
 import apiRequest from '../../../http'
 import errMsgPopup from "../../utils/errorHandle";
-import {routerBack} from '../../js/index'
+import {routerBack, routerPush} from '../../js/index'
 import cos from '../../../http/ossSts'
 // import COS from 'cos-js-sdk-v5';
 import { onMounted, reactive,ref } from "vue";
@@ -514,8 +513,9 @@ const teacher = reactive({
 const stuPhone = ref("")
 const declareInfo = reactive({
     projectName: "",
+    Grouping: "", // 分组
     projectSummary: "",
-    projectProgress: "",   // 项目进展
+    projectStage: "",   // 项目进展
     attachmentList: {
         bp: "",
         ppt: "",
@@ -533,6 +533,7 @@ const declareInfo = reactive({
     createId: "",
     projectId: "",
     projectMember: [],  //id
+    projectMemberId: [],
     teacher: [], //id
     status: 0  //0 暂存 // 提交
 })
@@ -542,7 +543,9 @@ const addPatent = (value,collection)=>{
     Object.keys(value).forEach(key => {
     value[key] = ''
     })
+
 }
+
 const removeItem = (item,collection)=>{
     const index = collection.findIndex(i => i.name === item.name);
     collection.splice(index,1)
@@ -562,7 +565,7 @@ const uploadFileBp = (params) => {
     cos.putObject({
         Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
         Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
-        Key: `fileM/${params.file.name}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Key: `fileM/${declareInfo.projectId}/${declareInfo.createName}-${declareInfo.projectName}-项目计划书.${params.file.name.split('.')[1]}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
         Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
         onProgress: function (progressData) {
             // 上传进度的回掉
@@ -584,7 +587,7 @@ const uploadFilePpt = (params) => {
     cos.putObject({
         Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
         Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
-        Key: `fileM/${params.file.name}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Key: `fileM/${declareInfo.projectId}/${declareInfo.createName}-${declareInfo.projectName}-ppt.${params.file.name.split('.')[1]}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
         Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
         onProgress: function (progressData) {
             // 上传进度的回掉
@@ -607,7 +610,7 @@ const uploadFileVideo = (params) => {
     cos.putObject({
         Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
         Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
-        Key: `fileM/${params.file.name}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Key: `fileM/${declareInfo.projectId}/${declareInfo.createName}-${declareInfo.projectName}-项目演示视频.${params.file.name.split('.')[1]}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
         Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
         onProgress: function (progressData) {
             progress.video = progressData.percent * 100
@@ -670,9 +673,24 @@ const searchStu = async (uid)=>{
     }
     
 }
-const submit = (declareInfo)=>{
-    console.log(declareInfo);
+const submit = async(declareInfo,status)=>{
+    declareInfo.status = status // 提交
+    const resp = await apiRequest({
+        url: "/api/declare/create",
+        method: 'post',
+        params: declareInfo
+    })
+    if (resp.status == '200') {
+        errMsgPopup.generalPopUp('申报成功，可以在申报记录中查看申报历史')
+        setTimeout(() => {
+            routerPush(router,'/stuAdmin')
+        }, 2000);
+    } else {
+        errMsgPopup.errorPopup('提交失败，请重新提交')
+    }
+    return resp
 }
+
 onMounted(async () => {
     const id = route.query.id            // 项目id
     if (!id) {
@@ -684,11 +702,11 @@ onMounted(async () => {
     }
     const uid = localStorage.getItem('uid')  // 当前用户信息
     await getProjectInfo(id)
-    console.log(projectInfo);
     declareInfo.projectId = projectInfo._id
     const userInfo = await getUserInfo(uid)
     declareInfo.createName = userInfo.name
     declareInfo.createStuId = userInfo.studentId
+    declareInfo.createId = userInfo._id
     declareInfo.createStuPhone = userInfo.phoneNumber
 })
 

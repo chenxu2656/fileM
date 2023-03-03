@@ -78,7 +78,7 @@ export const declarePro = {
         type: String,
         require: true
     },
-    projectProgress: {
+    Grouping: {
         type: String   //创意组 创业组 红旅组 等， 根据项目设定而定
     },
     projectSummary: {
@@ -101,16 +101,28 @@ export const declarePro = {
         }
     },
     projectId: {
-        type: Schema.Types.ObjectI
+        type: Schema.Types.ObjectId
+    },
+    createName: {
+        type: String  // 创建者
+    },
+    createStuId: {
+        type: String  // 学号
+    },
+    createStuPhone: {
+        type: String  // 创建者手机号
     },
     createId: {
         type: Schema.Types.ObjectId   // 创建者
     },
     projectMember: {
-        type: [Schema.Types.ObjectId]   // 项目成员
+        type: [{}]   // 项目成员
+    },
+    projectMemberId: {
+        type: [Schema.Types.ObjectId]  
     },
     teacher: {
-        type: [Schema.Types.ObjectId]   // 指导老师
+        type: [Object]   // 指导老师
     },
     otherInfo: {
         patent: {
@@ -126,6 +138,8 @@ export const declarePro = {
             type: [Object]
         }
 
+    },
+    status: {
+        type: String    // 草稿 正式发布
     }
-
 }

@@ -15,7 +15,7 @@ const createP = async(req,res)=>{
 const getProject = async(req,res)=>{
     const queryList = req.query
     let resp = await getProjectList(queryList)
-    
+    res.status(resp.status).json(resp)
 }
 const getProjectInfo = async(req,res)=>{
     const id = req.params.id

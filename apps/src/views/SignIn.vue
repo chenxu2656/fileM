@@ -64,7 +64,7 @@
 
 <script setup>
 // @ is an alias to /src
-import { reactive, ref } from 'vue'
+import { reactive, ref ,onMounted} from 'vue'
 import { useRouter } from "vue-router";
 import apiRequest from '../../http/index'
 import { phonNumberVerify } from '../../src/js'
@@ -189,7 +189,18 @@ const register = async (registerInfo) => {
 const switchSign = () => {
     login.value = !login.value
 }
+const getUserInfo = async(uid)=>{
+    const uinfo = await apiRequest({
+        url: `/api/user/${uid}`,
+        method: "get"
+    })
+    console.log(uinfo);
+    delete uinfo.msg.password
+    return JSON.stringify(uinfo.msg)
+}
+
 const signIn = async(signinInfo)=>{
+    
     const login = await apiRequest({
         method: 'post',
         url: '/api/user/login',
@@ -201,8 +212,10 @@ const signIn = async(signinInfo)=>{
     console.log(login.msg);
     if (login.status == 200) {
         localStorage.setItem('token',login.msg.token)
+        const uInfo = await getUserInfo(login.msg.uid)
+        console.log(uInfo);
         localStorage.setItem('uid',login.msg.uid)
-        localStorage.setItem('userName', login.msg.userName)
+        localStorage.setItem('uInfo',uInfo)
         router.push('/stuAdmin')
         errMsgPopup.generalPopUp('成功',1000)
         return true
@@ -210,6 +223,9 @@ const signIn = async(signinInfo)=>{
     errMsgPopup.errorPopup(login.msg)
     return false
 }
+onMounted(() => {
+    localStorage.clear()
+})
 </script>
 <style lang="scss" scoped>
 .home {

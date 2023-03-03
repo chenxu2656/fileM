@@ -40,7 +40,7 @@
         </router-view>
       </el-main>
     </el-container>
-    <el-footer>Footer</el-footer>
+    <!-- <el-footer>Footer</el-footer> -->
   </el-container>
 </template>
 <script setup>
@@ -180,11 +180,13 @@ const editP = ()=>{
 }
 
 .el-main {
-  height: 80vh;
+  height: calc(100vh);
+  background-color: #f2f2f2;
 }
 
-.el-footer {
-  border-top: 1px solid #dddfe5;
-  bottom: 0px;
-  height: 60px;
-}</style>
+// .el-footer {
+//   border-top: 1px solid #dddfe5;
+//   bottom: 0px;
+//   height: 60px;
+// }
+</style>

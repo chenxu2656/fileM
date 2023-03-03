@@ -1,4 +1,4 @@
-import {smsCode,userStructure,project} from './database/schema'
+import {smsCode,userStructure,project,declarePro} from './database/schema'
 import mongoose from 'mongoose'
 
 const smsSchema = new mongoose.Schema(smsCode,{
@@ -20,3 +20,9 @@ const projectSchema = new mongoose.Schema(project,{
 })
 
 export const projectModel = mongoose.model('project',projectSchema)
+
+const declareProSchema = new mongoose.Schema(declarePro,{
+    collection: 'declarePro'
+})
+
+export const declareProModel = mongoose.model('declarePro',declareProSchema)

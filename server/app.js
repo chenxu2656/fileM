@@ -14,6 +14,7 @@ import Sms from './routes/sms.js'
 import User from './routes/users'
 import Project from './routes/project'
 import sts from './routes/sts'
+import declare from './routes/declare'
 const app = express()
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -31,5 +32,6 @@ app.use('/api/sms', Sms);
 app.use('/api/user', User);
 app.use('/api/project', Project);
 app.use('/api/sts',sts)  
+app.use('/api/declare',declare)  
 app.listen(4000, console.log("application is start at port 4000"))
 

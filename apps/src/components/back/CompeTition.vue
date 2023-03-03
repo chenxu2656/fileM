@@ -114,6 +114,7 @@ const getProjectList = async () =>{
         methpd: "get",
         url: "/api/project/list",
     })
+    console.log(resp);
     if (resp.status == '200') {
         return resp.msg
     } 
