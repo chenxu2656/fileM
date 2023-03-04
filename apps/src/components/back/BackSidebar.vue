@@ -1,97 +1,128 @@
 <template>
-  <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-    <el-radio-button :label="false">expand</el-radio-button>
-    <el-radio-button :label="true">collapse</el-radio-button>
-  </el-radio-group> -->
-  <el-menu
-    :default-active="activePath"
-    class="el-menu-vertical-demo"
-    :collapse="isCollapse"
-    @select="handleUpdate"
-  >
-    <el-menu-item index="home" @click="routerPush(router, '/admin')">
-      <el-icon><img src="../../../public/images/icons/dashboard.svg" alt=""></el-icon>
-      <template #title>后台总览</template>
-    </el-menu-item>
-    <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/competition')">
-      <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
-      <template #title>比赛管理</template>
-    </el-menu-item>
-    <el-sub-menu index="article">
-      <template #title>
-        <el-icon><img src="../../../public/images/icons/blog.svg" alt=""></el-icon>
-        <span>博客管理</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item
-          index="createBlog"
-          @click="routerPush(router, '/admin/createBlog')"
-          >创建博客
-        </el-menu-item>
-        <el-menu-item
-          index="blogList"
-          @click="routerPush(router, '/admin/blogList')"
-          >博客管理</el-menu-item
-        >
-        <el-menu-item
-          index="folder"
-          @click="routerPush(router, '/admin/folder')"
-          >文件夹管理</el-menu-item
-        >
-        <el-menu-item
-          index="tags"
-          @click="routerPush(router, '/admin/tags')"
-          >标签管理</el-menu-item
-        >
-        <el-menu-item index="draft" @click="routerPush(router, '/admin/draft')"
-          >草稿箱</el-menu-item
-        >
-        <el-menu-item index="trash" @click="routerPush(router, '/admin/trash')"
-          >垃圾箱</el-menu-item
-        >
-        <!-- <el-menu-item
-          index="qiniuFile"
-          @click="routerPush(router, '/admin/qiniuFile')"
-          >七牛云</el-menu-item
-        > -->
-      </el-menu-item-group>
-    </el-sub-menu>
-    
-    <el-menu-item index="sysSetting" @click="routerPush(router, '/admin/sys')">
-      <el-icon><img src="../../../public/images/icons/setting.svg" alt=""></el-icon>
-      <template #title>系统设置</template>
-    </el-menu-item>
-  </el-menu>
+  <div id="container">
+    <div id="logo">
+      创新训练平台
+    </div>
+    <el-menu :default-active="activePath" class="el-menu-vertical-demo" :collapse="isCollapse" @select="handleUpdate">
+      <el-menu-item index="home" @click="routerPush(router, '/admin')">
+        <el-icon><img src="../../../public/images/icons/dashboard.svg" alt=""></el-icon>
+        <span class="tit">后台总览</span>
+      </el-menu-item>
+      <el-menu-item index="frontDesk" @click="routerPush(router, '/admin/competition')">
+        <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
+        <span class="tit">比赛管理</span>
+      </el-menu-item>
+      <el-sub-menu index="article">
+        <template #title>
+          <el-icon><img src="../../../public/images/icons/blog.svg" alt=""></el-icon>
+          <span class="tit">门户网站管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="createBlog" @click="routerPush(router, '/admin/createBlog')">
+            <span class="tit">发布新闻</span>
+          </el-menu-item>
+          <el-menu-item index="blogList" @click="routerPush(router, '/admin/blogList')">
+            <span class="tit">新闻管理</span></el-menu-item>
+          <el-menu-item index="folder" @click="routerPush(router, '/admin/folder')">
+            <span class="tit">文件夹管理</span></el-menu-item>
+          <el-menu-item index="tags" @click="routerPush(router, '/admin/tags')">
+            <span class="tit">导航管理</span></el-menu-item>
+          <el-menu-item index="draft" @click="routerPush(router, '/admin/draft')">
+            <span class="tit">草稿箱</span></el-menu-item>
+          <el-menu-item index="trash" @click="routerPush(router, '/admin/trash')">
+            <span class="tit">垃圾箱</span></el-menu-item>
+          <!-- <el-menu-item
+        index="qiniuFile"
+        @click="routerPush(router, '/admin/qiniuFile')"
+        >七牛云</el-menu-item
+      > -->
+        </el-menu-item-group>
+      </el-sub-menu>
+
+      <el-menu-item index="sysSetting" @click="routerPush(router, '/admin/sys')">
+        <el-icon><img src="../../../public/images/icons/setting.svg" alt=""></el-icon>
+        <span class="tit">系统设置</span>
+      </el-menu-item>
+    </el-menu>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { routerPush } from "../../js/index";
-import { useRouter,useRoute } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
 const route = useRoute()
 const isCollapse = ref(false);
 const activePath = ref("home");
 activePath.value = route.path.split('/admin/')[1] || 'home'
-const handleUpdate = (index)=>{
+const handleUpdate = (index) => {
   activePath.value = index
 }
 </script>
 
 <style lang="scss">
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+#container {
   height: 100%;
-}
-.el-sub-menu {
-  height: auto;
-  
-}
-.el-icon{
-    img{
-      width: 20px;
-      padding-right: 10px;
+  #logo {
+    width: 100%;
+    height: 100px;
+    background-color: #2f3d53;
+    border: none;
+    
+  }
+  .el-menu {
+    width: 100%;
+    border: none;
+    .tit {
+      color: #fff;
+      font-size: 16px;
+      font-family: system-ui, -apple-system;
+    }
+    .el-menu-item {
+      background-color: #3b4c63;
+      &:hover {
+        background-color: #45556b;
+      }
+    }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+      width: 200px;
+      height: 100%;
+    }
+    .el-sub-menu {
+      height: auto;
+      background-color: #3b4c63;
+      .el-sub-menu__title {
+        &:hover {
+          background-color: #45556b;
+        }
+        .el-sub-menu__icon-arrow {
+          color: #fff;
+        }
+      }
+      .el-menu-item-group {
+        margin-top: 0px;
+        .el-menu-item-group__title {
+          display: none;
+
+          &:hover {
+            background-color: #45556b;
+          }
+        }
+        .el-menu-item {
+          padding-left: 60px;
+          background-color: #2e3e52;
+          &:hover {
+            background-color: #45556b;
+          }
+        }
+      }
+    }
+    .el-icon {
+      img {
+        width: 20px;
+        padding-right: 20px;
+      }
     }
   }
-
-</style>
+}</style>

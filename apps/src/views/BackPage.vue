@@ -1,11 +1,19 @@
 <template>
     <el-container>
-      <el-header>
-        <div id="title" class="topbarCon">项目申报管理系统</div>
+      <el-aside class="el-aside"><BackSidebar/></el-aside>
+      <el-container id="con">
+        <el-header>
+        <!-- <div id="title" class="topbarCon">项目申报管理系统</div> -->
+        <el-breadcrumb :separator-icon="ArrowRight">
+    <div class="pageHeader">
+      <el-breadcrumb-item :to="{ path: '/admin' }">Home</el-breadcrumb-item>
+    <el-breadcrumb-item>promotion management</el-breadcrumb-item>
+    <el-breadcrumb-item>promotion list</el-breadcrumb-item>
+    <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
+    </div>
+  </el-breadcrumb>
         <!-- <div id="name" class="topbarCon">btfblog 后台管理系统</div> -->
       </el-header>
-      <el-container id="con">
-        <el-aside class="el-aside"><BackSidebar/></el-aside>
         <el-main class="el-main">
           <router-view></router-view
         ></el-main>
@@ -18,14 +26,38 @@
   // import { useRoute } from 'vue-router'
   </script>
   <style lang="scss" scoped>
+      .el-aside {
+    width: 13vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+    background-color: #3b4c63;
+  }
   
-  .el-header {
+  #con{
+    height: calc(100vh - 60px);
+    .el-header {
     border-bottom: 1px solid gainsboro;
-    background-color: #2d67bb;
+    background-color: #fff;
     display: flex;
     height: 60px;
     color: white;
     justify-content: space-between;
+    .el-breadcrumb{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .pageHeader{
+        .el-breadcrumb-item{
+          font-size: 14px;
+        }
+        
+      }
+    }
     .topbarCon {
       height: 100%;
       vertical-align: middle;
@@ -33,17 +65,6 @@
       align-items: center;
       font-size: 25px;
       font-weight: 700;
-    }
-  }
-  #con{
-    height: calc(100vh - 60px);
-    .el-aside {
-    width: 200px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    border-right: 1px solid #dddfe5;
-    &::-webkit-scrollbar{
-      display: none;
     }
   }
   }
