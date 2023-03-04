@@ -8,9 +8,8 @@
     <el-divider />
     <div id="itemList">
         <div class="projectList" v-for="project in projectList" :key="project._id"> 
-            <div class="actionTop"><img src="../../../public/images/icons/edit.svg" alt="编辑" srcset="" @click="editProject(project)"></div>
-            <div class="line">
-                <div class="lineT">项目名称: </div>
+            <div class="actionTop"><img src="../../../public/images/icons/edit.svg" alt="编辑"  srcset="" @click="editProject(project)"></div>
+            <div class="tit">
                 <div class="lineC">{{ project.projectName }}</div>
             </div>
             <div  class="line">
@@ -22,8 +21,8 @@
                 <div class="lineC">{{ project.eTime }}</div>
             </div>
             <div class="actionBottom">
-                <el-button type="success">文件提交</el-button>
-                <el-button type="warning">项目评审</el-button>
+                <el-button type="success" @click="editProject(project)">项目编辑</el-button>
+                <el-button type="warning">项目管理</el-button>
             </div>
         </div>
     </div>
@@ -68,10 +67,10 @@
         .projectList{
             margin: 10px 20px 10px 0px;
             width: 300px;
-            height: 140px;
-            background-color: #409EFF;
+            height: 240px;
+            background-color: #fff;
             font-size: 14px;
-            border-radius: 10px;
+            border-radius: 5px;
             .actionTop {
                 width: 100%;
                 text-align: right;
@@ -86,13 +85,11 @@
             .line {
                 display: flex;
                 .lineT {
-                    color: #fff;
                     width: 80px;
                     text-align: right;
                     padding-right: 20px;
                 }
                 .lineC{
-                    color: #fff;
                 }
             }
             .actionBottom{
