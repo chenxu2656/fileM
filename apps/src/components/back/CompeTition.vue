@@ -8,21 +8,24 @@
     <el-divider />
     <div id="itemList">
         <div class="projectList" v-for="project in projectList" :key="project._id"> 
-            <div class="actionTop"><img src="../../../public/images/icons/edit.svg" alt="编辑"  srcset="" @click="editProject(project)"></div>
+            <div id="operation">
+                <img src="../../../public/images/icons/editSquare.svg" alt="" srcset="" @click="editProject(project)">
+                <img src="../../../public/images/icons/delete.svg" alt="" srcset="">
+            </div>
             <div class="tit">
                 <div class="lineC">{{ project.projectName }}</div>
             </div>
+            <el-divider></el-divider>
             <div  class="line">
                 <div class="lineT">开始时间: </div>
-                <div class="lineC">{{ project.sTime }}</div>
+                <div class="lineC">{{ project.sTime.split('T')[0] }}</div>
             </div>
             <div  class="line">
-                <div class="lineT">结束时间: </div>
-                <div class="lineC">{{ project.eTime }}</div>
+                <div class="lineT">截止时间: </div>
+                <div class="lineC">{{ project.eTime.split('T')[0] }}</div>
             </div>
             <div class="actionBottom">
-                <el-button type="success" @click="editProject(project)">项目编辑</el-button>
-                <el-button type="warning">项目管理</el-button>
+                <el-button @click="editProject(project)">申报管理</el-button>
             </div>
         </div>
     </div>
@@ -62,12 +65,16 @@
     #itemList{
         display: flex;
         width: 80vw;
-        // justify-content: space-between;
+        margin: auto;
+        justify-content: center;
         flex-wrap: wrap;
         .projectList{
-            margin: 10px 20px 10px 0px;
-            width: 300px;
-            height: 240px;
+            align-self: flex-start;
+            
+            margin: 10px 10px 10px 0px;
+            width: 24%;
+            min-width: 250px;
+            height: 250px;
             background-color: #fff;
             font-size: 14px;
             border-radius: 5px;
@@ -82,18 +89,44 @@
                     cursor: pointer;
                 }
             }
+            #operation{
+                padding: 10px 20px;
+                text-align: right;
+                img {
+                    width: 30px;
+                    cursor: pointer;
+                }
+            }
+            .tit{
+                width: 100%;
+                height: auto;
+                display: flex;
+                font-size: 19px;
+                color: #4a69dd;
+                font-weight: 700;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .el-divider{
+                margin: 10px 0px;
+            }
             .line {
                 display: flex;
+                font-size: 17px;
+                justify-content: center;
+                padding: 5px 0px;
                 .lineT {
-                    width: 80px;
                     text-align: right;
                     padding-right: 20px;
                 }
-                .lineC{
-                }
             }
             .actionBottom{
-                    padding-top: 5px;
+                padding: 20px 20px;
+                display: flex;
+                justify-content: right;
+                .el-button{
+                 width: 60%;   
+                }
             }
                 
         }

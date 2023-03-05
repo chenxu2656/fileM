@@ -50,7 +50,7 @@
 <style lang="scss" scoped>
 #contain {
     width: 60vw;
-    margin-left: 10px;
+    margin: auto;
 }
 </style>
 <script  setup>
