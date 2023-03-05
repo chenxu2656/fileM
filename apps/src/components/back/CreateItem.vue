@@ -1,10 +1,15 @@
 <template>
     <div id="contain">
+        <div id="title">
+            <div class="title">创建项目</div>
+        </div>
+        <el-divider></el-divider>
         <el-form 
             ref="formRef"
             :model="projectInfo" 
             label-width="120px" 
             label-position="top" 
+            size="large"
             require-asterisk-position="right"
             :rules="projectInfoRules" 
             status-icon
@@ -49,8 +54,16 @@
 </template>
 <style lang="scss" scoped>
 #contain {
-    width: 60vw;
+    width: 70vw;
     margin: auto;
+    #title{
+        color: #323d51;
+        font-size: 30px;
+        font-weight: 700;
+    }
+    .el-divider{
+        background-color: white;
+    }
 }
 </style>
 <script  setup>
