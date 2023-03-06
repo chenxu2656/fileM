@@ -6,11 +6,13 @@ const SignIn = require('../src/views/SignIn.vue')
 const BackPage = require('../src/views/BackPage.vue')
 const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
+const DeclarationDetail = require('../src/components/back/DeclarationDetail.vue')
 const CreateItem = require('../src/components/back/CreateItem')
 
 const EditProfile = require('../src/components/backStu/EditProfile.vue')
 const ProjectList = require('../src/components/backStu/ProjectList.vue')
 const DeclarePro = require('../src/components/backStu/DeclarePro.vue') 
+
 const routes = [
     {
         path: "/",
@@ -36,7 +38,11 @@ const routes = [
         children: [
             {
                 path: 'competition',
-                components: CompeTition
+                components: CompeTition,
+            },
+            {
+                path: 'competition/detail',
+                components: DeclarationDetail
             },
             {
                 path: 'creatItem',

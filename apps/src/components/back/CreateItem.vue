@@ -142,6 +142,7 @@ onMounted(() => {
     let editInfo = localStorage.getItem('editInfo')  
                 ? JSON.parse(localStorage.getItem('editInfo'))
                 : {}
+
     if (editInfo._id) {
         Object.assign(projectInfo,editInfo)
         popMsg = "项目更新成功"

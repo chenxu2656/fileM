@@ -22,7 +22,7 @@
                 <div class="lineC">{{ project.eTime.split('T')[0] }}</div>
             </div>
             <div class="actionBottom">
-                <el-button @click="editProject(project)">项目管理</el-button>
+                <el-button @click="handleDetail(project)">项目管理</el-button>
             </div>
         </div>
     </div>
@@ -172,8 +172,15 @@ const handleDeleteItem = async(id)=>{
         errMsgPopup.errorPopup(`删除失败，${resp.msg}`)
     }
 }
+const handleDetail = (proInfo)=>{
+    const id = proInfo._id
+    localStorage.setItem('projectId',id)
+    routerPush(router,'/admin/competition/detail')
+}
 onMounted(async () => {
     projectList.value = await getProjectList()
+    localStorage.getItem('editInfo') && localStorage.removeItem('editInfo')
+    localStorage.getItem('projectId') && localStorage.removeItem('projectId')
 })
 
 </script>
