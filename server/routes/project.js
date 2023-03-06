@@ -1,5 +1,5 @@
 // 创建项目 
-import {createProject ,updateProject ,  getProjectList,getProjectDetail} from '../mongo/operation/project' 
+import {createProject ,updateProject ,  getProjectList,getProjectDetail,deleteProject} from '../mongo/operation/project' 
 const createP = async(req,res)=>{
     const reqBody = req.body
     let resp = {}
@@ -22,9 +22,15 @@ const getProjectInfo = async(req,res)=>{
     let resp = await getProjectDetail(id)
     res.status(resp.status).json(resp)
 }
+const deletePro = async(req,res)=>{
+    const id = req.body.id
+    let resp = await deleteProject(id)
+    res.status(resp.status).json(resp)
+}
 var express = require('express');
 const router = express.Router();
 router.post('/create',createP)
 router.get('/list',getProject)
 router.get('/detail/:id',getProjectInfo)
+router.post('/delete',deletePro)
 export default router

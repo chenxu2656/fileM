@@ -32,7 +32,9 @@ import BackSidebar from '@/components/back/BackSidebar.vue';
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-
+  @media screen and (max-width: 600px) {
+           display: none;
+        }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -42,7 +44,9 @@ import BackSidebar from '@/components/back/BackSidebar.vue';
 
 #con {
   height: calc(100vh - 60px);
-
+  @media screen and (max-width: 600px) {
+           width: 100vw;
+        }
   .el-header {
     border-bottom: 1px solid gainsboro;
     display: flex;

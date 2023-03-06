@@ -1,16 +1,13 @@
 <template>
     <div id="createItem">
-        <div id="create">
-           <img src="../../../public/images/icons/create.png" alt="" srcset="">
-           <div id="tit" @click="routerPush(router, '/admin/creatItem')">创建项目</div>
-        </div> 
+        <el-button type="primary" @click="routerPush(router, '/admin/creatItem')">创建项目</el-button>
     </div>
-    <el-divider />
+    <!-- <el-divider /> -->
     <div id="itemList">
         <div class="projectList" v-for="project in projectList" :key="project._id"> 
             <div id="operation">
                 <img src="../../../public/images/icons/editSquare.svg" alt="" srcset="" @click="editProject(project)">
-                <img src="../../../public/images/icons/delete.svg" alt="" srcset="">
+                <img src="../../../public/images/icons/delete.svg" alt="" srcset="" @click="deleteItem(project)">
             </div>
             <div class="tit">
                 <div class="lineC">{{ project.projectName }}</div>
@@ -25,55 +22,53 @@
                 <div class="lineC">{{ project.eTime.split('T')[0] }}</div>
             </div>
             <div class="actionBottom">
-                <el-button @click="editProject(project)">申报管理</el-button>
+                <el-button @click="editProject(project)">项目管理</el-button>
             </div>
         </div>
     </div>
+    <el-dialog
+    v-model="dialogVisible"
+    title="删除项目"
+    width="30%"
+    :before-close="handleClose"
+  >
+    <span>项目删除后无法恢复，关联的比赛文件会自动失效，确认删除？</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handleDeleteItem(projectId)">
+          Confirm
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 <style lang="scss" scoped>
     #createItem {
-        height: 120px;
+        width: 80vw;
+        margin: 20px auto ;
         cursor: pointer;
-        #create {
-            width: 300px;
-            height: 100px;
-            top: 15px;
-            background-color: #0aa344;
-            border-radius: 10px;
-            img {
-                display: inline-block;
-                height: 60px;
-                margin-top: 20px;
-                vertical-align: top;
-                margin-left: 10px;
-                
-            }
-            #tit {
-                display: inline-block;
-                height: 60px;
-                margin-top: 20px;
-                vertical-align: top;
-                line-height: 60px;
-                font-size: 30px;
-                font-family: "songti";
-                margin-left: 20px;
-                color: #fff;
-            }
-          
-        }
+        text-align: left;
+        padding: 0 10px;
+        
     }
     #itemList{
         display: flex;
         width: 80vw;
         margin: auto;
-        justify-content: center;
+        @media screen and (max-width: 600px) {
+           justify-content: center;
+        }
+        // justify-content: center;
         flex-wrap: wrap;
         .projectList{
             align-self: flex-start;
-            
             margin: 10px 10px 10px 0px;
             width: 24%;
-            min-width: 250px;
+            min-width: 270px;
+            @media screen and (max-width: 600px) {
+                min-width: 400px;
+            }
             height: 250px;
             background-color: #fff;
             font-size: 14px;
@@ -93,7 +88,7 @@
                 padding: 10px 20px;
                 text-align: right;
                 img {
-                    width: 30px;
+                    width: 25px;
                     cursor: pointer;
                 }
             }
@@ -137,23 +132,45 @@ import { routerPush } from "../../js/index";
 import { useRouter } from "vue-router";
 import apiRequest from '../../../http'
 import { ref , onMounted} from "vue";
+import errMsgPopup from "@/utils/errorHandle";
+// import errMsgPopup from "@/utils/errorHandle";
 const router = useRouter();
 const projectList = ref("")
+let dialogVisible = ref(false)
+let projectId = ref("")
 const getProjectList = async () =>{
     const resp = await apiRequest({
         methpd: "get",
         url: "/api/project/list",
     })
-    console.log(resp);
     if (resp.status == '200') {
         return resp.msg
     } 
     return []
 }
 const editProject = (project)=>{
-    console.log(project);
     localStorage.setItem('editInfo',JSON.stringify(project))
     routerPush(router, '/admin/creatItem')
+}
+const deleteItem = async (project)=>{
+    dialogVisible.value = true
+    projectId.value = project._id
+}
+const handleDeleteItem = async(id)=>{
+    dialogVisible.value = false
+    const resp = await apiRequest({
+        url: "/api/project/delete",
+        method: 'post',
+        params: {
+            id: id
+        }
+    })
+    if (resp.status == 200) {
+        errMsgPopup.generalPopUp('删除成功')
+        projectList.value = projectList.value.filter(item=>item._id != id)
+    } else {
+        errMsgPopup.errorPopup(`删除失败，${resp.msg}`)
+    }
 }
 onMounted(async () => {
     projectList.value = await getProjectList()

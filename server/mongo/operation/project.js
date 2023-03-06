@@ -75,9 +75,27 @@ const getProjectDetail = async(id)=>{
         return resp
     }
 }
+const deleteProject = async(id)=>{
+    if (!id) {
+        let resp = errorCode.errNodefine
+        resp.msg = 'id是空的'
+        return resp
+    }
+    try {
+        let responseInfo =  await projectModel.findOneAndDelete({id: id})
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
 export {
     createProject,
     getProjectList,
     updateProject,
-    getProjectDetail
+    getProjectDetail,
+    deleteProject
 }
