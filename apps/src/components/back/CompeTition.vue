@@ -73,6 +73,7 @@
             background-color: #fff;
             font-size: 14px;
             border-radius: 5px;
+            padding-bottom: 20px;
             .actionTop {
                 width: 100%;
                 text-align: right;
@@ -93,8 +94,10 @@
                 }
             }
             .tit{
-                width: 100%;
+                width: 90%;
                 height: auto;
+                margin: 0px 5%;
+                
                 display: flex;
                 font-size: 19px;
                 color: #4a69dd;
@@ -175,7 +178,7 @@ const handleDeleteItem = async(id)=>{
 const handleDetail = (proInfo)=>{
     const id = proInfo._id
     localStorage.setItem('projectId',id)
-    routerPush(router,'/admin/competition/detail')
+    routerPush(router,'/admin/competition/declarelist')
 }
 onMounted(async () => {
     projectList.value = await getProjectList()

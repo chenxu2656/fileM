@@ -6,7 +6,7 @@
     <el-container id="con">
       <el-header>
         <!-- <div id="title" class="topbarCon">项目申报管理系统</div> -->
-        <el-breadcrumb :separator-icon="ArrowRight">
+        <el-breadcrumb separator="/">
           <div class="pageHeader">
             <el-breadcrumb-item :to="{ path: '/admin' }">Home</el-breadcrumb-item>
             <el-breadcrumb-item>promotion management</el-breadcrumb-item>

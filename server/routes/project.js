@@ -1,5 +1,5 @@
 // 创建项目 
-import {createProject ,updateProject ,  getProjectList,getProjectDetail,deleteProject} from '../mongo/operation/project' 
+import {createProject ,updateProject , getProjectList,getProjectDetail,deleteProject,getFiles} from '../mongo/operation/project' 
 const createP = async(req,res)=>{
     const reqBody = req.body
     let resp = {}
@@ -27,10 +27,16 @@ const deletePro = async(req,res)=>{
     let resp = await deleteProject(id)
     res.status(resp.status).json(resp)
 }
+const getFileList = async(req,res)=>{
+    const id = req.query.id
+    let resp = await getFiles(id)
+    res.status(resp.status).json(resp)
+}
 var express = require('express');
 const router = express.Router();
 router.post('/create',createP)
 router.get('/list',getProject)
 router.get('/detail/:id',getProjectInfo)
+router.get('/fileList',getFileList)   // 获取当前项目下 的申报文件
 router.post('/delete',deletePro)
 export default router

@@ -8,7 +8,7 @@ const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
 const DeclarationDetail = require('../src/components/back/DeclarationDetail.vue')
 const CreateItem = require('../src/components/back/CreateItem')
-
+const DeclareInfo = require('../src/components/back/DeclareInfo.vue')
 const EditProfile = require('../src/components/backStu/EditProfile.vue')
 const ProjectList = require('../src/components/backStu/ProjectList.vue')
 const DeclarePro = require('../src/components/backStu/DeclarePro.vue') 
@@ -41,8 +41,12 @@ const routes = [
                 components: CompeTition,
             },
             {
-                path: 'competition/detail',
+                path: 'competition/declarelist',
                 components: DeclarationDetail
+            },
+            {
+                path: 'competition/declarelist/detail',
+                components: DeclareInfo
             },
             {
                 path: 'creatItem',

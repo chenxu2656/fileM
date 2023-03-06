@@ -19,9 +19,17 @@ var StuBackPage = require('../src/views/StuBackPage.vue');
 
 var CompeTition = require('../src/components/back/CompeTition.vue');
 
+var DeclarationDetail = require('../src/components/back/DeclarationDetail.vue');
+
 var CreateItem = require('../src/components/back/CreateItem');
 
+var DeclareInfo = require('../src/components/back/DeclareInfo.vue');
+
 var EditProfile = require('../src/components/backStu/EditProfile.vue');
+
+var ProjectList = require('../src/components/backStu/ProjectList.vue');
+
+var DeclarePro = require('../src/components/backStu/DeclarePro.vue');
 
 var routes = [{
   path: "/",
@@ -43,6 +51,12 @@ var routes = [{
     path: 'competition',
     components: CompeTition
   }, {
+    path: 'competition/declarelist',
+    components: DeclarationDetail
+  }, {
+    path: 'competition/declarelist/detail',
+    components: DeclareInfo
+  }, {
     path: 'creatItem',
     components: CreateItem
   }]
@@ -50,6 +64,12 @@ var routes = [{
   path: '/stuAdmin',
   components: StuBackPage,
   children: [{
+    path: "",
+    components: ProjectList
+  }, {
+    path: "upload",
+    components: DeclarePro
+  }, {
     path: "editp",
     components: EditProfile
   }]
