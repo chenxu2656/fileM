@@ -1,6 +1,6 @@
 <template>
     <el-divider />
-    <el-form ref="formRef" :model="declareInfo" label-width="120px" label-position="left" require-asterisk-position="left"
+    <el-form ref="formRef" :model="declareInfo" label-width="120px" label-position="top" require-asterisk-position="left"
          status-icon id="elFrom"> 
         <el-form-item label="申报人信息" prop="createName">
             <el-col :span="7">
@@ -21,18 +21,25 @@
         <el-form-item label="项目概述" prop="projectSummary">
             <el-input v-model="declareInfo.projectSummary" type="textarea" maxlength="500" :rows="6" show-word-limit />
         </el-form-item>
-
+            <div></div>
         <el-divider />
-        <el-form-item label="项目计划书" prop="projectName" @click="getFileInfo(declareInfo.attachmentList.bp)">
-            <div id="bp" class="show">
-                {{declareInfo.attachmentList.bp}}
+        <el-form-item label="项目计划书" prop="projectName" v-show="!!declareInfo.attachmentList.bp">
+            <div id="bp" class="show" @click="getFileInfo(declareInfo.attachmentList.bp)">
+                <img src="../../../public/images/icons/pdf.svg" alt="">
+                <span>项目计划书.pdf</span>
             </div>
         </el-form-item>
-        <el-form-item label="项目展示ppt" prop="projectSummary">
-            <div id="ppt" class="show"></div>
+        <el-form-item label="项目展示ppt" prop="projectSummary" v-show="!!declareInfo.attachmentList.ppt">
+            <div id="ppt" class="show" @click="getFileInfo(declareInfo.attachmentList.ppt)">
+                <img src="../../../public/images/icons/pdf.svg" alt="">
+                <span>项目演示ppt</span>
+            </div>
         </el-form-item>
-        <el-form-item label="项目展示视频" prop="projectSummary">
-            <div id="bp" class="video"></div>
+        <el-form-item label="项目展示视频" prop="projectSummary" v-show="!!declareInfo.attachmentList.video">
+            <div id="video" class="show" @click="getFileInfo(declareInfo.attachmentList.video)">
+                <img src="../../../public/images/icons/pdf.svg" alt="">
+                <span>项目演示视频</span>
+            </div>
         </el-form-item>
         <el-divider />
         <el-form-item label="专利">
@@ -191,7 +198,6 @@
 .el-form {
     width: 70vw;
     margin: auto;
-
     .el-form-item>.el-form-item__label {
         font-size: 400px !important;
     }
@@ -202,6 +208,28 @@
     .addPaper{
         .el-col{
             margin-bottom: 20px;
+        }
+    }
+    .show{
+        height: 80px;
+        width: 200px;
+        border: 1px solid #fff;
+        background-color: #fff;
+        border-radius: 5px;
+        display: flex;
+        margin: 20px 30px;
+        cursor: pointer;
+        justify-content: space-around;
+        img {
+            height: 50px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        span{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
         }
     }
     .patList{
