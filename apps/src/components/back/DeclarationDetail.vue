@@ -69,9 +69,11 @@ const filterTableData = computed(() =>
 )
 const handleDetail = (data)=>{
     routerPush(router,'/admin/competition/declarelist/detail')
+    localStorage.setItem('detailInfo',JSON.stringify(data))
     console.log(data);
 }
 onMounted(async () => {
+    localStorage.getItem('detailInfo') && localStorage.removeItem('detailInfo')
     const projId = localStorage.getItem('projectId')
     declareList.value = await getDeclareList(projId)
 })

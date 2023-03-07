@@ -576,6 +576,7 @@ const uploadFileBp = (params) => {
             }
         }
     }, function (err, data) {
+        console.log(data.Location);
         declareInfo.attachmentList.bp = data.Location
         if (err) {
             errMsgPopup.errorPopup('上传失败，请稍后再试')

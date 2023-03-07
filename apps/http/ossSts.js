@@ -8,7 +8,6 @@ const cos = new COS({
         // 服务端 JS 和 PHP 例子：https://github.com/tencentyun/cos-js-sdk-v5/blob/master/server/
         // 服务端其他语言参考 COS STS SDK ：https://github.com/tencentyun/qcloud-cos-sts-sdk
         // STS 详细文档指引看：https://cloud.tencent.com/document/product/436/14048
-
         var url = '/api/sts'; // url 替换成您自己的后端服务
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
