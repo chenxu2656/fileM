@@ -99,7 +99,7 @@
                 margin: 0px 5%;
                 
                 display: flex;
-                font-size: 19px;
+                font-size: 17px;
                 color: #4a69dd;
                 font-weight: 700;
                 flex-direction: column;

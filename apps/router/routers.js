@@ -8,11 +8,15 @@ const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
 const DeclarationDetail = require('../src/components/back/DeclarationDetail.vue')
 const CreateItem = require('../src/components/back/CreateItem')
-const DeclareInfo = require('../src/components/back/DeclareInfo.vue')
+
 const EditProfile = require('../src/components/backStu/EditProfile.vue')
 const ProjectList = require('../src/components/backStu/ProjectList.vue')
 const DeclarePro = require('../src/components/backStu/DeclarePro.vue') 
+const DeclareInfo = require('../src/components/back/DeclareInfo.vue')
 
+const StuAccount = require('../src/components/back/StuAccount.vue')
+const AdminAccount = require('../src/components/back/AdminAccount.vue')
+const JudgeAccount = require('../src/components/back/JudgeAccount.vue')
 const routes = [
     {
         path: "/",
@@ -36,6 +40,18 @@ const routes = [
         path: '/admin',
         components: BackPage,
         children: [
+            {
+                path: 'account/admin',
+                components: AdminAccount
+            },
+            {
+                path: 'account/stu',
+                components: StuAccount
+            },
+            {
+                path: 'account/judge',
+                components: JudgeAccount
+            },
             {
                 path: 'competition',
                 components: CompeTition,

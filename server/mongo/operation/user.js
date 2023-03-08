@@ -1,4 +1,4 @@
-import { userModel } from "..";
+import { userModel,adminModel,judgeModel } from "..";
 import errorCode from '../../errorhandle/errorCode'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
@@ -15,6 +15,51 @@ const createUser = async(userInfo)=>{
             role: userInfo.role,
             grade: userInfo.grade,
             college: userInfo.college
+        })
+        let successInfo = errorCode.Success
+        successInfo.msg = user
+        return successInfo
+    }
+    catch(err){
+        if (err.code == 11000) {
+            return errorCode.SignInfoRepeat
+        }else {
+            return errorCode.SignInfoFail
+        }
+    }
+}
+const createAdminAccount = async (userInfo)=>{
+    const saltRounds = 10;
+    let salt =  await bcrypt.genSalt(saltRounds)
+    let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+    try {
+        const user = await judgeModel.create({
+            userName: userInfo.userName,
+            phoneNumber: userInfo.phoneNumber,
+            password: pwBcrypt,
+        })
+        let successInfo = errorCode.Success
+        successInfo.msg = user
+        return successInfo
+    }
+    catch(err){
+        if (err.code == 11000) {
+            return errorCode.SignInfoRepeat
+        }else {
+            return errorCode.SignInfoFail
+        }
+    }
+}
+const createJudgeAccount = async (userInfo)=>{
+    const saltRounds = 10;
+    let salt =  await bcrypt.genSalt(saltRounds)
+    let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+    try {
+        const user = await adminModel.create({
+            userName: userInfo.userName,
+            phoneNumber: userInfo.phoneNumber,
+            password: pwBcrypt,
+            roleId: userInfo.roleId
         })
         let successInfo = errorCode.Success
         successInfo.msg = user
@@ -109,5 +154,7 @@ export {
     createUser,
     createCrddential,
     updateProfile,
-    getProfile
+    getProfile,
+    createAdminAccount,
+    createJudgeAccount
 }

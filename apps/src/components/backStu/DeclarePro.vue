@@ -396,7 +396,6 @@
 .el-form {
     width: 70vw;
     margin: auto;
-
     .el-form-item>.el-form-item__label {
         font-size: 400px !important;
     }

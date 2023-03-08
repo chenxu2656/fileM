@@ -49,6 +49,42 @@ export const smsCode = {
         require: true
     }
 } 
+export const AdminAccount = {
+    userName: {
+        type: String,
+        require: true
+    },
+    phoneNumber: {
+        type: String,
+        require: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        require: true
+    },
+    roleId: {
+        type: Schema.Types.ObjectId 
+    }
+} 
+export const JudgeAccount = {
+    userName: {
+        type: String,
+        require: true
+    },
+    phoneNumber: {
+        type: String,
+        require: true
+    },
+    loginName: {
+        type: String,
+        require: true
+    },
+    password: {
+        type: String,
+        require: true
+    }
+} 
 export const project = {
     projectName: {
         type: String,

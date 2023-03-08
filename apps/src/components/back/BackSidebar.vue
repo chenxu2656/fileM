@@ -12,6 +12,26 @@
         <el-icon><img src="../../../public/images/icons/frontend.svg" alt=""></el-icon>
         <span class="tit">比赛管理</span>
       </el-menu-item>
+      <el-sub-menu index="account">
+        <template #title>
+          <el-icon><img src="../../../public/images/icons/user.svg" alt=""></el-icon>
+          <span class="tit">账户管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="admin" @click="routerPush(router, '/admin/account/admin')">
+            <span class="tit">管理员账户</span>
+          </el-menu-item>
+          <el-menu-item index="stu" @click="routerPush(router, '/admin/account/stu')">
+            <span class="tit">评审老师账户</span></el-menu-item>
+          <el-menu-item index="judge" @click="routerPush(router, '/admin/account/judge')">
+            <span class="tit">学生账户</span></el-menu-item>
+          <!-- <el-menu-item
+        index="qiniuFile"
+        @click="routerPush(router, '/admin/qiniuFile')"
+        >七牛云</el-menu-item
+      > -->
+        </el-menu-item-group>
+      </el-sub-menu>
       <el-sub-menu index="article">
         <template #title>
           <el-icon><img src="../../../public/images/icons/blog.svg" alt=""></el-icon>

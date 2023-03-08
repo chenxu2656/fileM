@@ -23,13 +23,19 @@ var DeclarationDetail = require('../src/components/back/DeclarationDetail.vue');
 
 var CreateItem = require('../src/components/back/CreateItem');
 
-var DeclareInfo = require('../src/components/back/DeclareInfo.vue');
-
 var EditProfile = require('../src/components/backStu/EditProfile.vue');
 
 var ProjectList = require('../src/components/backStu/ProjectList.vue');
 
 var DeclarePro = require('../src/components/backStu/DeclarePro.vue');
+
+var DeclareInfo = require('../src/components/back/DeclareInfo.vue');
+
+var StuAccount = require('../src/components/back/StuAccount.vue');
+
+var AdminAccount = require('../src/components/back/AdminAccount.vue');
+
+var JudgeAccount = require('../src/components/back/JudgeAccount.vue');
 
 var routes = [{
   path: "/",
@@ -48,6 +54,15 @@ var routes = [{
   path: '/admin',
   components: BackPage,
   children: [{
+    path: 'account/admin',
+    components: AdminAccount
+  }, {
+    path: 'account/stu',
+    components: StuAccount
+  }, {
+    path: 'account/judge',
+    components: JudgeAccount
+  }, {
     path: 'competition',
     components: CompeTition
   }, {
