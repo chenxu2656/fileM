@@ -59,6 +59,23 @@
 }
 </style>
 <script setup>
-import { ref } from 'vue'
-let accountList = ref('')
+import { ref,onMounted } from 'vue'
+import  apiRequest  from "../../../http";
+const accountList = ref('')
+const getUserList = async()=>{
+    const resp = await apiRequest({
+        url: "/api/user",
+        method: 'get',
+        params: {
+            type: 'admin'
+        }
+    })
+    if (resp.status == 200) {
+    } else {
+    }
+}
+onMounted(async() => {
+    await getUserList()
+})
+
 </script>

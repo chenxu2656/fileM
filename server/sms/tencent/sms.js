@@ -3,6 +3,7 @@ const smsClient = tencentcloud.sms.v20210111.Client
 import errorCode from "../../errorhandle/errorCode"
 import { storeSmsCode, GetCodeByPhoneNumber } from "../../mongo/operation/sms"
 import { config } from "../../config"
+console.log(config);
 const {
   timeStampSecond,
   randomVerificationCode

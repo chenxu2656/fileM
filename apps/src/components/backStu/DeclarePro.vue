@@ -648,7 +648,7 @@ const getUserInfo = async (uid) => {
         return 
     }
     const resp = await apiRequest({
-        url: `/api/user/${uid}`,
+        url: `/api/user/userInfo/${uid}`,
         method: "get"
     })
     if (resp.status == '200') {

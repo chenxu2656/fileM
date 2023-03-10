@@ -59,12 +59,14 @@ export const AdminAccount = {
         require: true,
         unique: true
     },
+    loginName: {
+        type: String,
+        require: true,
+        unique: true
+    },
     password: {
         type: String,
         require: true
-    },
-    roleId: {
-        type: Schema.Types.ObjectId 
     }
 } 
 export const JudgeAccount = {
@@ -78,7 +80,8 @@ export const JudgeAccount = {
     },
     loginName: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     password: {
         type: String,

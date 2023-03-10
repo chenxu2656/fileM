@@ -191,7 +191,7 @@ const switchSign = () => {
 }
 const getUserInfo = async(uid)=>{
     const uinfo = await apiRequest({
-        url: `/api/user/${uid}`,
+        url: `/api/user/userInfo${uid}`,
         method: "get"
     })
     console.log(uinfo);

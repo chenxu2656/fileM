@@ -99,7 +99,7 @@ let profile = reactive({
 })
 const getProfile = async(uid) => {
     apiRequest({
-        url: `/api/user/${uid}`,
+        url: `/api/user/userInfo/${uid}`,
         method: "get"
     }).then((resp) => {
         if (resp.status == 200) {

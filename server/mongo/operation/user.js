@@ -28,7 +28,7 @@ const createUser = async(userInfo)=>{
         }
     }
 }
-const createAdminAccount = async (userInfo)=>{
+const createJudgeAccount = async (userInfo)=>{
     const saltRounds = 10;
     let salt =  await bcrypt.genSalt(saltRounds)
     let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
@@ -36,6 +36,7 @@ const createAdminAccount = async (userInfo)=>{
         const user = await judgeModel.create({
             userName: userInfo.userName,
             phoneNumber: userInfo.phoneNumber,
+            loginName: userInfo.loginName,
             password: pwBcrypt,
         })
         let successInfo = errorCode.Success
@@ -44,13 +45,13 @@ const createAdminAccount = async (userInfo)=>{
     }
     catch(err){
         if (err.code == 11000) {
-            return errorCode.SignInfoRepeat
+            return errorCode.loginNameRepeat
         }else {
             return errorCode.SignInfoFail
         }
     }
 }
-const createJudgeAccount = async (userInfo)=>{
+const createAdminAccount = async (userInfo)=>{
     const saltRounds = 10;
     let salt =  await bcrypt.genSalt(saltRounds)
     let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
@@ -59,7 +60,7 @@ const createJudgeAccount = async (userInfo)=>{
             userName: userInfo.userName,
             phoneNumber: userInfo.phoneNumber,
             password: pwBcrypt,
-            roleId: userInfo.roleId
+            loginName: userInfo.loginName,
         })
         let successInfo = errorCode.Success
         successInfo.msg = user
@@ -67,8 +68,9 @@ const createJudgeAccount = async (userInfo)=>{
     }
     catch(err){
         if (err.code == 11000) {
-            return errorCode.SignInfoRepeat
+            return errorCode.loginNameRepeat
         }else {
+            console.log(err);
             return errorCode.SignInfoFail
         }
     }
@@ -150,11 +152,57 @@ const getProfile = async(uid)=>{
         return resp
     }
 }
+const getUserList = async(query)=>{
+    const page = query.page  // 页码
+    const count = query.page //每一的条数
+    try {
+        const getResp = await userModel.find()
+        console.log(getResp);
+        let resp = errorCode.Success
+        resp.msg = getResp
+        return resp
+    }catch (err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+const getAdminList = async(query)=>{
+    const page = query.page && 0  // 页码
+    const count = query.page && 20 //每一的条数
+    try {
+        const getResp = await adminModel.find()
+        let resp = errorCode.Success
+        resp.msg = getResp
+        return resp
+    }catch (err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+const getJudgeList = async(query)=>{
+    const page = query.page  // 页码
+    const count = query.page //每一的条数
+    try {
+        const getResp = await judgeModel.find()
+        let resp = errorCode.Success
+        resp.msg = getResp
+        return resp
+    }catch (err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
 export {
     createUser,
     createCrddential,
     updateProfile,
     getProfile,
     createAdminAccount,
-    createJudgeAccount
+    createJudgeAccount,
+    getUserList,
+    getAdminList,
+    getJudgeList
 }

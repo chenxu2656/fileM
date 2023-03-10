@@ -11,6 +11,10 @@ export default  {
         status: 410,
         msg: "手机号或者学号已被注册"
     },
+    loginNameRepeat: {
+        status: 410,
+        msg: "登录名重复"
+    },
     SignInfoFail: {
         status: 411,
         msg: "未知错误，请稍后再试"

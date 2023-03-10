@@ -30,4 +30,10 @@ const declareProSchema = new mongoose.Schema(declarePro,{
 })
 
 export const declareProModel = mongoose.model('declarePro',declareProSchema)
+// adminSchema.add({
+//     loginName: "String"
+// })
+// adminSchema.add({
+//     loginName: "String"
+// })
 

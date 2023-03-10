@@ -1,6 +1,6 @@
 const config = {
-    secretId: process.env.OSS_SID,
-    secretKey: process.env.OSS_SKEY
+    secretId: 'AKIDVotlNimZ5LK3WDczHLJQL1UlmhRxDE3j',
+    secretKey: 'YsypWyA8whHew67tQkqoZ5NQEn8E9rLb'
 }
 export {
     config
