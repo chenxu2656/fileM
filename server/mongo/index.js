@@ -1,6 +1,9 @@
-import {smsCode,userStructure,project,declarePro,AdminAccount,JudgeAccount} from './database/schema'
+import {smsCode,userStructure,project,declarePro,AdminAccount,JudgeAccount, institute} from './database/schema'
 import mongoose from 'mongoose'
-
+const instituteSchema =  mongoose.Schema(institute,{
+    collection: 'institute'
+})
+export const instituteModel = mongoose.model('institute',instituteSchema)
 const smsSchema = new mongoose.Schema(smsCode,{
     collection: 'sms'
 })

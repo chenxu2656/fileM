@@ -17,6 +17,8 @@ const DeclareInfo = require('../src/components/back/DeclareInfo.vue')
 const StuAccount = require('../src/components/back/StuAccount.vue')
 const AdminAccount = require('../src/components/back/AdminAccount.vue')
 const JudgeAccount = require('../src/components/back/JudgeAccount.vue')
+
+const InstituteManagement = require('../src/components/back/InstituteManagement')
 const routes = [
     {
         path: "/",
@@ -51,6 +53,10 @@ const routes = [
             {
                 path: 'account/judge',
                 components: JudgeAccount
+            },
+            {
+                path: 'account/institute',
+                components: InstituteManagement
             },
             {
                 path: 'competition',

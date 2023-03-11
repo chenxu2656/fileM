@@ -112,6 +112,14 @@ export const project = {
       type: String  
     }
 } 
+export const institute = {
+    name: {
+        type: String,
+        require: true,
+        unique: true
+    }
+}
+
 export const declarePro = {
     projectName: {
         type: String,
@@ -182,3 +190,7 @@ export const declarePro = {
         type: String    // 草稿 正式发布
     }
 }
+
+
+
+

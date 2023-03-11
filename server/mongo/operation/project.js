@@ -84,7 +84,7 @@ const deleteProject = async(id)=>{
         return resp
     }
     try {
-        let responseInfo =  await projectModel.findOneAndDelete({id: id})
+        let responseInfo =  await projectModel.findOneAndDelete({_id: id})
         let resp = errorCode.Success
         resp.msg = responseInfo
         return resp

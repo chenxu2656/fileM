@@ -3,7 +3,6 @@ const smsClient = tencentcloud.sms.v20210111.Client
 import errorCode from "../../errorhandle/errorCode"
 import { storeSmsCode, GetCodeByPhoneNumber } from "../../mongo/operation/sms"
 import { config } from "../../config"
-console.log(config);
 const {
   timeStampSecond,
   randomVerificationCode
@@ -98,9 +97,7 @@ const sendSms = async (phoneNumbers) => {
 }
 
 const codeVerify = async (reqBody) => {
-  console.log(reqBody);
   verifyParams.PhoneNumber = reqBody.phoneNumber
-  
   const verificationCode = reqBody.verificationCode
   const dbResp = await GetCodeByPhoneNumber(verifyParams.PhoneNumber)
   const SerialNo = dbResp.SerialNo
@@ -110,7 +107,6 @@ const codeVerify = async (reqBody) => {
     return failInfo
   }
   const tencentResp = await client.PullSmsSendStatusByPhoneNumber(verifyParams)
-  console.log(tencentResp);
   const codeListLength = tencentResp.PullSmsSendStatusSet.length
   if (codeListLength == 0) {
     let failInfo = errorCode.VerifyFail

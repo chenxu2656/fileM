@@ -19,11 +19,39 @@ const phonNumberVerify = (phoneNumber) => {
 const getVFromLocalStorage = (item,subitem)=>{
     return JSON.parse(localStorage.getItem(item))[subitem]
 }
+const clearReactive = (obj) => {
+    Object.keys(obj).forEach(key => {
+        obj[key] = '';
+})}
+const roleList = [
+    {
+        roleName: "superAdmin",
+        description: "超级管理员",
+        roleCode: 1000
+    },
+    {
+        roleName: "projectAdmin",
+        description: "项目管理员",
+        roleCode: 2000
+    },
+    {
+        roleName: "websiteAdmin",
+        description: "门户网站管理员",
+        roleCode: 3000
+    },
+      {
+        roleName: "instituteAdmin",
+        description: "学院管理员",
+        roleCode: 4000
+    }
+]
 export {
     parseTimeStamp,
     formateCtime,
     routerPush,
     phonNumberVerify,
     routerBack,
-    getVFromLocalStorage
+    getVFromLocalStorage,
+    clearReactive,
+    roleList
 }

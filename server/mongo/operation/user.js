@@ -70,7 +70,6 @@ const createAdminAccount = async (userInfo)=>{
         if (err.code == 11000) {
             return errorCode.loginNameRepeat
         }else {
-            console.log(err);
             return errorCode.SignInfoFail
         }
     }
@@ -106,7 +105,6 @@ const storeJwt = async(loginInfo)=>{
     }
 }
 const createCrddential = async(loginInfo)=>{
-    console.log(loginInfo);
     const pw = await pwVerify(loginInfo)
     if (pw.status != 200) {
         return pw
@@ -116,10 +114,9 @@ const createCrddential = async(loginInfo)=>{
 }
 
 const updateProfile = async(userInfo)=>{
-    console.log(userInfo);
     try {
         const createP = await userModel.updateOne({
-            id: userInfo._id,
+            _id: userInfo._id,
         }, {
                 name: userInfo.name,
                 phoneNumber: userInfo.phoneNumber,
@@ -138,6 +135,78 @@ const updateProfile = async(userInfo)=>{
         return resp
     }
 }
+const updateJudgeAccount = async(userInfo)=>{
+    let info = { }
+    if (userInfo.password == '') {
+        // 不更新密码
+        info = {
+            userName: userInfo.userName,
+            loginName: userInfo.loginName,
+            phoneNumber: userInfo.phoneNumber,
+        }
+    } else {
+        const saltRounds = 10;
+        let salt =  await bcrypt.genSalt(saltRounds)
+        let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+        info = {
+            userName: userInfo.userName,
+            loginName: userInfo.loginName,
+            password: pwBcrypt,
+            phoneNumber: userInfo.phoneNumber,
+        }
+    }
+    try {
+        const createP = await judgeModel.findOneAndUpdate({
+            _id: userInfo._id,
+        }, info, {
+            new: true
+        })
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch(err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+
+const updateAdminAccount = async(userInfo)=>{
+    let info = { }
+    if (userInfo.password == '') {
+        // 不更新密码
+        info = {
+            userName: userInfo.userName,
+            loginName: userInfo.loginName,
+            phoneNumber: userInfo.phoneNumber,
+        }
+    } else {
+        const saltRounds = 10;
+        let salt =  await bcrypt.genSalt(saltRounds)
+        let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+        info = {
+            userName: userInfo.userName,
+            loginName: userInfo.loginName,
+            password: pwBcrypt,
+            phoneNumber: userInfo.phoneNumber,
+        }
+    }
+    try {
+        const createP = await adminModel.findOneAndUpdate({
+            _id: userInfo._id,
+        }, info, {
+            new: true
+        })
+        let resp = errorCode.Success
+        resp.msg = createP
+        return resp
+    } catch(err) {
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+
 const getProfile = async(uid)=>{
     try {
         const createP = await userModel.findOne({
@@ -195,6 +264,32 @@ const getJudgeList = async(query)=>{
         return resp
     }
 }
+const deleteUser = async(req)=>{
+    const {id , type} = req
+    if (!id) {
+        let resp = errorCode.errNodefine
+        resp.msg = 'id是空的'
+        return resp
+    }
+    try {
+        let responseInfo = {}
+        if (type === 'admin') {
+            responseInfo =  await adminModel.findOneAndDelete({_id: id})
+        } else if (type === 'judge') {
+            responseInfo =  await judgeModel.findOneAndDelete({_id: id})
+        } else {
+            responseInfo =  await userModel.findOneAndDelete({_id: id})
+        }
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+
 export {
     createUser,
     createCrddential,
@@ -204,5 +299,9 @@ export {
     createJudgeAccount,
     getUserList,
     getAdminList,
-    getJudgeList
+    getJudgeList,
+    deleteUser,
+    updateJudgeAccount,
+    updateAdminAccount
 }
+

@@ -21,10 +21,12 @@
           <el-menu-item index="admin" @click="routerPush(router, '/admin/account/admin')">
             <span class="tit">管理员账户</span>
           </el-menu-item>
-          <el-menu-item index="stu" @click="routerPush(router, '/admin/account/stu')">
+          <el-menu-item index="stu" @click="routerPush(router, '/admin/account/judge')">
             <span class="tit">评审老师账户</span></el-menu-item>
-          <el-menu-item index="judge" @click="routerPush(router, '/admin/account/judge')">
+          <el-menu-item index="judge" @click="routerPush(router, '/admin/account/stu')">
             <span class="tit">学生账户</span></el-menu-item>
+            <el-menu-item index="judge" @click="routerPush(router, '/admin/account/institute')">
+            <span class="tit">机构管理</span></el-menu-item>
           <!-- <el-menu-item
         index="qiniuFile"
         @click="routerPush(router, '/admin/qiniuFile')"
