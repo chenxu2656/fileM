@@ -67,6 +67,17 @@ export const AdminAccount = {
     password: {
         type: String,
         require: true
+    },
+    role: {
+        type: Object
+    },
+    collage: {
+        _id: {
+            type: Schema.Types.ObjectId,
+        },
+        name: {
+            type: String
+        }
     }
 } 
 export const JudgeAccount = {

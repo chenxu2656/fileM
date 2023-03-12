@@ -1,0 +1,27 @@
+<template>
+
+<Editor
+      api-key="no-api-key"
+      :init="{
+        plugins: 'lists link image table code help wordcount'
+      }"
+    />
+</template>
+<style scoped>
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+@media (min-width: 1024px) {
+  #sample {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    width: 1000px;
+  }
+}
+</style>
+<script setup>
+import Editor from '@tinymce/tinymce-vue'
+</script>

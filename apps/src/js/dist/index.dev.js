@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.routerBack = exports.phonNumberVerify = exports.routerPush = exports.formateCtime = exports.parseTimeStamp = void 0;
+exports.roleList = exports.clearReactive = exports.getVFromLocalStorage = exports.routerBack = exports.phonNumberVerify = exports.routerPush = exports.formateCtime = exports.parseTimeStamp = void 0;
 
 var parseTimeStamp = function parseTimeStamp(timeStamp) {
   var date = new Date(parseInt(timeStamp));
@@ -36,3 +36,35 @@ var phonNumberVerify = function phonNumberVerify(phoneNumber) {
 };
 
 exports.phonNumberVerify = phonNumberVerify;
+
+var getVFromLocalStorage = function getVFromLocalStorage(item, subitem) {
+  return JSON.parse(localStorage.getItem(item))[subitem];
+};
+
+exports.getVFromLocalStorage = getVFromLocalStorage;
+
+var clearReactive = function clearReactive(obj) {
+  Object.keys(obj).forEach(function (key) {
+    obj[key] = '';
+  });
+};
+
+exports.clearReactive = clearReactive;
+var roleList = [{
+  roleName: "superAdmin",
+  description: "超级管理员",
+  roleCode: 1000
+}, {
+  roleName: "projectAdmin",
+  description: "项目管理员",
+  roleCode: 2000
+}, {
+  roleName: "websiteAdmin",
+  description: "门户网站管理员",
+  roleCode: 3000
+}, {
+  roleName: "instituteAdmin",
+  description: "学院管理员",
+  roleCode: 4000
+}];
+exports.roleList = roleList;

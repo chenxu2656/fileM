@@ -1,73 +1,69 @@
 <template>
     <div id="header">
-        <el-button @click="dialogVisible = !dialogVisible , titleInfo='创建管理员账户'">创建管理员账户</el-button>
+        <el-button @click="dialogVisible = !dialogVisible, titleInfo = '创建管理员账户'">创建管理员账户</el-button>
     </div>
     <div id="con">
         <div id="table">
-             <el-table :data="filterTableData" stripe style="width: 100%">   <!-- @selection-change="handleSelectionChange" -->
+            <el-table :data="filterTableData" stripe style="width: 100%"> <!-- @selection-change="handleSelectionChange" -->
                 <el-table-column type="selection" width="55" />
                 <el-table-column type="index" label="#" />
                 <el-table-column prop="userName" label="用户名" width="200" />
                 <el-table-column prop="phoneNumber" label="手机号" width="200" />
                 <el-table-column prop="loginName" label="登录名（用于登陆）" width="200" />
+                <el-table-column prop="role.description" label="权限" width="200" />
+                <el-table-column prop="collage.name" label="学院" width="200" />
                 <el-table-column align="right" id="operation">
                     <template #header>
                         <el-input v-model="search" placeholder="根据用户名搜索" />
                     </template>
                     <template #default="scope">
-                        <el-button size="small" @click="handleUpdate(scope.row), rowIndex=scope.$index , titleInfo='更新信息'" type="primary">修改信息</el-button>
-                        <el-button size="small" @click="deleteUser(scope.$index, scope.row._id)" type="danger" plain>删除</el-button>
+                        <el-button size="small" @click="handleUpdate(scope.row), rowIndex = scope.$index, titleInfo = '更新信息'"
+                            type="primary">修改信息</el-button>
+                        <el-button size="small" @click="deleteUser(scope.$index, scope.row._id)" type="danger"
+                            plain>删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
     </div>
-    <el-dialog
-    v-model="dialogVisible"
-    :title="titleInfo"
-    width="30%"
-    :before-close="handleClose"
-  >
-  <el-form
-    :model="userInfo"
-    status-icon
-    label-width="80px"
-    class="demo-ruleForm"
-  >
-    <el-form-item label="姓名" prop="userName">
-      <el-input v-model="userInfo.userName"  autocomplete="off" />
-    </el-form-item>
-   
-    <el-form-item label="登录名" prop="loginName">
-      <el-input v-model="userInfo.loginName" />
-    </el-form-item>
-    <el-form-item label="手机号" prop="phoneNumber">
-      <el-input v-model="userInfo.phoneNumber" />
-    </el-form-item>
-    <el-form-item label="密码" prop="phoneNumber">
-      <el-input v-model="userInfo.password" type="password" show-password="true" placeholder="此项不填不会修改密码"/>
-    </el-form-item>
-    <el-form-item label="角色" prop="phoneNumber">
-        <el-select v-model="value" placeholder="Select">
-            <el-option
-            v-for="item in roleList"
-            :key="item.roleName"
-            :label="item.roleName"
-            :value="item.roleName"
-            :disabled="item.disabled"
-            />
-  </el-select>
-    </el-form-item>
-  </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="clearReactive(userInfo), dialogVisible = !dialogVisible" plain >取消</el-button>
-        <el-button type="primary" @click="userInfo._id ? updateUser(rowIndex,userInfo) : createUser(userInfo), dialogVisible = !dialogVisible">
-          确认
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+    <el-dialog v-model="dialogVisible" :title="titleInfo" width="30%" :before-close="handleClose">
+        <el-form :model="userInfo" status-icon label-width="80px" class="demo-ruleForm">
+            <el-form-item label="姓名" prop="userName">
+                <el-input v-model="userInfo.userName" autocomplete="off" />
+            </el-form-item>
+
+            <el-form-item label="登录名" prop="loginName">
+                <el-input v-model="userInfo.loginName" />
+            </el-form-item>
+            <el-form-item label="手机号" prop="phoneNumber">
+                <el-input v-model="userInfo.phoneNumber" />
+            </el-form-item>
+            <el-form-item label="密码" prop="phoneNumber">
+                <el-input v-model="userInfo.password" type="password" show-password="true" placeholder="此项不填不会修改密码" />
+            </el-form-item>
+            <el-form-item label="角色" prop="role">
+                <el-select v-model="roleName" placeholder="Select" style="width=100%" @change="handleSelectChange">
+                    <el-option v-for="item in roleList" :key="item.roleName" :label="item.description"
+                        :value="item.roleName" :disabled="item.disabled" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="学院" prop="collage" v-show="roleName === 'instituteAdmin'">
+                <el-select v-model="collageName" placeholder="Select" style="width=100%"  @change="handleCollageChange">
+                    <el-option v-for="item in collageList" :key="item._id" :label="item.name"
+                        :value="item.name" :disabled="item.disabled" />
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="clearReactive(userInfo), dialogVisible = !dialogVisible , roleName = '', collageName= ''" plain>取消</el-button>
+                <el-button type="primary"
+                    @click="userInfo._id ? updateUser(rowIndex, userInfo) : createUser(userInfo)">
+                    确认
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
 <style lang="scss" scoped>
 #header {
@@ -81,6 +77,7 @@
 
     #table {
         width: 100%;
+
         .el-table {
             ::v-deep th .cell {
                 font-size: 16px;
@@ -120,32 +117,43 @@
 }
 </style>
 <script setup>
-import { ref, onMounted ,reactive,computed} from 'vue'
+import { ref, onMounted, reactive, computed } from 'vue'
 import apiRequest from "../../../http";
 import errMsgPopup from '@/utils/errorHandle';
-import {clearReactive,roleList} from '@/js/index'
+import { clearReactive, roleList } from '@/js/index'
 const userList = ref([])
 const search = ref('')
-const dialogVisible = ref(true)
+const dialogVisible = ref(false)
 const titleInfo = ref('创建管理员账户')
 const rowIndex = ref()
-const userInfo =  reactive({
+const collageList = ref([])
+const roleName = ref("")
+const collageName = ref("")
+const userInfo = reactive({
     userName: "",
     phoneNumber: "",
     loginName: "",
     password: "",
+    role: "",
+    collage: "",   // 如果是学院管理员，此处放置学院id 及学院名
     _id: ""
 })
-const handleClose = async()=>{
+const handleClose = async () => {
     clearReactive(userInfo)
+    roleName.value = ""
+    collageName.value = ""
     dialogVisible.value = !dialogVisible.value
 }
-const handleUpdate = async(info) => {
-    userInfo.userName = info.userName,
-    userInfo.phoneNumber = info.phoneNumber,
-    userInfo.loginName = info.loginName,
-    userInfo._id = info._id
-    dialogVisible.value = !dialogVisible.value
+const handleUpdate = async (info) => {
+        userInfo.userName = info.userName,
+        userInfo.phoneNumber = info.phoneNumber,
+        userInfo.loginName = info.loginName,
+        userInfo.role = info.role,
+        userInfo.collage = info.collage,
+        userInfo._id = info._id
+        roleName.value = info.role.roleName
+        collageName.value = info.collage ? info.collage.name : ''
+        dialogVisible.value = !dialogVisible.value
 }
 const getUserList = async () => {
     const resp = await apiRequest({
@@ -161,7 +169,7 @@ const getUserList = async () => {
         errMsgPopup.errorPopup(resp.msg)
     }
 }
-const deleteUser = async(index, id)=>{
+const deleteUser = async (index, id) => {
     const resp = await apiRequest({
         url: "/api/user/delete",
         method: 'post',
@@ -171,19 +179,21 @@ const deleteUser = async(index, id)=>{
         }
     })
     if (resp.status == 200) {
-        errMsgPopup.generalPopUp('删除成功',1000)
-        userList.value.splice(index,1)
+        errMsgPopup.generalPopUp('删除成功', 1000)
+        userList.value.splice(index, 1)
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }
 }
-const createUser = async(info)=>{
+const createUser = async (info) => {
     const resp = await apiRequest({
         url: "/api/user/register",
         method: 'post',
         params: {
             type: 'admin',
             userName: info.userName,
+            role: info.role,
+            collage: info.collage,
             loginName: info.loginName,
             password: info.password,
             phoneNumber: info.phoneNumber,
@@ -192,11 +202,15 @@ const createUser = async(info)=>{
     if (resp.status == 200) {
         userList.value.unshift(resp.msg)
         clearReactive(info)
+        roleName.value = ""
+        collageName.value = ""
+        dialogVisible.value = !dialogVisible.value
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }
 }
-const updateUser = async(index,info)=>{
+const updateUser = async (index, info) => {
+    console.log(info);
     const resp = await apiRequest({
         url: "/api/user/register",
         method: 'post',
@@ -206,13 +220,18 @@ const updateUser = async(index,info)=>{
             loginName: info.loginName,
             password: info.password,
             phoneNumber: info.phoneNumber,
+            role: info.role,
+            collage: info.collage,
             _id: info._id
         }
     })
     if (resp.status == 200) {
         userList.value[index] = resp.msg
         clearReactive(info)
+        roleName.value = ""
+        collageName.value = ""
         rowIndex.value = null
+        dialogVisible.value = !dialogVisible.value
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }
@@ -220,12 +239,42 @@ const updateUser = async(index,info)=>{
 const filterTableData = computed(() =>
     userList.value.filter(
         (data) =>
-        !search.value ||
-        data.userName.toLowerCase().includes(search.value.toLowerCase())
+            !search.value ||
+            data.userName.toLowerCase().includes(search.value.toLowerCase())
     )
 )
+const getCollegeList = async()=>{
+    const resp = await apiRequest({
+        url: "/api/institute",
+        method: 'get'
+    })
+    if (resp.status == 200) {
+        collageList.value = resp.msg
+
+    } else {
+        errMsgPopup.errorPopup(resp.msg)
+    }
+}
+const handleSelectChange = (val)=>{
+    if (val !== 'instituteAdmin') {
+        userInfo.collage = ""
+    }
+    roleList.forEach(item=>{
+        if (item.roleName === val) {
+            userInfo.role = item
+        }
+    })
+}
+const handleCollageChange = val=>{
+    collageList.value.forEach(item=>{
+        if (item.name === val) {
+            userInfo.collage = item
+        }
+    })
+}
 onMounted(async () => {
     await getUserList()
+    await getCollegeList()
 })
 
 

@@ -55,12 +55,15 @@ const createAdminAccount = async (userInfo)=>{
     const saltRounds = 10;
     let salt =  await bcrypt.genSalt(saltRounds)
     let pwBcrypt = await bcrypt.hash(userInfo.password,salt)
+    console.log(userInfo);
     try {
         const user = await adminModel.create({
             userName: userInfo.userName,
             phoneNumber: userInfo.phoneNumber,
             password: pwBcrypt,
             loginName: userInfo.loginName,
+            role: userInfo.role,
+            collage: userInfo.collage 
         })
         let successInfo = errorCode.Success
         successInfo.msg = user
@@ -173,12 +176,15 @@ const updateJudgeAccount = async(userInfo)=>{
 
 const updateAdminAccount = async(userInfo)=>{
     let info = { }
+    console.log(userInfo);
     if (userInfo.password == '') {
         // 不更新密码
         info = {
             userName: userInfo.userName,
             loginName: userInfo.loginName,
             phoneNumber: userInfo.phoneNumber,
+            role: userInfo.role,
+            collage:  userInfo.collage 
         }
     } else {
         const saltRounds = 10;
@@ -189,6 +195,8 @@ const updateAdminAccount = async(userInfo)=>{
             loginName: userInfo.loginName,
             password: pwBcrypt,
             phoneNumber: userInfo.phoneNumber,
+            role: userInfo.role,
+            collage:  userInfo.collage 
         }
     }
     try {

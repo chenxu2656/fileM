@@ -9,12 +9,14 @@
     "start": "yarn run serve"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^5.0.1",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "cos-js-sdk-v5": "^1.4.15",
     "element-plus": "^2.2.13",
     "sass": "^1.54.5",
     "sass-loader": "^13.0.2",
+    "tinymce": "^6.3.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },

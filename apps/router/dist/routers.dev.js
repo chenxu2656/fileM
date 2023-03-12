@@ -37,6 +37,12 @@ var AdminAccount = require('../src/components/back/AdminAccount.vue');
 
 var JudgeAccount = require('../src/components/back/JudgeAccount.vue');
 
+var InstituteManagement = require('../src/components/back/InstituteManagement');
+
+var CreateBlog = require('../src/components/back/blog/CreateBlog.vue');
+
+var FolderManagement = require('../src/components/back/blog/FolderManagement.vue');
+
 var routes = [{
   path: "/",
   components: FrontPage,
@@ -63,6 +69,9 @@ var routes = [{
     path: 'account/judge',
     components: JudgeAccount
   }, {
+    path: 'account/institute',
+    components: InstituteManagement
+  }, {
     path: 'competition',
     components: CompeTition
   }, {
@@ -74,6 +83,12 @@ var routes = [{
   }, {
     path: 'creatItem',
     components: CreateItem
+  }, {
+    path: 'website/folder',
+    components: FolderManagement
+  }, {
+    path: 'website/createBlog',
+    components: CreateBlog
   }]
 }, {
   path: '/stuAdmin',

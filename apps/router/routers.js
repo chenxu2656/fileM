@@ -19,6 +19,9 @@ const AdminAccount = require('../src/components/back/AdminAccount.vue')
 const JudgeAccount = require('../src/components/back/JudgeAccount.vue')
 
 const InstituteManagement = require('../src/components/back/InstituteManagement')
+
+const CreateBlog = require('../src/components/back/blog/CreateBlog.vue')
+const FolderManagement = require('../src/components/back/blog/FolderManagement.vue')
 const routes = [
     {
         path: "/",
@@ -73,6 +76,14 @@ const routes = [
             {
                 path: 'creatItem',
                 components: CreateItem
+            },
+            {
+                path: 'website/folder',
+                components: FolderManagement
+            },
+            {
+                path: 'website/createBlog',
+                components: CreateBlog
             }
         ],
         
