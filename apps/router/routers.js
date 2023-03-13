@@ -22,6 +22,7 @@ const InstituteManagement = require('../src/components/back/InstituteManagement'
 
 const CreateBlog = require('../src/components/back/blog/CreateBlog.vue')
 const FolderManagement = require('../src/components/back/blog/FolderManagement.vue')
+const DashBoard = require('../src/components/back/DashBoard.vue')
 const routes = [
     {
         path: "/",
@@ -45,6 +46,11 @@ const routes = [
         path: '/admin',
         components: BackPage,
         children: [
+            {
+                path: "",
+                components: DashBoard
+
+            },
             {
                 path: 'account/admin',
                 components: AdminAccount

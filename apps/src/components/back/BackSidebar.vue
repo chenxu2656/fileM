@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <div id="logo">
-      创新训练平台
+      <img src="../../../public/images/icons/chuangye.png" alt="" srcset="" >
     </div>
     <el-menu :default-active="activePath" class="el-menu-vertical-demo" :collapse="isCollapse" @select="handleUpdate">
       <el-menu-item index="home" @click="routerPush(router, '/admin')">
@@ -91,6 +91,14 @@ const handleUpdate = (index) => {
     height: 100px;
     background-color: #2f3d53;
     border: none;
+    display: flex;
+    justify-content: center;
+    ju
+    img {
+      height: 50px;
+      margin-top: 25px;
+      margin-left: 0px;
+    }
     
   }
   .el-menu {

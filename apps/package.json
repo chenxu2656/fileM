@@ -9,7 +9,8 @@
     "start": "yarn run serve"
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "^5.0.1",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "cos-js-sdk-v5": "^1.4.15",
