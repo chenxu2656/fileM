@@ -13,6 +13,10 @@ var DeclareList = require('../src/views/DeclareList.vue');
 
 var SignIn = require('../src/views/SignIn.vue');
 
+var SignInAdmin = require('../src/views/SignInAdmin.vue');
+
+var SignInJudge = require('../src/views/SignInJudge.vue');
+
 var BackPage = require('../src/views/BackPage.vue');
 
 var StuBackPage = require('../src/views/StuBackPage.vue');
@@ -43,6 +47,8 @@ var CreateBlog = require('../src/components/back/blog/CreateBlog.vue');
 
 var FolderManagement = require('../src/components/back/blog/FolderManagement.vue');
 
+var DashBoard = require('../src/components/back/DashBoard.vue');
+
 var routes = [{
   path: "/",
   components: FrontPage,
@@ -57,9 +63,18 @@ var routes = [{
   path: '/sign',
   components: SignIn
 }, {
+  path: '/signAdmin',
+  components: SignInAdmin
+}, {
+  path: '/signJudge',
+  components: SignInJudge
+}, {
   path: '/admin',
   components: BackPage,
   children: [{
+    path: "",
+    components: DashBoard
+  }, {
     path: 'account/admin',
     components: AdminAccount
   }, {

@@ -5,6 +5,8 @@ import {
     createJudgeAccount,
     createUser,
     createCrddential,
+    createAdminCredential,
+    createJudgeCredential,
     getUserList,
     getAdminList,
     getJudgeList,
@@ -65,6 +67,16 @@ const getDeclareList = async(req,res)=>{
     }
     res.status(resp.status).json(resp)
 }
+const adminlogin = async(req,res)=>{
+    const reqData = req.body
+    const resp = await createAdminCredential(reqData)
+    res.status(resp.status).json(resp)
+}
+const judgelogin = async(req,res)=>{
+    const reqData = req.body
+    const resp = await createJudgeCredential(reqData)
+    res.status(resp.status).json(resp)
+}
 const getUsers = async(req,res)=>{
     const type = req.query.type
     if (type === 'admin') {
@@ -86,6 +98,9 @@ const deleteUsers = async(req,res)=>{
 
 router.post('/register',createAccount)  
 router.post('/login',createToken)
+router.post('/loginadmin',adminlogin)
+router.post('/loginjudge',judgelogin)
+router.post('/loginjudge',createToken)
 router.post('/delete',deleteUsers)
 router.get('/proList',getDeclareList)
 router.get('/userList',getUsers)

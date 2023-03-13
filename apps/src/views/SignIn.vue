@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div id="title">
-            项目申报管理系统
+            项目申报管理系统（学生端）
         </div>
         <div id="container">
             <div id="login" v-if="login" class="sign">
@@ -191,7 +191,7 @@ const switchSign = () => {
 }
 const getUserInfo = async(uid)=>{
     const uinfo = await apiRequest({
-        url: `/api/user/userInfo${uid}`,
+        url: `/api/user/userInfo/${uid}`,
         method: "get"
     })
     console.log(uinfo);
@@ -255,7 +255,7 @@ onMounted(() => {
     #container {
         min-width: 890px;
         max-width: 1000px;
-        // height: 100px;
+        height: auto;
         margin: 40px 0;
         background-color: white;
         border-radius: 8px;
@@ -273,7 +273,6 @@ onMounted(() => {
             background-color: white;
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
-
             #tit {
                 font-size: 30px;
                 line-height: 40px;

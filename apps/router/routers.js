@@ -3,6 +3,8 @@ const HomeView =require('../src/views/HomeView.vue')
 const DeclareList=require('../src/views/DeclareList.vue')
 
 const SignIn = require('../src/views/SignIn.vue')
+const SignInAdmin = require('../src/views/SignInAdmin.vue')
+const SignInJudge = require('../src/views/SignInJudge.vue')
 const BackPage = require('../src/views/BackPage.vue')
 const StuBackPage = require('../src/views/StuBackPage.vue')
 const CompeTition = require('../src/components/back/CompeTition.vue')
@@ -41,6 +43,14 @@ const routes = [
     {
         path: '/sign',
         components: SignIn
+    },
+    {
+        path: '/signAdmin',
+        components: SignInAdmin
+    },
+    {
+        path: '/signJudge',
+        components: SignInJudge
     },
     {
         path: '/admin',

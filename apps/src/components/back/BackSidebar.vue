@@ -92,12 +92,11 @@ const handleUpdate = (index) => {
     background-color: #2f3d53;
     border: none;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    ju
     img {
-      height: 50px;
-      margin-top: 25px;
-      margin-left: 0px;
+      height: 80px;
+      object-fit: contain;
     }
     
   }

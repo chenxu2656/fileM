@@ -115,6 +115,32 @@ const createCrddential = async(loginInfo)=>{
     const token = await storeJwt(loginInfo)
     return token
 }
+const createAdminCredential = async(loginInfo)=>{
+    const {phoneNumber,pw} = loginInfo
+    const userExist = await adminModel.findOne({phoneNumber: phoneNumber})
+    if (!userExist) {
+        return errorCode.userNotExist
+    }
+    const pwCorrect =  await bcrypt.compare(pw,userExist.password)
+    if (!pwCorrect) {
+        return errorCode.pwIncorrect
+    }
+    const token = await storeJwt(loginInfo)
+    return token
+}
+const createJudgeCredential = async(loginInfo)=>{
+    const {phoneNumber,pw} = loginInfo
+    const userExist = await judgeModel.findOne({phoneNumber: phoneNumber})
+    if (!userExist) {
+        return errorCode.userNotExist
+    }
+    const pwCorrect =  await bcrypt.compare(pw,userExist.password)
+    if (!pwCorrect) {
+        return errorCode.pwIncorrect
+    }
+    const token = await storeJwt(loginInfo)
+    return token
+}
 
 const updateProfile = async(userInfo)=>{
     try {
@@ -301,6 +327,8 @@ const deleteUser = async(req)=>{
 export {
     createUser,
     createCrddential,
+    createAdminCredential,
+    createJudgeCredential,
     updateProfile,
     getProfile,
     createAdminAccount,
