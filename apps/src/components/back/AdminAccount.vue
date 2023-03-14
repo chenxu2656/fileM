@@ -18,7 +18,7 @@
                     </template>
                     <template #default="scope">
                         <el-button size="small" @click="handleUpdate(scope.row), rowIndex = scope.$index, titleInfo = '更新信息'"
-                            type="primary">修改信息</el-button>
+                            type="primary" class="editInfo">修改信息</el-button>
                         <el-button size="small" @click="deleteUser(scope.$index, scope.row._id)" type="danger"
                             plain>删除</el-button>
                     </template>
@@ -103,6 +103,9 @@
                     flex-direction: row;
                     justify-content: right;
                     align-items: center;
+                    .editInfo {
+                        background-color: $base_color_lightBlue;
+                    }
                 }
             }
 

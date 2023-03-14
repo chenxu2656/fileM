@@ -50,6 +50,12 @@
         cursor: pointer;
         text-align: left;
         padding: 0 10px;
+        .el-button {
+            background-color: $base_color_darkBlue;
+            border: none;
+            width: 150px;
+            height: 40px;
+        }
         
     }
     #itemList{
@@ -100,7 +106,7 @@
                 
                 display: flex;
                 font-size: 17px;
-                color: #4a69dd;
+                color: $base_color_lightBlue;
                 font-weight: 700;
                 flex-direction: column;
                 justify-content: center;
