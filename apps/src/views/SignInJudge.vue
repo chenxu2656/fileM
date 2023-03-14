@@ -47,7 +47,8 @@ const signIn = async(signinInfo)=>{
         url: '/api/user/judgeAdmin',
         params: {
             phoneNumber: signinInfo.phoneNumber,
-            pw: signinInfo.pw
+            pw: signinInfo.pw,
+            platform: "judge"
         }
     })
     if (login.status == 200) {

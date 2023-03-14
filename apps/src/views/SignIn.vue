@@ -206,7 +206,8 @@ const signIn = async(signinInfo)=>{
         url: '/api/user/login',
         params: {
             phoneNumber: signinInfo.phoneNumber,
-            pw: signinInfo.pw
+            pw: signinInfo.pw,
+            platform: "stu"
         }
     })
     console.log(login.msg);

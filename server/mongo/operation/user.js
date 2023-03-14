@@ -91,9 +91,17 @@ const pwVerify = async(loginInfo)=>{
 }
 const storeJwt = async(loginInfo)=>{
     const secretKey = 'user_sys'
-    const {phoneNumber} = loginInfo
+    console.log();
+    const {phoneNumber , platform} = loginInfo
+    if (platform === 'admin') {
+        // 生成对应的权限，并存储在token里面
+        // 获取身份
+    }
     const token = jwt.sign(
-        {phoneNumber},
+        {
+            phoneNumber: phoneNumber,
+            platform: platform
+        },
         secretKey,
         {
             expiresIn: "7 days"
