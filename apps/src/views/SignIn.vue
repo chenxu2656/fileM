@@ -254,7 +254,7 @@ onMounted(() => {
     }
 
     #container {
-        min-width: 890px;
+        // min-width: 890px;
         max-width: 1000px;
         height: auto;
         margin: 40px 0;
@@ -266,9 +266,14 @@ onMounted(() => {
         button {
             cursor: pointer;
         }
-
         .sign {
             flex-basis: 50%;
+            @media screen and (max-width: 600px) {
+                width: 100%;
+                flex-basis: 100%;
+                border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            }
             padding: 3em 3em;
             box-sizing: border-box;
             background-color: white;
@@ -371,6 +376,9 @@ onMounted(() => {
 
         #img {
             // height: 500px;
+            @media screen and (max-width: 600px) {
+              display: none;
+            }
             flex-basis: 50%;
             background-color: #f4f9fd;
             border-top-right-radius: 8px;

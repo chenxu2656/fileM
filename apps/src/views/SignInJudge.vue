@@ -70,7 +70,6 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .home {
-    // height: 0vh;
     box-sizing: border-box;
     min-height: 100vh;
     padding: 40px;
@@ -94,7 +93,7 @@ onMounted(() => {
     }
 
     #container {
-        min-width: 890px;
+        // min-width: 890px;
         max-width: 1000px;
         height: auto;
         margin: 40px 0;
@@ -114,6 +113,12 @@ onMounted(() => {
             background-color: white;
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
+            @media screen and (max-width: 600px) {
+                width: 100%;
+                flex-basis: 100%;
+                border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            }
             #tit {
                 font-size: 30px;
                 line-height: 40px;
@@ -214,6 +219,9 @@ onMounted(() => {
             flex-basis: 50%;
             background-color: #f4f9fd;
             border-top-right-radius: 8px;
+            @media screen and (max-width: 600px) {
+              display: none;
+            }
             border-bottom-right-radius: 8px;
             display: flex;
             width: 50%;

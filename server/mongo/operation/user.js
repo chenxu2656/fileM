@@ -28,6 +28,31 @@ const createUser = async(userInfo)=>{
         }
     }
 }
+const getUserCount = async(type)=>{
+    try {
+        let resp = {}
+        switch(type){
+            case 'admin': {
+                resp = await adminModel.count({})
+                break
+            }
+            case 'judge': {
+                resp = await judgeModel.count({})
+                break
+            }
+            default: {
+                resp = await userModel.count({})
+                break
+            }
+        }
+        let successInfo = errorCode.Success
+        successInfo.msg = resp
+        return successInfo
+    } catch (err) {
+        console.log(err);
+        return errorCode.errNodefine
+    }
+}
 const createJudgeAccount = async (userInfo)=>{
     const saltRounds = 10;
     let salt =  await bcrypt.genSalt(saltRounds)
@@ -89,18 +114,32 @@ const pwVerify = async(loginInfo)=>{
     }
     return errorCode.Success
 }
+const getRoleOfAdmin = async(phoneNumber)=>{
+    try {
+        const resp = await adminModel.findOne({
+            phoneNumber: phoneNumber
+        })
+        return resp
+    }catch (err) {
+        console.log(err);
+    }
+
+}
 const storeJwt = async(loginInfo)=>{
     const secretKey = 'user_sys'
-    console.log();
-    const {phoneNumber , platform} = loginInfo
+    console.log(loginInfo);
+    const {phoneNumber,platform} = loginInfo
+    let resp = {}
     if (platform === 'admin') {
         // 生成对应的权限，并存储在token里面
         // 获取身份
-    }
+        resp = await getRoleOfAdmin(phoneNumber)
+    } 
     const token = jwt.sign(
         {
             phoneNumber: phoneNumber,
-            platform: platform
+            platform: platform,
+            role: resp.role
         },
         secretKey,
         {
@@ -346,6 +385,7 @@ export {
     getJudgeList,
     deleteUser,
     updateJudgeAccount,
-    updateAdminAccount
+    updateAdminAccount,
+    getUserCount
 }
 

@@ -49,6 +49,17 @@ var FolderManagement = require('../src/components/back/blog/FolderManagement.vue
 
 var DashBoard = require('../src/components/back/DashBoard.vue');
 
+var getPayloadOfJwt = function getPayloadOfJwt(jwt) {
+  var payloadJwtURI = jwt.split('.')[1];
+  var payloadBase64 = payloadJwtURI.replace(/-/g, '+').replace(/_/g, '/');
+  var payloadJson = decodeURIComponent(atob(payloadBase64).split('').map(function (c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+  var payload = JSON.parse(payloadJson); // 将字符串解析成 JSON 对象
+
+  return payload;
+};
+
 var routes = [{
   path: "/",
   components: FrontPage,
@@ -76,7 +87,16 @@ var routes = [{
     components: DashBoard
   }, {
     path: 'account/admin',
-    components: AdminAccount
+    components: AdminAccount // beforeEnter: () => {
+    //     const token = localStorage.getItem('token')
+    //     const payLoad = getPayloadOfJwt(token)
+    //     if (payLoad.role.roleCode != 1000) {
+    //      return {
+    //          path: "signAdmin"
+    //      }
+    //     }
+    //  },
+
   }, {
     path: 'account/stu',
     components: StuAccount
@@ -104,7 +124,26 @@ var routes = [{
   }, {
     path: 'website/createBlog',
     components: CreateBlog
-  }]
+  }],
+  beforeEnter: function beforeEnter() {
+    var token = localStorage.getItem('token');
+
+    if (!token) {
+      return {
+        path: "signAdmin"
+      };
+    }
+
+    var payLoad = getPayloadOfJwt(token);
+
+    if (payLoad.platform != 'admin') {
+      return {
+        path: "signAdmin"
+      };
+    }
+
+    console.log(payLoad);
+  }
 }, {
   path: '/stuAdmin',
   components: StuBackPage,
@@ -117,7 +156,24 @@ var routes = [{
   }, {
     path: "editp",
     components: EditProfile
-  }]
+  }],
+  beforeEnter: function beforeEnter() {
+    var token = localStorage.getItem('token');
+
+    if (!token) {
+      return {
+        path: "sign"
+      };
+    }
+
+    var payLoad = getPayloadOfJwt(token);
+
+    if (payLoad.platform != 'stu') {
+      return {
+        path: "sign"
+      };
+    }
+  }
 }];
 var _default = routes;
 exports["default"] = _default;

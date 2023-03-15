@@ -25,6 +25,13 @@ const InstituteManagement = require('../src/components/back/InstituteManagement'
 const CreateBlog = require('../src/components/back/blog/CreateBlog.vue')
 const FolderManagement = require('../src/components/back/blog/FolderManagement.vue')
 const DashBoard = require('../src/components/back/DashBoard.vue')
+const getPayloadOfJwt = (jwt)=>{
+    const payloadJwtURI = jwt.split('.')[1]
+    const payloadBase64 = payloadJwtURI.replace(/-/g, '+').replace(/_/g, '/')
+    const payloadJson = decodeURIComponent(atob(payloadBase64).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    const payload = JSON.parse(payloadJson); // 将字符串解析成 JSON 对象
+    return payload
+}  
 const routes = [
     {
         path: "/",
@@ -59,11 +66,19 @@ const routes = [
             {
                 path: "",
                 components: DashBoard
-
             },
             {
                 path: 'account/admin',
-                components: AdminAccount
+                components: AdminAccount,
+                // beforeEnter: () => {
+                //     const token = localStorage.getItem('token')
+                //     const payLoad = getPayloadOfJwt(token)
+                //     if (payLoad.role.roleCode != 1000) {
+                //      return {
+                //          path: "signAdmin"
+                //      }
+                //     }
+                //  },
             },
             {
                 path: 'account/stu',
@@ -102,7 +117,21 @@ const routes = [
                 components: CreateBlog
             }
         ],
-        
+        beforeEnter: () => {
+           const token = localStorage.getItem('token')
+           if (!token) {
+            return {
+                path: "signAdmin"
+            }
+           } 
+           const payLoad = getPayloadOfJwt(token)
+           if (payLoad.platform != 'admin') {
+            return {
+                path: "signAdmin"
+            }
+           }
+           console.log(payLoad); 
+        },
     },
     {
         path: '/stuAdmin',
@@ -120,7 +149,21 @@ const routes = [
                 path: "editp",
                 components: EditProfile
             }
-        ]
+        ],
+        beforeEnter: () => {
+            const token = localStorage.getItem('token')
+            if (!token) {
+             return {
+                 path: "sign"
+             }
+            } 
+            const payLoad = getPayloadOfJwt(token)
+            if (payLoad.platform != 'stu') {
+             return {
+                 path: "sign"
+             }
+            }
+         },
     }
 ]
 export default routes

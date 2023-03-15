@@ -12,7 +12,8 @@ import {
     getJudgeList,
     deleteUser,
     updateAdminAccount,
-    updateJudgeAccount
+    updateJudgeAccount,
+    getUserCount
 } from "../mongo/operation/user";
 var express = require('express');
 var router = express.Router();
@@ -95,16 +96,19 @@ const deleteUsers = async(req,res)=>{
     let resp = await deleteUser(req.body)
     res.status(resp.status).json(resp)
 }
-
+const getCount = async(req,res)=>{
+    const query = req.query.type
+    let resp = await getUserCount(query)
+    res.status(resp.status).json(resp)
+}
 router.post('/register',createAccount)  
 router.post('/login',createToken)
 router.post('/loginadmin',adminlogin)
 router.post('/loginjudge',judgelogin)
-router.post('/loginjudge',createToken)
 router.post('/delete',deleteUsers)
 router.get('/proList',getDeclareList)
 router.get('/userList',getUsers)
 router.get('/userInfo/:uid',getUerInfo)   
-
+router.get('/count', getCount)
 export default router  
      

@@ -111,11 +111,25 @@ const getFiles = async(id)=>{
         return resp
     }
 }
+const getProjectCount = async()=>{
+    try {
+        const resp = await projectModel.count({})
+        console.log(resp);
+        let successInfo = errorCode.Success
+        successInfo.msg = resp
+        return successInfo
+    } catch (err) {
+        
+        console.log(err);
+        return errorCode.errNodefine
+    }
+}
 export {
     createProject,
     getProjectList,
     updateProject,
     getProjectDetail,
     deleteProject,
-    getFiles
+    getFiles,
+    getProjectCount
 }

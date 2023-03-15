@@ -27,7 +27,10 @@
 <style lang="scss" scoped>
 // https://demo.pixelcave.com/oneui-vue-edition/#/backend/dashboard
 #con {
-    width: 78vw;
+    width: 80vw;
+    @media screen and (max-width: 600px) {
+        width: 90vw;
+            }
     margin: 20px auto;
     height: auto;
     #title {
@@ -135,42 +138,91 @@ import adminIcon from '../../../public/images/icons/adminIcon.svg'
 import judgeIcon from '../../../public/images/icons/judgeIcon.svg'
 import projectIcon from '../../../public/images/icons/projectIcon.svg'
 import rightArrow from '../../../public/images/icons/rightArrow.png' 
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
 import { routerPush } from '@/js'
 import {useRouter} from 'vue-router'
+import apiRequest from '../../../http'
 const username = ref("许晨晨")
 const router = useRouter()
 
 const dashBoardList = ref([
 {
-        number: 32 ,
+        number: 'loading' ,
         title: "项目数量",
         jumpTitle: "查看项目列表",
         path: "/admin/competition",
         icon: projectIcon
     },
     {
-        number: 32 ,
+        number: 'loading' ,
         title: "评审专家数量",
         jumpTitle: "评审专家管理",
         path: "/admin/account/judge",
         icon: judgeIcon
     },
     {
-        number: 32 ,
+        number: 'loading' ,
         title: "管理员数量",
         jumpTitle: "管理员账户管理",
         path: "/admin/account/admin",
         icon: adminIcon
     },    
 {
-        number: 32 ,
+        number: 'loading' ,
         title: "注册用户数量",
         jumpTitle: "查看学生列表",
         path: "/admin/account/stu",
         icon: stuIcon
     }
 ])
+const getUserCount = async()=>{
+    const resp = await apiRequest({
+        url: "/api/user/count",
+        method: "get"
+    })
+    if (resp.status == 200) {
+        dashBoardList.value[3].number = resp.msg
+    }
+}
+const getAdminCount = async()=>{
+    const resp = await apiRequest({
+        url: "/api/user/count",
+        method: "get",
+        params: {
+            type: "admin"
+        }
+    })
+    if (resp.status == 200) {
+        dashBoardList.value[2].number = resp.msg
+    }
+}
+const getJudgeCount = async()=>{
+    const resp = await apiRequest({
+        url: "/api/user/count",
+        method: "get",
+        params: {
+            type: "judge"
+        }
+    })
+    if (resp.status == 200) {
+        dashBoardList.value[1].number = resp.msg
+    }
+}
+const getProjectCount = async()=>{
+    const resp = await apiRequest({
+        url: "/api/project/count",
+        method: "get"
+    })
+    if (resp.status == 200) {
+        dashBoardList.value[0].number = resp.msg
+    }
+}
+onMounted(async() => {
+    getUserCount()
+    getAdminCount()
+    getJudgeCount()
+    getProjectCount()
+})
 </script>
 
   

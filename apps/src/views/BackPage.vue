@@ -1,11 +1,13 @@
 <template>
   <el-container>
-    <el-aside class="el-aside">
+    <el-aside class="el-aside" v-if="sideDisplay">
       <BackSidebar />
     </el-aside>
     <el-container id="con">
       <el-header>
-        <!-- <div id="title" class="topbarCon">项目申报管理系统</div> -->
+        <div id="title" class="topbarCon" >
+          <img src="../../public/images/icons/menu.svg" alt="" srcset="" @click="showSideMenubar()">
+        </div>
         <el-breadcrumb separator="/">
           <div class="pageHeader">
             <el-breadcrumb-item :to="{ path: '/admin' }">Home</el-breadcrumb-item>
@@ -25,6 +27,11 @@
 <script setup>
 import BackSidebar from '@/components/back/BackSidebar.vue';
   // import { useRoute } from 'vue-router'
+  import {ref} from 'vue'
+  let sideDisplay = ref(true)
+  const showSideMenubar = ()=>{
+    sideDisplay.value = !sideDisplay.value
+  }
 </script>
 <style lang="scss" scoped>
 .el-aside {
@@ -60,7 +67,9 @@ import BackSidebar from '@/components/back/BackSidebar.vue';
       display: flex;
       flex-direction: column;
       justify-content: center;
-
+      @media screen and (max-width: 600px) {
+           display: none;
+        }
       .pageHeader {
         .el-breadcrumb-item {
           font-size: 14px;
@@ -71,11 +80,17 @@ import BackSidebar from '@/components/back/BackSidebar.vue';
 
     .topbarCon {
       height: 100%;
+      @media screen and (min-width: 600px) {
+           display: none;
+        }
       vertical-align: middle;
       display: flex;
       align-items: center;
       font-size: 25px;
       font-weight: 700;
+      img {
+        height: 28px;
+      }
     }
   }
   .el-main{

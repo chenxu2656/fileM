@@ -96,6 +96,7 @@
                 text-align: right;
                 img {
                     width: 25px;
+                    padding: 0px 2px;
                     cursor: pointer;
                 }
             }
@@ -103,7 +104,6 @@
                 width: 90%;
                 height: auto;
                 margin: 0px 5%;
-                
                 display: flex;
                 font-size: 17px;
                 color: $base_color_lightBlue;
