@@ -31,6 +31,10 @@ var EditProfile = require('../src/components/backStu/EditProfile.vue');
 
 var ProjectList = require('../src/components/backStu/ProjectList.vue');
 
+var ProjectListJoin = require('../src/components/backStu/ProjectListJoin.vue');
+
+var AllProject = require('../src/components/backStu/AllProject.vue');
+
 var DeclarePro = require('../src/components/backStu/DeclarePro.vue');
 
 var DeclareInfo = require('../src/components/back/DeclareInfo.vue');
@@ -149,7 +153,13 @@ var routes = [{
   components: StuBackPage,
   children: [{
     path: "",
+    components: AllProject
+  }, {
+    path: "projectlist",
     components: ProjectList
+  }, {
+    path: "projectlistJ",
+    components: ProjectListJoin
   }, {
     path: "upload",
     components: DeclarePro

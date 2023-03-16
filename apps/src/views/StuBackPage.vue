@@ -1,42 +1,48 @@
 <template>
   <el-container>
-    <el-header>
-      <div id="name" class="topbarCon">安徽医科大学无纸化项目申报平台</div>
-      <div id="avater">
-        <img src="../../public/images/avatar.png" alt="" @click="switchPopUp()">
-      </div>
-      <div id="popupwin" v-show="popWin">
-        <div id="trangle"></div>
-        <div id="popUp">
-          <div id="profileCon">
-            <div id="ava">
-              <img src="../../public/images/avatar.png" alt="">
-            </div>
-            <div id="profile">
-              <div id="name">
-                <span>colin</span>
-              </div>
-              <div id="editProfile" @click="editP()">
-                <span>更改信息</span>
-              </div>
-            </div>
-          </div>
-          <el-divider />
-          <div id="menuList">
-              <div class="menu">
-                申报记录
-              </div>
-          </div>
-        </div>
-        
-
-      </div>
-
-    </el-header>
+    <el-aside class="el-aside" >
+      <StuBackSidebar />
+    </el-aside>
     <el-container id="con">
+      <el-header>
+        <div id="name" class="topbarCon">安徽医科大学无纸化项目申报平台</div>
+        <div id="avater">
+          <img src="../../public/images/avatar.png" alt="" @click="switchPopUp()">
+        </div>
+        <div id="popupwin" v-show="popWin">
+          <div id="trangle"></div>
+          <div id="popUp">
+            <div id="profileCon">
+              <div id="ava">
+                <img src="../../public/images/avatar.png" alt="">
+              </div>
+              <div id="profile">
+                <div id="name">
+                  <span>colin</span>
+                </div>
+                <div id="editProfile" @click="editP()">
+                  <span>更改信息</span>
+                </div>
+              </div>
+            </div>
+            <el-divider />
+            <div id="menuList">
+              <div class="menu">
+                <div id="logout" @click="logOut(router,'/sign')">
+                  <img src="../../public/images/icons/logout.svg" alt=""> 退出登录
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </el-header>
       <el-main class="el-main">
         <router-view>
-          
+
         </router-view>
       </el-main>
     </el-container>
@@ -46,7 +52,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router';
-import { routerPush } from '@/js/dist/index.dev';
+import { routerPush , logOut} from '@/js/dist/index.dev';
+import StuBackSidebar from '@/components/backStu/StuBackSidebar.vue';
 let userName = ref('')
 userName.value = localStorage.getItem('userName')
 const router = useRouter()
@@ -54,15 +61,30 @@ let popWin = ref(false)
 const switchPopUp = () => {
   popWin.value = !popWin.value
 }
-const editP = ()=>{
+const editP = () => {
   switchPopUp()
-  routerPush(router,'/stuAdmin/editp')
+  routerPush(router, '/stuAdmin/editp')
 }
 </script>
 <style lang="scss" scoped>
+.el-aside {
+  width: 13vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  @media screen and (max-width: 600px) {
+           display: none;
+        }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  background-color: #3b4c63;
+}
+
 .el-header {
   border-bottom: 1px solid gainsboro;
-  background-color: #2d67bb;
+  background-color: #fff;
   display: flex;
   height: 60px;
   color: white;
@@ -76,6 +98,7 @@ const editP = ()=>{
     font-size: 25px;
     font-weight: 700;
   }
+
   #avater {
     width: 40px;
     height: 40px;
@@ -83,12 +106,14 @@ const editP = ()=>{
     background-color: #dddfe5;
     border-radius: 20px;
     margin-top: 10px;
+
     img {
       height: 30px;
       width: 30px;
       margin-top: 5px;
     }
   }
+
   #popupwin {
     // #popUp{
     z-index: 1000;
@@ -97,6 +122,7 @@ const editP = ()=>{
     width: 300px;
     right: 10px;
     top: 60px;
+
     #trangle {
       width: 0px;
       height: 0px;
@@ -107,6 +133,7 @@ const editP = ()=>{
       margin-left: 215px;
 
     }
+
     #popUp {
       width: 300px;
       height: 200px;
@@ -114,8 +141,10 @@ const editP = ()=>{
       border-radius: 5px;
       border: 1px solid #e1e1e1;
       box-shadow: 0 0 10px #e1e1e1;
+
       #profileCon {
         display: flex;
+
         #ava {
           width: 80px;
           height: 80px;
@@ -123,6 +152,7 @@ const editP = ()=>{
           border-radius: 40px;
           background-color: #2d67bb;
           border-color: #e1e1e1;
+
           img {
             width: 50px;
             margin-top: 15px;
@@ -130,11 +160,13 @@ const editP = ()=>{
           }
 
         }
+
         #profile {
           // background-color: aqua;
           height: 80px;
           width: 150px;
           margin: 40px 0 0 20px;
+
           #name {
             height: 40px;
             font-size: 22px;
@@ -142,6 +174,7 @@ const editP = ()=>{
             color: #000;
             text-align: left;
           }
+
           #editProfile {
             color: black;
             text-decoration: underline;
@@ -152,25 +185,38 @@ const editP = ()=>{
           }
         }
       }
-      .el-divider{
+
+      .el-divider {
         margin: 10px 0px 10px 0px;
       }
+
       #menuList {
-      width: 300px;
-      height: 40px;
-      .menu {
+        width: 300px;
         height: 40px;
-        color: #000;
-        line-height: 40px;
-        text-align: left;
-        padding-left: 20px;
-        font-size: 20px;
-        cursor: pointer;
-        &:hover {
-          background-color: #f5f5f5;
+
+        .menu {
+          height: 40px;
+          color: #000;
+          line-height: 40px;
+          text-align: left;
+          padding-left: 20px;
+          font-size: 20px;
+          cursor: pointer;
+          #logout{
+            display: flex;
+          justify-content: left;
+          align-items: center;
+          img {
+            margin: 0px 20px;
+            height: 20px;
+          }
+          }
+        
+          &:hover {
+            background-color: #f5f5f5;
+          }
         }
       }
-    }
     }
 
 
@@ -188,5 +234,4 @@ const editP = ()=>{
 //   border-top: 1px solid #dddfe5;
 //   bottom: 0px;
 //   height: 60px;
-// }
-</style>
+// }</style>

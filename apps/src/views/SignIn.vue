@@ -19,7 +19,6 @@
             <div id="register" v-if="!login" class="sign">
                 <div id="tit">注册</div>
                 <div id="forms">
-
                     <input type="text" class="inputData" placeholder="真实姓名" v-model="registerInfo.name">
                     <input type="text" class="inputData" placeholder="学号" v-model="registerInfo.studentId">
                     <input type="text" class="inputData" placeholder="手机号" v-model="registerInfo.phoneNumber">
@@ -35,7 +34,7 @@
                         </select>
                     </div>
                     
-                    <div id="grade" class="line2">
+                    <div id="grade2" class="line2">
                         <select v-model="registerInfo.role" id='grade' placeholder="Select"  class="selectGrade" style="width: 115px">
                             <option v-for="role in roleList" :key="role">{{role}}</option>
                         </select>

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.roleList = exports.clearReactive = exports.getVFromLocalStorage = exports.routerBack = exports.phonNumberVerify = exports.routerPush = exports.formateCtime = exports.parseTimeStamp = void 0;
+exports.logOut = exports.roleList = exports.clearReactive = exports.getVFromLocalStorage = exports.routerBack = exports.phonNumberVerify = exports.routerPush = exports.formateCtime = exports.parseTimeStamp = void 0;
 
 var parseTimeStamp = function parseTimeStamp(timeStamp) {
   var date = new Date(parseInt(timeStamp));
@@ -50,6 +50,13 @@ var clearReactive = function clearReactive(obj) {
 };
 
 exports.clearReactive = clearReactive;
+
+var logOut = function logOut($router, path) {
+  localStorage.clear();
+  routerPush($router, path);
+};
+
+exports.logOut = logOut;
 var roleList = [{
   roleName: "superAdmin",
   description: "超级管理员",

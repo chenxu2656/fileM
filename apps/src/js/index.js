@@ -23,6 +23,11 @@ const clearReactive = (obj) => {
     Object.keys(obj).forEach(key => {
         obj[key] = '';
 })}
+const logOut = ($router, path)=>{
+    localStorage.clear()
+    routerPush($router,path)
+    
+}
 const roleList = [
     {
         roleName: "superAdmin",
@@ -53,5 +58,6 @@ export {
     routerBack,
     getVFromLocalStorage,
     clearReactive,
-    roleList
+    roleList,
+    logOut
 }

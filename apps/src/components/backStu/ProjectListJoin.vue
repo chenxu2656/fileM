@@ -92,14 +92,10 @@ const getCList = async (isJoin) =>{
     } 
     return []
 }
-// const editProject = (project)=>{
-//     console.log(project);
-//     localStorage.setItem('editInfo',JSON.stringify(project))
-//     routerPush(router, '/admin/creatItem')
-// }
+
 onMounted(async () => {
     userId.value = getVFromLocalStorage('uInfo','_id')
-    cProLsit.value = await getCList()
+    cProLsit.value = await getCList('j')
 })
 
 </script>

@@ -13,6 +13,8 @@ const CreateItem = require('../src/components/back/CreateItem')
 
 const EditProfile = require('../src/components/backStu/EditProfile.vue')
 const ProjectList = require('../src/components/backStu/ProjectList.vue')
+const ProjectListJoin = require('../src/components/backStu/ProjectListJoin.vue')
+const AllProject = require('../src/components/backStu/AllProject.vue')
 const DeclarePro = require('../src/components/backStu/DeclarePro.vue') 
 const DeclareInfo = require('../src/components/back/DeclareInfo.vue')
 
@@ -139,7 +141,15 @@ const routes = [
         children: [
             {
                 path: "",
+                components: AllProject
+            },
+            {
+                path: "projectlist",
                 components: ProjectList
+            },
+            {
+                path: "projectlistJ",
+                components: ProjectListJoin
             },
             {
                 path: "upload",
