@@ -1,5 +1,5 @@
 <template>
-        <HeaderBar/>
+    <HeaderBar/>
     <router-view></router-view>
 </template>
 <script setup>
