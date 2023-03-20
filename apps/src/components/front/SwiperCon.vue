@@ -1,67 +1,26 @@
 <template>
-  <div id="swiper">
-    <div id="swiperContain">
-      <div v-for="item in itemList" :key="item" style class="swiperImg">
-        {{ item }}
-      </div>
-    </div>
-
-  </div>
+    <el-carousel trigger="click" height="500px">
+      <el-carousel-item v-for="item in 4" :key="item">
+        <h3 class="small justify-center" text="2xl">{{ item }}</h3>
+      </el-carousel-item>
+    </el-carousel>
 </template>
 <style lang="scss" scoped>
-#swiper {
-  width: 100%;
+.el-carousel{
   height: 500px;
-  background-color: black;
-  overflow: hidden;
-
-  #swiperContain {
-    width: 500%;
-    animation: slidein 30s infinite  linear;
-
-@keyframes slidein {
-  0%,5%{
-    margin-left:0px;
+  .el-carousel__item {
+    background-color: red;
   }
-  10%,15%{
-      margin-left:-100vw;
-  }
-  20%,25%{
-      margin-left:-200vw;
-  }
-  30%,35%{
-      margin-left:-300vw;
-  }
-  40%,45%{
-      margin-left:-400vw;
-  }
-  50%,55%{
-      margin-left:-300vw;
-  }
-  60%,65% {
-    margin-left: -200vw;
-
-  }
-  70%,75% {
-    margin-left: -100vw;
-  }
-  80%,85% {
-    margin-left: 0vw;
-  }
-    }
-    .swiperImg {
-      background-color: yellow;
-      width: 100vw;
-      height: 500px;
-      // position: absolute;
-      float: left;
-
-    }
-  }
-
 }
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+  text-align: center;
+}
+
 </style>
 <script setup>
-import { ref } from 'vue'
-const itemList = ref([1, 2, 3, 4,5])
+// import { ref } from 'vue'
 </script>

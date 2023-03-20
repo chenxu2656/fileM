@@ -56,6 +56,8 @@
       .el-menu {
         background-color: #fff;
         border: none;
+        height: 67px;
+        margin-top: 10px;
         .flex-grow {
           flex-grow: 1;
         }
@@ -64,6 +66,14 @@
           font-size: 17px;
           color: $base_color_darkBlue;
           font-weight: 500;
+          &:hover {
+            background-color: $website_lightBlue;
+            color: white;
+          }
+          &:active {
+            background-color: $website_lightBlue;
+            color: white;
+          }
         }
       }
 
