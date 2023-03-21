@@ -1,12 +1,12 @@
 <template>
     <div id="container">
-        <div></div>
         <div id="title">
-            通知公告
+            新闻中心
         </div>
         <div id="lineBar">
         </div>
         <div id="con">
+            <div id="ImgNews"></div>
             <div id="ImgList">
                 <div v-for="item in newsList" :key="item.title" class="newsItem">
                     <div class="date">
@@ -21,9 +21,9 @@
                         <div class="newsTit">{{ item.title }}</div>
                         <div class="newsCon">{{ item.content }}</div>
                     </div>
-                    
                 </div>
             </div>
+            
         </div>
         <div id="button">
             <div class="readMore">查看更多</div>
@@ -32,18 +32,11 @@
 </template>
 <style lang="scss" scoped>
 #container {
-    background-color: #f2f2f2;
-    padding: 1px 0px;
-    margin-top: 40px;
     #title {
         color: $website_lightBlue;
         font-size: 35px;
         font-weight: 900;
         margin-top: 50px;
-    }
-    #subTitle {
-        margin-top: 40px;
-        color: $website_font_gray;
     }
     #lineBar {
         width: 80px;
@@ -58,23 +51,26 @@
         margin: auto;
         margin-top: 30px;
         justify-content: space-between;
+        #ImgNews {
+            background-color: $websiet_back_gray;
+            width: 49%;
+            height: 440px;
+        }
         #ImgList {
             // background-color: $websiet_back_gray;
-            width: 100%;
+            width: 49%;
+            height: 440px;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-between;
-            flex-wrap: wrap;
             .newsItem {
-                width: 30%;
+                width: 100%;
                 height: 100px;
-                min-width: 350px;
                 background-color: $websiet_back_gray;
                 display: flex;
                 cursor: pointer;
                 transition-duration: 0.3s;
                 transition-timing-function: ease-in;
-                margin-top: 20px;
                 &:hover {
                     background-color: #497beb;
                     * {
@@ -93,7 +89,6 @@
                     justify-content: center;
                     color: $website_font_gray;
                     align-items: center;
-                    background-color: #dbdada;
                     .year {
                         font-size: 20px;
                         font-weight: 600;
@@ -131,7 +126,6 @@
                     }
                 }
             }
-            
         }
     }
     #button{

@@ -15,9 +15,9 @@
             @select="handleSelect">
             <div class="flex-grow" />
             <el-menu-item index="/">首页</el-menu-item>
-            <el-menu-item index="stu">项目申报（学生）</el-menu-item>
+            <!-- <el-menu-item index="stu">项目申报（学生）</el-menu-item>
             <el-menu-item index="teacher">项目申报（教师）</el-menu-item>
-            <el-menu-item index="teacher">公示平台</el-menu-item>
+            <el-menu-item index="teacher">公示平台</el-menu-item> -->
           </el-menu>
         </el-col>
         <!-- <el-col :span="4" id="reg"><div id="reg">注册/登录</div></el-col> -->

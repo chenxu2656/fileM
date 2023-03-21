@@ -39,36 +39,36 @@ const article = reactive({
   createrId: "",
   folderId: ""
 })
-editorConfig.MENU_CONF['uploadImage'] = {
-    // 自定义上传
-    // async customUpload(file, insertFn) {  
-    //     // file 即选中的文件
-    //     // 自己实现上传，并得到图片 url alt href
-    //     // 最后插入图片
-    //     cos.putObject({
-    //     Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
-    //     Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
-    //     Key: `fileM/${declareInfo.projectId}/${declareInfo.createName}-${declareInfo.projectName}-ppt.${params.file.name.split('.')[1]}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
-    //     Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
-    //     onProgress: function (progressData) {
-    //         // 上传进度的回掉
-    //         progress.ppt = progressData.percent * 100
-    //         if(progress.ppt==100) {
-    //             errMsgPopup.generalPopUp('上传成功',1000)
-    //             showProgress.ppt = false
-    //         }
-    //     }
-    // }, function (err, data) {
-    //     declareInfo.attachmentList.ppt = data.Location
-    //     insertFn(url, alt, href)
-    //     if (err) {
-    //         errMsgPopup.errorPopup('上传失败，请稍后再试')
-    //     }
+// editorConfig.MENU_CONF['uploadImage'] = {
+//     // 自定义上传
+//     // async customUpload(file, insertFn) {  
+//     //     // file 即选中的文件
+//     //     // 自己实现上传，并得到图片 url alt href
+//     //     // 最后插入图片
+//     //     cos.putObject({
+//     //     Bucket: 'filem-1253997872', /* 填入您自己的存储桶，必须字段 */
+//     //     Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+//     //     Key: `fileM/${declareInfo.projectId}/${declareInfo.createName}-${declareInfo.projectName}-ppt.${params.file.name.split('.')[1]}`,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+//     //     Body: params.file, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
+//     //     onProgress: function (progressData) {
+//     //         // 上传进度的回掉
+//     //         progress.ppt = progressData.percent * 100
+//     //         if(progress.ppt==100) {
+//     //             errMsgPopup.generalPopUp('上传成功',1000)
+//     //             showProgress.ppt = false
+//     //         }
+//     //     }
+//     // }, function (err, data) {
+//     //     declareInfo.attachmentList.ppt = data.Location
+//     //     insertFn(url, alt, href)
+//     //     if (err) {
+//     //         errMsgPopup.errorPopup('上传失败，请稍后再试')
+//     //     }
         
-    // });
+//     // });
         
-    // }
-}
+//     // }
+// }
 const handleCreated = (editor) => {
   console.log('created', editor);
   editorRef.value = editor; // 记录 editor 实例，重要！
