@@ -135,7 +135,7 @@
         }
     }
     #button{
-                margin-top: 20px;
+                margin-top: 40px;
                 display: flex;
                 justify-content: center;
                 cursor: pointer;
