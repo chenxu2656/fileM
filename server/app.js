@@ -15,6 +15,7 @@ import Project from './routes/project'
 import sts from './routes/sts'
 import declare from './routes/declare'
 import institute from './routes/institute'
+import news from './routes/news'
 const app = express()
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -34,5 +35,6 @@ app.use('/api/project', Project);
 app.use('/api/sts',sts)  
 app.use('/api/declare',declare)  
 app.use('/api/institute',institute)
+app.use('/api/news',news)
 app.listen(4000, console.log("application is start at port 4000"))
 

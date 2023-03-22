@@ -1,4 +1,4 @@
-import {smsCode,userStructure,project,declarePro,AdminAccount,JudgeAccount, institute} from './database/schema'
+import {smsCode,userStructure,project,declarePro,AdminAccount,JudgeAccount, institute, news,folder} from './database/schema'
 import mongoose from 'mongoose'
 const instituteSchema =  mongoose.Schema(institute,{
     collection: 'institute'
@@ -34,6 +34,14 @@ const declareProSchema = new mongoose.Schema(declarePro,{
 
 export const declareProModel = mongoose.model('declarePro',declareProSchema)
 
-// adminSchema.add({
-// })
+const newsSchema = new mongoose.Schema(news,{
+    collection: 'news'
+})
 
+export const newsModel = mongoose.model('news',newsSchema)
+
+const folderSchema = new mongoose.Schema(folder,{
+    collection: 'folder'
+})
+
+export const folderModel = mongoose.model('folder',folderSchema)

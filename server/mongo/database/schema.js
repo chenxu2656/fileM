@@ -201,7 +201,29 @@ export const declarePro = {
         type: String    // 草稿 正式发布
     }
 }
-
-
+export const news = {
+    title: {
+        type: String,
+        require: true
+    },
+    content: {
+        type: String,
+    },
+    folderId: {
+        type: Schema.Types.ObjectId,
+        require: true
+    },
+    status: {
+        type: Number,
+        require: true,
+        default: 1          // 1 发布 0 草稿 -1 删除 -10 彻底删除
+    }
+}
+export const folder = {
+    name: {
+        type: String,
+        require: true
+    }
+}
 
 

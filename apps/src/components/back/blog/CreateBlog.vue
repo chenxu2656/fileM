@@ -11,6 +11,14 @@
       @onDestroyed="handleDestroyed" @onFocus="handleFocus" @onBlur="handleBlur" @customAlert="customAlert"
       @customPaste="customPaste" />
   </div>
+  <div id="publishButton">
+    <div class="publish" id="deploy">
+      发布
+    </div>
+     <div class="publish" id="save">
+      暂存至草稿箱
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
 #title {
@@ -18,6 +26,24 @@
 
   .el-input {
     height: 35px;
+  }
+}
+#publishButton {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  .publish {
+    width: 150px;
+    height: 40px;
+    margin-right: 20px;
+    line-height: 40px;
+    font-size: 18px;
+    color: white;
+    background-color: $base_color_lightBlue;
+    border-radius: 5px;
+    &#save {
+      background-color: $website_font_gray;
+    }
   }
 }
 </style>
