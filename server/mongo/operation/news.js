@@ -25,7 +25,18 @@ export const createFolder = async(folderInfo)=>{
         return errorCode.SignInfoFail
     }
 }
-
+export const getFolderList = async() =>{
+    try {
+        const folderList = await folderModel.find({})
+        let successInfo = errorCode.Success
+        successInfo.msg = folderList
+        return successInfo
+    }
+    catch(err){
+        console.log(err);
+        return errorCode.SignInfoFail
+    }
+}
 export const createNews = async(newsInfo)=>{
     const info = {
         title: newsInfo.name,

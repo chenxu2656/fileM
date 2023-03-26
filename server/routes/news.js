@@ -1,4 +1,4 @@
-import {createNews , changeStatus , queryNews, createFolder} from '../mongo/operation/news'
+import {createNews , changeStatus , queryNews, createFolder,getFolderList} from '../mongo/operation/news'
 var express = require('express');
 var router = express.Router();
 const cd = async(req,res)=>{
@@ -9,6 +9,10 @@ const cd = async(req,res)=>{
 const cFolder = async(req,res)=>{
     const queryList = req.body
     let resp = await createFolder(queryList)
+    res.status(resp.status).json(resp)
+}
+const rFolder = async(req,res)=>{
+    let resp = await getFolderList()
     res.status(resp.status).json(resp)
 }
 const ud = async(req,res)=>{
@@ -24,5 +28,6 @@ router.post('/cd',cd)
 router.post('/ud',ud)
 router.get('/rd', rd)
 router.post('/folder/cd', cFolder)
+router.get('/folder', rFolder)
 export default router  
      

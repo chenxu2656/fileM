@@ -1,15 +1,10 @@
 ∫<template>
-    <div id="header">
-        <el-button @click="dialogVisible = !dialogVisible , titleInfo='创建评审账户'">创建评审账户</el-button>
-    </div>
     <div id="con">
         <div id="table">
              <el-table :data="filterTableData" stripe style="width: 100%">   <!-- @selection-change="handleSelectionChange" -->
                 <el-table-column type="selection" width="55" />
                 <el-table-column type="index" label="#" />
-                <el-table-column prop="userName" label="用户名" width="200" />
-                <el-table-column prop="phoneNumber" label="手机号" width="200" />
-                <el-table-column prop="loginName" label="登录名（用于登陆）" width="200" />
+                <el-table-column prop="folderName" label="文件夹名" width="200" />
                 <el-table-column align="right" id="operation">
                     <template #header>
                         <el-input v-model="search" placeholder="根据用户名搜索" />
@@ -21,42 +16,9 @@
                 </el-table-column>
             </el-table>
         </div>
+        <dvi id="createFolder"></dvi>
     </div>
-    <el-dialog
-    v-model="dialogVisible"
-    :title="titleInfo"
-    width="30%"
-    :before-close="handleClose"
-  >
-  <el-form
-    :model="userInfo"
-    status-icon
-    label-width="80px"
-    class="demo-ruleForm"
-  >
-    <el-form-item label="姓名" prop="userName">
-      <el-input v-model="userInfo.userName"  autocomplete="off" />
-    </el-form-item>
-   
-    <el-form-item label="登录名" prop="loginName">
-      <el-input v-model="userInfo.loginName" />
-    </el-form-item>
-    <el-form-item label="手机号" prop="phoneNumber">
-      <el-input v-model="userInfo.phoneNumber" />
-    </el-form-item>
-    <el-form-item label="密码" prop="phoneNumber">
-      <el-input v-model="userInfo.password" type="password" show-password="true" placeholder="此项不填不会修改密码"/>
-    </el-form-item>
-  </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="clearReactive(userInfo), dialogVisible = !dialogVisible" plain >取消</el-button>
-        <el-button type="primary" @click="userInfo._id ? updateUser(rowIndex,userInfo) : createUser(userInfo), dialogVisible = !dialogVisible">
-          确认
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+
 </template>
 <style lang="scss" scoped>
 #header {
@@ -69,7 +31,7 @@
     width: 100%;
 
     #table {
-        width: 100%;
+        width: 50%;
         .el-table {
             ::v-deep th .cell {
                 font-size: 16px;
@@ -112,109 +74,84 @@
 import { ref, onMounted ,reactive,computed} from 'vue'
 import apiRequest from "../../../../http";
 import errMsgPopup from '@/utils/errorHandle';
-import {clearReactive} from '@/js/index'
-const userList = ref([])
+const folderList = ref([])
 const search = ref('')
-const dialogVisible = ref(false)
-const titleInfo = ref('创建评审账户')
+const titleInfo = ref('创建文件夹')
 const rowIndex = ref()
-const userInfo =  reactive({
-    userName: "",
-    phoneNumber: "",
-    loginName: "",
-    password: "",
+const folderInfo =  reactive({
+    folderName: "",
     _id: ""
 })
-const handleClose = async()=>{
-    clearReactive(userInfo)
-    dialogVisible.value = !dialogVisible.value
-}
-const handleUpdate = async(info) => {
-    userInfo.userName = info.userName,
-    userInfo.phoneNumber = info.phoneNumber,
-    userInfo.loginName = info.loginName,
-    userInfo._id = info._id
-    dialogVisible.value = !dialogVisible.value
-}
-const getUserList = async () => {
+
+// const handleUpdate = async(info) => {
+//     userInfo.userName = info.userName,
+//     userInfo.phoneNumber = info.phoneNumber,
+//     userInfo.loginName = info.loginName,
+//     userInfo._id = info._id
+//     dialogVisible.value = !dialogVisible.value
+// }
+const getFolderList = async () => {
     const resp = await apiRequest({
-        url: "/api/user/userList",
-        method: 'get',
-        params: {
-            type: 'judge'
-        }
+        url: "/api/news/folder",
+        method: 'get'
     })
     if (resp.status == 200) {
-        userList.value = resp.msg
+        folderList.value = resp.msg
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }
 }
-const deleteUser = async(index, id)=>{
-    const resp = await apiRequest({
-        url: "/api/user/delete",
-        method: 'post',
-        params: {
-            id: id,
-            type: 'judge'
-        }
-    })
-    if (resp.status == 200) {
-        errMsgPopup.generalPopUp('删除成功',1000)
-        userList.value.splice(index,1)
-    } else {
-        errMsgPopup.errorPopup(resp.msg)
-    }
-}
-const createUser = async(info)=>{
-    const resp = await apiRequest({
-        url: "/api/user/register",
-        method: 'post',
-        params: {
-            type: 'judge',
-            userName: info.userName,
-            loginName: info.loginName,
-            password: info.password,
-            phoneNumber: info.phoneNumber,
-        }
-    })
-    if (resp.status == 200) {
-        userList.value.unshift(resp.msg)
-        clearReactive(info)
-    } else {
-        errMsgPopup.errorPopup(resp.msg)
-    }
-}
-const updateUser = async(index,info)=>{
-    const resp = await apiRequest({
-        url: "/api/user/register",
-        method: 'post',
-        params: {
-            type: 'judge',
-            userName: info.userName,
-            loginName: info.loginName,
-            password: info.password,
-            phoneNumber: info.phoneNumber,
-            _id: info._id
-        }
-    })
-    if (resp.status == 200) {
-        userList.value[index] = resp.msg
-        clearReactive(info)
-        rowIndex.value = null
-    } else {
-        errMsgPopup.errorPopup(resp.msg)
-    }
-}
+
+// const createUser = async(info)=>{
+//     const resp = await apiRequest({
+//         url: "/api/user/register",
+//         method: 'post',
+//         params: {
+//             type: 'judge',
+//             userName: info.userName,
+//             loginName: info.loginName,
+//             password: info.password,
+//             phoneNumber: info.phoneNumber,
+//         }
+//     })
+//     if (resp.status == 200) {
+//         userList.value.unshift(resp.msg)
+//         clearReactive(info)
+//     } else {
+//         errMsgPopup.errorPopup(resp.msg)
+//     }
+// }
+// const updateUser = async(index,info)=>{
+//     const resp = await apiRequest({
+//         url: "/api/user/register",
+//         method: 'post',
+//         params: {
+//             type: 'judge',
+//             userName: info.userName,
+//             loginName: info.loginName,
+//             password: info.password,
+//             phoneNumber: info.phoneNumber,
+//             _id: info._id
+//         }
+//     })
+//     if (resp.status == 200) {
+//         userList.value[index] = resp.msg
+//         clearReactive(info)
+//         rowIndex.value = null
+//     } else {
+//         errMsgPopup.errorPopup(resp.msg)
+//     }
+// }
 const filterTableData = computed(() =>
-    userList.value.filter(
+folderList.value.filter(
         (data) =>
         !search.value ||
-        data.userName.toLowerCase().includes(search.value.toLowerCase())
+        data.folderName.toLowerCase().includes(search.value.toLowerCase())
     )
 )
 onMounted(async () => {
-    await getUserList()
+    await getFolderList()
+    console.log(folderInfo);
 })
 
 
