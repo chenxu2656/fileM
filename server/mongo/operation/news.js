@@ -1,6 +1,7 @@
 import { newsModel , folderModel } from "..";
 import errorCode from '../../errorhandle/errorCode'
 export const createFolder = async(folderInfo)=>{
+    console.log(folderInfo);
     const info = {
         name: folderInfo.name
     }
@@ -105,5 +106,39 @@ export const queryNews = async(field, value, limit , skip) =>{
     catch(err){
         console.log(err);
         return errorCode.SignInfoFail
+    }
+}
+export const deleteNews = async(id)=>{
+    if (!id) {
+        let resp = errorCode.errNodefine
+        resp.msg = 'id是空的'
+        return resp
+    }
+    try {
+        let responseInfo =  await newsModel.findOneAndDelete({_id: id})
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
+    }
+}
+export const deleteFolder = async(id)=>{
+    if (!id) {
+        let resp = errorCode.errNodefine
+        resp.msg = 'id是空的'
+        return resp
+    }
+    try {
+        let responseInfo =  await folderModel.findOneAndDelete({_id: id})
+        let resp = errorCode.Success
+        resp.msg = responseInfo
+        return resp
+    }catch(err){
+        let resp = errorCode.errNodefine
+        resp.msg = err
+        return resp
     }
 }

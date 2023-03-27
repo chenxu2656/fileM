@@ -1,24 +1,28 @@
-∫<template>
+<template>
     <div id="con">
         <div id="table">
-             <el-table :data="filterTableData" stripe style="width: 100%">   <!-- @selection-change="handleSelectionChange" -->
+            <el-table :data="filterTableData" stripe style="width: 100%"> <!-- @selection-change="handleSelectionChange" -->
                 <el-table-column type="selection" width="55" />
                 <el-table-column type="index" label="#" />
-                <el-table-column prop="folderName" label="文件夹名" width="200" />
+                <el-table-column prop="name" label="文件夹名" width="200" />
                 <el-table-column align="right" id="operation">
                     <template #header>
                         <el-input v-model="search" placeholder="根据用户名搜索" />
                     </template>
                     <template #default="scope">
-                        <el-button size="small" @click="handleUpdate(scope.row), rowIndex=scope.$index , titleInfo='更新信息'" type="primary">修改信息</el-button>
-                        <el-button size="small" @click="deleteUser(scope.$index, scope.row._id)" type="danger" plain>删除</el-button>
+                        <el-button size="small" @click="handleUpdate(scope.row), rowIndex=scope.$index , titleInfo='更新信息'"
+                            type="primary">修改信息</el-button>
+                        <el-button size="small" @click="deleteFolder(scope.$index, scope.row._id)" type="danger"
+                            plain>删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
-        <dvi id="createFolder"></dvi>
+        <div id="createFolder">
+            <el-input class="folderName" v-model="folderInfo.folderName" autocomplete="off" />
+            <el-button class="create" @click="createFolder(folderInfo.folderName) , folderInfo.folderName = '' ">创建文件夹</el-button>
+        </div>
     </div>
-
 </template>
 <style lang="scss" scoped>
 #header {
@@ -29,9 +33,10 @@
 #con {
     display: flex;
     width: 100%;
-
+    justify-content: space-between;
     #table {
-        width: 50%;
+        width: 60%;
+
         .el-table {
             ::v-deep th .cell {
                 font-size: 16px;
@@ -63,22 +68,32 @@
         }
     }
 
-    #createAccount {
+    #createFolder {
         width: 40%;
         margin-left: 2%;
         height: 100px;
+        .folderName{
+            height: 40px;
+        }
+        .create {
+            margin-top: 20px;
+            background-color: $base_color_lightBlue;
+            color: white;
+            position: relative;
+        }
     }
+    
 }
 </style>
 <script setup>
-import { ref, onMounted ,reactive,computed} from 'vue'
+import { ref, onMounted, reactive, computed } from 'vue'
 import apiRequest from "../../../../http";
 import errMsgPopup from '@/utils/errorHandle';
 const folderList = ref([])
 const search = ref('')
 const titleInfo = ref('创建文件夹')
 const rowIndex = ref()
-const folderInfo =  reactive({
+const folderInfo = reactive({
     folderName: "",
     _id: ""
 })
@@ -102,25 +117,21 @@ const getFolderList = async () => {
     }
 }
 
-// const createUser = async(info)=>{
-//     const resp = await apiRequest({
-//         url: "/api/user/register",
-//         method: 'post',
-//         params: {
-//             type: 'judge',
-//             userName: info.userName,
-//             loginName: info.loginName,
-//             password: info.password,
-//             phoneNumber: info.phoneNumber,
-//         }
-//     })
-//     if (resp.status == 200) {
-//         userList.value.unshift(resp.msg)
-//         clearReactive(info)
-//     } else {
-//         errMsgPopup.errorPopup(resp.msg)
-//     }
-// }
+const createFolder = async(folderName)=>{
+    const resp = await apiRequest({
+        url: "/api/news/folder/cd",
+        method: 'post',
+        params: {
+            name: folderName
+        }
+    })
+    if (resp.status == 200) {
+        folderList.value.unshift(resp.msg)
+        console.log(resp);
+    } else {
+        errMsgPopup.errorPopup(resp.msg)
+    }
+}
 // const updateUser = async(index,info)=>{
 //     const resp = await apiRequest({
 //         url: "/api/user/register",
@@ -143,15 +154,28 @@ const getFolderList = async () => {
 //     }
 // }
 const filterTableData = computed(() =>
-folderList.value.filter(
+    folderList.value.filter(
         (data) =>
-        !search.value ||
-        data.folderName.toLowerCase().includes(search.value.toLowerCase())
+            !search.value ||
+            data.folderName.toLowerCase().includes(search.value.toLowerCase())
     )
 )
+const deleteFolder = async (index, id)=> {
+    const resp = await apiRequest({
+        url: "/api/news/dx",
+        method: 'post',
+        params: {
+            id: id
+        }
+    })
+    if (resp.status == 200) {
+        console.log(resp);
+    } else {
+        errMsgPopup.errorPopup(resp.msg)
+    }
+}
 onMounted(async () => {
     await getFolderList()
-    console.log(folderInfo);
 })
 
 
