@@ -162,7 +162,7 @@ const filterTableData = computed(() =>
 )
 const deleteFolder = async (index, id)=> {
     const resp = await apiRequest({
-        url: "/api/news/dx",
+        url: "/api/news/folder/dx",
         method: 'post',
         params: {
             id: id
@@ -170,6 +170,7 @@ const deleteFolder = async (index, id)=> {
     })
     if (resp.status == 200) {
         console.log(resp);
+        folderList.value.splice(index,1)
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }

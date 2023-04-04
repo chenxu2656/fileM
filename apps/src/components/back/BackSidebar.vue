@@ -43,16 +43,17 @@
           <el-menu-item index="createBlog" @click="routerPush(router, '/admin/website/createBlog')">
             <span class="tit">发布新闻</span>
           </el-menu-item>
-          <el-menu-item index="blogList" @click="routerPush(router, '/admin/blogList')">
+          <el-menu-item index="blogList" @click="routerPush(router, '/admin/website/newsList')">
             <span class="tit">新闻管理</span></el-menu-item>
-          <el-menu-item index="folder" @click="routerPush(router, '/admin/website/folder')">
-            <span class="tit">文件夹管理</span></el-menu-item>
-          <el-menu-item index="tags" @click="routerPush(router, '/admin/tags')">
-            <span class="tit">导航管理</span></el-menu-item>
-          <el-menu-item index="draft" @click="routerPush(router, '/admin/draft')">
+
+<!--          <el-menu-item index="tags" @click="routerPush(router, '/admin/tags')">-->
+<!--            <span class="tit">导航管理</span></el-menu-item>-->
+          <el-menu-item index="draft" @click="routerPush(router, '/admin/website/newsDraftList')">
             <span class="tit">草稿箱</span></el-menu-item>
-          <el-menu-item index="trash" @click="routerPush(router, '/admin/trash')">
+          <el-menu-item index="trash" @click="routerPush(router, '/admin/website/TrushList')">
             <span class="tit">垃圾箱</span></el-menu-item>
+            <el-menu-item index="folder" @click="routerPush(router, '/admin/website/folder')">
+                <span class="tit">文件夹管理</span></el-menu-item>
           <!-- <el-menu-item
         index="qiniuFile"
         @click="routerPush(router, '/admin/qiniuFile')"

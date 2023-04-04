@@ -40,7 +40,7 @@ export const getFolderList = async() =>{
 }
 export const createNews = async(newsInfo)=>{
     const info = {
-        title: newsInfo.name,
+        title: newsInfo.title,
         content: newsInfo.content,
         folderId: newsInfo.folderId,
         status: newsInfo.status
@@ -92,10 +92,15 @@ export const queryNews = async(field, value, limit , skip) =>{
         if (limit) {
             news = await newsModel.find({
                 [field]: value
-            }).limit(limit).skip( skip && 0).sort() 
+            }).limit(limit).skip( skip && 0).sort({
+                '_id': '-1'
+            })
         } else {
+            console.log('1111')
             news = await newsModel.find({
                 [field]: value
+            }).sort({
+                '_id': '-1'
             })
         }
 

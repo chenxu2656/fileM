@@ -25,6 +25,9 @@ const JudgeAccount = require('../src/components/back/JudgeAccount.vue')
 const InstituteManagement = require('../src/components/back/InstituteManagement')
 
 const CreateBlog = require('../src/components/back/blog/CreateBlog.vue')
+const BlogList = require('../src/components/back/blog/BlogList.vue')
+const DraftList = require('../src/components/back/blog/DraftList.vue')
+const TrushList = require('../src/components/back/blog/TrushList.vue')
 const FolderManagement = require('../src/components/back/blog/FolderManagement.vue')
 const DashBoard = require('../src/components/back/DashBoard.vue')
 const getPayloadOfJwt = (jwt)=>{
@@ -117,7 +120,20 @@ const routes = [
             {
                 path: 'website/createBlog',
                 components: CreateBlog
+            },
+            {
+                path: 'website/newsList',
+                components: BlogList
+            },
+            {
+                path: 'website/newsDraftList',
+                components: DraftList
+            },
+            {
+                path: 'website/trushList',
+                components: TrushList
             }
+
         ],
         beforeEnter: () => {
            const token = localStorage.getItem('token')
