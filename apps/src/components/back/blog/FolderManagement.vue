@@ -98,13 +98,6 @@ const folderInfo = reactive({
     _id: ""
 })
 
-// const handleUpdate = async(info) => {
-//     userInfo.userName = info.userName,
-//     userInfo.phoneNumber = info.phoneNumber,
-//     userInfo.loginName = info.loginName,
-//     userInfo._id = info._id
-//     dialogVisible.value = !dialogVisible.value
-// }
 const getFolderList = async () => {
     const resp = await apiRequest({
         url: "/api/news/folder",
@@ -132,27 +125,7 @@ const createFolder = async(folderName)=>{
         errMsgPopup.errorPopup(resp.msg)
     }
 }
-// const updateUser = async(index,info)=>{
-//     const resp = await apiRequest({
-//         url: "/api/user/register",
-//         method: 'post',
-//         params: {
-//             type: 'judge',
-//             userName: info.userName,
-//             loginName: info.loginName,
-//             password: info.password,
-//             phoneNumber: info.phoneNumber,
-//             _id: info._id
-//         }
-//     })
-//     if (resp.status == 200) {
-//         userList.value[index] = resp.msg
-//         clearReactive(info)
-//         rowIndex.value = null
-//     } else {
-//         errMsgPopup.errorPopup(resp.msg)
-//     }
-// }
+
 const filterTableData = computed(() =>
     folderList.value.filter(
         (data) =>
@@ -170,7 +143,7 @@ const deleteFolder = async (index, id)=> {
     })
     if (resp.status == 200) {
         console.log(resp);
-        folderList.value.splice(index,1)
+        folderList.value.splice(index, 1)
     } else {
         errMsgPopup.errorPopup(resp.msg)
     }
