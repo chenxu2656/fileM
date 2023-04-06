@@ -44,7 +44,7 @@ const signinInfo = reactive({
 const signIn = async(signinInfo)=>{
     const login = await apiRequest({
         method: 'post',
-        url: '/api/user/judgeAdmin',
+        url: '/api/user/loginjudge',
         params: {
             phoneNumber: signinInfo.phoneNumber,
             pw: signinInfo.pw,
@@ -52,10 +52,10 @@ const signIn = async(signinInfo)=>{
         }
     })
     if (login.status == 200) {
-        localStorage.setItem('token',login.msg.token)
-        localStorage.setItem('uid',login.msg.uid)
-        router.push('/admin')
-        errMsgPopup.generalPopUp('成功',1000)
+        localStorage.setItem('token', login.msg.token)
+        localStorage.setItem('uid', login.msg.uid)
+        router.push('/judgeAdmin')
+        errMsgPopup.generalPopUp('成功', 1000)
         return true
     }
     errMsgPopup.errorPopup(login.msg)

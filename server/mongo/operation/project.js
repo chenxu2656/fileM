@@ -9,7 +9,8 @@ const createProject = async(projectInfo)=>{
             contact: projectInfo.contact,
             contactInfo: projectInfo.contactInfo,
             relatedNewsId: projectInfo.relatedNewsId,
-            createId: projectInfo.createId
+            createId: projectInfo.createId,
+            judgeId: projectInfo.judgeId
         })
         let resp = errorCode.Success
         resp.msg = createP
@@ -23,14 +24,15 @@ const createProject = async(projectInfo)=>{
 }
 const updateProject = async(projectInfo)=>{
     try {
-        const createP = await projectModel.updateOne({id: projectInfo._id},{
+        const createP = await projectModel.updateOne({id: projectInfo._id}, {
             projectName: projectInfo.projectName,
             sTime: projectInfo.sTime,
             eTime: projectInfo.eTime,
             contact: projectInfo.contact,
             contactInfo: projectInfo.contactInfo,
             relatedNewsId: projectInfo.relatedNewsId,
-            createId: projectInfo.createId
+            createId: projectInfo.createId,
+            judgeId: projectInfo.judgeId
         })
         let resp = errorCode.Success
         resp.msg = createP

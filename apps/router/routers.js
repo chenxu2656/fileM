@@ -30,13 +30,16 @@ const DraftList = require('../src/components/back/blog/DraftList.vue')
 const TrushList = require('../src/components/back/blog/TrushList.vue')
 const FolderManagement = require('../src/components/back/blog/FolderManagement.vue')
 const DashBoard = require('../src/components/back/DashBoard.vue')
-const getPayloadOfJwt = (jwt)=>{
+
+const JudgeBackPage = require('../src/views/JudgeBackPage.vue')
+const JudgeDashBoard = require('../src/components/backJudge/JudgeDashBoard.vue')
+const getPayloadOfJwt = (jwt) => {
     const payloadJwtURI = jwt.split('.')[1]
     const payloadBase64 = payloadJwtURI.replace(/-/g, '+').replace(/_/g, '/')
     const payloadJson = decodeURIComponent(atob(payloadBase64).split('').map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
     const payload = JSON.parse(payloadJson); // 将字符串解析成 JSON 对象
     return payload
-}  
+}
 const routes = [
     {
         path: "/",
@@ -179,17 +182,43 @@ const routes = [
         beforeEnter: () => {
             const token = localStorage.getItem('token')
             if (!token) {
-             return {
-                 path: "sign"
-             }
-            } 
+                return {
+                    path: "sign"
+                }
+            }
             const payLoad = getPayloadOfJwt(token)
             if (payLoad.platform != 'stu') {
-             return {
-                 path: "sign"
-             }
+                return {
+                    path: "sign"
+                }
             }
-         },
+        },
+    },
+    {
+        path: '/judgeAdmin',
+        components: JudgeBackPage,
+        children: [
+            {
+                path: "",
+                components: JudgeDashBoard
+            }
+        ],
+        beforeEnter: () => {
+            const token = localStorage.getItem('token')
+            if (!token) {
+                return {
+                    path: "signJudge"
+                }
+            }
+            const payLoad = getPayloadOfJwt(token)
+            console.error('payLoad')
+            console.error(payLoad)
+            if (payLoad.platform != 'judge') {
+                return {
+                    path: "signJudge"
+                }
+            }
+        },
     }
 ]
 export default routes

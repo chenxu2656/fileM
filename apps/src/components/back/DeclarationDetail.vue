@@ -4,16 +4,16 @@
     </div>
     <el-table :data="filterTableData" stripe style="width: 100%" @selection-change="handleSelectionChange">
 
-        <el-table-column type="selection" width="55" />
-        <el-table-column type="index" label="#" />
-        <el-table-column prop="createName" label="申报人" width="180" />
-        <el-table-column prop="projectName" label="项目名称" width="400" />
-        <el-table-column prop="createStuPhone" label="组别" width="180" />
-        <el-table-column prop="createStuPhone" label="学院" width="180" />
-        <el-table-column prop="createStuPhone" label="联系方式" />
+        <el-table-column type="selection" width="55"/>
+        <el-table-column label="#" type="index"/>
+        <el-table-column label="申报人" prop="createName" width="100"/>
+        <el-table-column label="项目名称" prop="projectName" width="400"/>
+        <el-table-column label="组别" prop="createStuPhone" width="150"/>
+        <el-table-column label="学院" prop="createStuPhone" width="150"/>
+        <el-table-column label="联系方式" prop="createStuPhone"/>
         <el-table-column align="right">
             <template #header>
-                <el-input v-model="search" size="small" placeholder="Type to search" />
+                <el-input v-model="search" placeholder="Type to search" size="small"/>
             </template>
             <template #default="scope">
                 <el-button size="small" @click="handleDetail(scope.row)">查看信息</el-button>

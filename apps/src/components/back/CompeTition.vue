@@ -22,7 +22,7 @@
                 <div class="lineC">{{ project.eTime.split('T')[0] }}</div>
             </div>
             <div class="actionBottom">
-                <el-button @click="handleDetail(project)">项目管理</el-button>
+                <el-button @click="handleDetail(project)">申报详情</el-button>
             </div>
         </div>
     </div>
@@ -58,41 +58,44 @@
         }
         
     }
-    #itemList{
-        display: flex;
-        width: 80vw;
-        margin: auto;
+    #itemList {
+      display: flex;
+      width: 80vw;
+      margin: auto;
+      @media screen and (max-width: 600px) {
+        justify-content: center;
+      }
+      // justify-content: center;
+      flex-wrap: wrap;
+
+      .projectList {
+        align-self: flex-start;
+        margin: 10px 10px 10px 0px;
+        width: 24%;
+        min-width: 360px;
         @media screen and (max-width: 600px) {
-           justify-content: center;
+          min-width: 400px;
         }
-        // justify-content: center;
-        flex-wrap: wrap;
-        .projectList{
-            align-self: flex-start;
-            margin: 10px 10px 10px 0px;
-            width: 24%;
-            min-width: 270px;
-            @media screen and (max-width: 600px) {
-                min-width: 400px;
-            }
-            height: 250px;
-            background-color: #fff;
-            font-size: 14px;
-            border-radius: 5px;
-            padding-bottom: 20px;
-            .actionTop {
-                width: 100%;
-                text-align: right;
-                img {
-                    width: 20px;
-                    padding-top: 10px;
-                    position: relative;
-                    right: 15px;
-                    cursor: pointer;
-                }
-            }
-            #operation{
-                padding: 10px 20px;
+        background-color: #fff;
+        font-size: 14px;
+        border-radius: 5px;
+        padding-bottom: 20px;
+
+        .actionTop {
+          width: 100%;
+          text-align: right;
+
+          img {
+            width: 20px;
+            padding-top: 10px;
+            position: relative;
+            right: 15px;
+            cursor: pointer;
+          }
+        }
+
+        #operation {
+          padding: 10px 20px;
                 text-align: right;
                 img {
                     width: 25px;

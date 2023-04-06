@@ -120,8 +120,9 @@ export const project = {
         type: String
     },
     createId: {
-      type: String  
-    }
+        type: String
+    },
+    judgeId: [Schema.Types.ObjectId]
 } 
 export const institute = {
     name: {

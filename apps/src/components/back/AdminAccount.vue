@@ -4,23 +4,29 @@
     </div>
     <div id="con">
         <div id="table">
-            <el-table :data="filterTableData" stripe style="width: 100%"> <!-- @selection-change="handleSelectionChange" -->
-                <el-table-column type="selection" width="55" />
-                <el-table-column type="index" label="#" />
-                <el-table-column prop="userName" label="用户名" width="200" />
-                <el-table-column prop="phoneNumber" label="手机号" width="200" />
-                <el-table-column prop="loginName" label="登录名（用于登陆）" width="200" />
-                <el-table-column prop="role.description" label="权限" width="200" />
-                <el-table-column prop="collage.name" label="学院" width="200" />
+            <el-table :data="filterTableData" stripe style="width: 100%">
+                <!-- @selection-change="handleSelectionChange" -->
+                <el-table-column type="selection" width="55"/>
+                <el-table-column label="#" type="index"/>
+                <el-table-column label="用户名" prop="userName" width="150"/>
+                <el-table-column label="手机号" prop="phoneNumber" width="150"/>
+                <el-table-column label="登录名（用于登陆）" prop="loginName" width="200"/>
+                <el-table-column label="权限" prop="role.description" width="150"/>
+                <el-table-column label="学院" prop="collage.name" width="200"/>
                 <el-table-column align="right" id="operation">
                     <template #header>
-                        <el-input v-model="search" placeholder="根据用户名搜索" />
+                        <el-input v-model="search" placeholder="根据用户名搜索"/>
                     </template>
                     <template #default="scope">
-                        <el-button size="small" @click="handleUpdate(scope.row), rowIndex = scope.$index, titleInfo = '更新信息'"
-                            type="primary" class="editInfo">修改信息</el-button>
+                        <el-button class="editInfo"
+                                   size="small"
+                                   type="primary"
+                                   @click="handleUpdate(scope.row), rowIndex = scope.$index, titleInfo = '更新信息'">
+                            修改信息
+                        </el-button>
                         <el-button size="small" @click="deleteUser(scope.$index, scope.row._id)" type="danger"
-                            plain>删除</el-button>
+                                   plain>删除
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
