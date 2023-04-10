@@ -33,6 +33,8 @@ const DashBoard = require('../src/components/back/DashBoard.vue')
 
 const JudgeBackPage = require('../src/views/JudgeBackPage.vue')
 const JudgeDashBoard = require('../src/components/backJudge/JudgeDashBoard.vue')
+const WaitingList = require('../src/components/backJudge/WaitingList.vue')
+const FinishedList = require('../src/components/backJudge/FinishedList.vue')
 const getPayloadOfJwt = (jwt) => {
     const payloadJwtURI = jwt.split('.')[1]
     const payloadBase64 = payloadJwtURI.replace(/-/g, '+').replace(/_/g, '/')
@@ -201,7 +203,16 @@ const routes = [
             {
                 path: "",
                 components: JudgeDashBoard
+            },
+            {
+                path: "waitingList",
+                components: WaitingList
+            },
+            {
+                path: "finishedList",
+                components: FinishedList
             }
+
         ],
         beforeEnter: () => {
             const token = localStorage.getItem('token')

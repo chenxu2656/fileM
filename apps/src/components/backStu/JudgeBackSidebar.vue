@@ -15,10 +15,10 @@
                     <span class="tit">我的评审</span>
                 </template>
                 <el-menu-item-group>
-                    <el-menu-item index="admin" @click="routerPush(router, '/judgeAdmin/projectlist')">
+                    <el-menu-item index="admin" @click="routerPush(router, '/judgeAdmin/waitingList')">
                         <span class="tit">等待评审</span>
                     </el-menu-item>
-                    <el-menu-item index="stu" @click="routerPush(router, '/judgeAdmin/projectlistJ')">
+                    <el-menu-item index="stu" @click="routerPush(router, '/judgeAdmin/finishedList')">
                         <span class="tit">完成评审</span></el-menu-item>
                 </el-menu-item-group>
             </el-sub-menu>
